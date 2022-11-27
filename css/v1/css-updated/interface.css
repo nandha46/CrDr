@@ -1,0 +1,126 @@
+:root {
+    --main-color: #0d9488;
+    --light-color: #fff;
+    --active-hover: #ff9f1c;
+    --btn-color: #007bff;
+    --sub-link-active: #ebb556;
+    --table-color: rgb(76, 76, 76);
+}
+
+.left-sidenav {
+    min-width: 230px;
+    max-width: 230px;
+    background-color: var(--main-color);
+    min-height: 100vh;
+    transition: 0.3s;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    border-right: 1px solid #e3ebf6;
+    z-index: 1001;
+}
+
+.left-sidenav-menu .menu-label {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: #f7f7f7;
+    padding: 8px 0;
+}
+
+.left-sidenav-menu li > a {
+    display: flex;
+    align-items: center;
+    padding: 4px 0px;
+    color: var(--light-color) !important;
+    transition: all 0.3s ease-out;
+    font-weight: 400;
+}
+
+.left-sidenav-menu li > a:hover {
+    color: var(--active-hover) !important;
+}
+
+.left-sidenav-menu li > a:hover .menu-icon {
+    color: var(--active-hover) !important;
+    stroke-width: unset !important;
+}
+
+.left-sidenav-menu li > a:hover i {
+    color: var(--active-hover) !important;
+    opacity: 1;
+}
+
+.left-sidenav-menu li.mm-active .nav-item.active a.nav-link.active {
+    background-color: transparent;
+    color: var(--sub-link-active) !important;
+}
+
+.left-sidenav-menu li.mm-active .nav-item.active a.nav-link.active > i {
+    color: var(--sub-link-active) !important;
+}
+
+.left-sidenav .brand .logo .logo-sm {
+    height: 3rem;
+}
+
+.table th {
+    color: #ffffff;
+    font-weight: 500;
+    vertical-align: middle;
+    border-color: #eaf0f9;
+    /* background: var(--table-color) !important; */
+    background: var(--table-color) ;
+}
+
+.mi-btn-primary {
+    background-color: var(--btn-color);
+    color: #fff;
+}
+.mi-btn-primary:hover {
+    background-color: var(--btn-color);
+    color: #fff;
+}
+
+.mi-btn-secondary {
+    background-color: #eee;
+    color: #333;
+}
+
+.mi-btn-secondary:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.mi-btn-ternary {
+    background-color: #eee;
+    color: #333;
+}
+
+.mi-btn-ternary:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.spl {
+    display: block !important;
+    width: 100% !important;
+    padding: 0.375rem 0.75rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+    color: #495057 !important;
+    background-color: #fff;
+    background-clip: padding-box !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.spl:focus {
+    color: #495057 !important;
+    background-color: #fff !important;
+    border-color: #80bdff !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%) !important;
+}

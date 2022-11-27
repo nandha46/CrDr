@@ -1,0 +1,67 @@
+.result-image-space > img{
+    width: 9rem;
+    object-fit: contain;
+}
+
+.result-area-container{
+    width: 100%;
+    height: calc( 100vh - 7rem);
+    display: grid;
+    place-content: center;
+}
+
+.result{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+}
+
+.t-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.6rem;
+}
+.mark-card{
+    padding: 2rem;
+    border-radius: 2rem;
+}
+.full{
+    background-color: #CCFBF1;
+    color: #22C55E !important;
+}
+.half{
+    background-color: #FEF9C3;
+    color: #EAB308 !important;
+}
+.null{
+    background-color: #FEE2E2;
+    color: #EF4444 !important;
+}
+.mark-text-md{
+    font-size: 3rem;
+    font-weight: 700;
+}
+.mark-text-sm{
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+.result-actions{
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.move{
+    background-color:#D9F99D !important ;
+    color: #4D7C0F !important;
+}
+.try{
+    background-color: #F5D0FE !important;
+    color: #A21CAF !important;
+}

@@ -1,0 +1,25 @@
+.mi-set-questions-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.mi-set-card {
+    border: 1px solid #eee;
+    border-radius: 0.6rem;
+}
+.set-card-header {
+    padding: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+
+.set-card-header > p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 !important;
+}
+
+.ui-body-space {
+    padding: 0.8rem;
+}
+

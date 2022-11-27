@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  
+  .mi-container-area {
+    width: 100%;
+    max-width: 98rem;
+    display: block;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+  
+  .booking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+  }
+  
+  .black-board-area {
+    width: 100%;
+    max-width: 60rem;
+    background-color: #333;
+    border-radius: 2rem;
+    padding: 0.3rem;
+    display: grid;
+    place-content: center;
+  }
+  
+  .black-board-area > p {
+    font-size: 0.875rem;
+    color: #fff;
+  }
+  
+  .seat-left {
+    width: 30rem;
+  }
+  
+  .seat-right {
+    width: 30rem;
+  }
+  
+  .seat-listing-space {
+    width: 100%;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25rem; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10rem;
+  }
+  
+  .desk-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .seat {
+    width: 100%;
+    height: 6rem;
+    border: 2px solid #eee;
+    background-color: #f7f7f7;
+    border-radius: 1rem;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+    transform: scale(100%);
+    transition: all 0.3s ease-in-out;
+  }
+  .seat:hover {
+    transform: scale(105%);
+  }
+  
+  @media screen and (max-width: 992px) {
+    .seat {
+      height: 5rem;
+      border-radius: 0.8rem;
+    }
+    .desk-row {
+      gap: 1.5rem;
+    }
+  }
+  
+  @media screen and (max-width: 786px) {
+    .seat {
+      height: 4rem;
+      border-radius: 0.8rem;
+    }
+    .desk-row {
+      gap: 1rem;
+    }
+  }
+  
+  @media screen and (max-width: 586px) {
+    .seat {
+      height: 2.5rem;
+      border-radius: 0.4rem;
+    }
+    .desk-row {
+      gap: 0.8rem;
+    }
+  }
+  

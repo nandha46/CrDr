@@ -1,0 +1,41 @@
+.mi-grid-4-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+    gap: 1rem;
+}
+
+.mi-grid-4-full-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr));
+    gap: 1rem;
+}
+
+.mi-grid-2-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
+    gap: 1rem;
+}
+
+.mi-text-area {
+    height: 2.7rem;
+    resize: none;
+}
+
+.mi-full-form {
+    height: 5rem;
+    resize: none;
+}
+
+.details-card {
+    padding: 1rem;
+    border-bottom: 1px solid #e3ebf6;
+}
+
+.left-sidenav-menu li.mm-active .mm-active > a {
+    color: #6374ff;
+    background: transparent !important;
+}
+
+.mi-upload-padding {
+    padding: 0.8rem 0.6rem !important;
+}
