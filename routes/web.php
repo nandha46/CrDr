@@ -96,7 +96,6 @@ Route::group(['middleware' => 'web'], function(){
 		// Delete Routes API 
 		Route::delete('/delete/student/{stuId?}',[MembersController::class, 'deleteStudent']);
 
-
 	});
 });
 

@@ -2855,7 +2855,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_students_strength`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_strength`  AS SELECT `classes`.`clssName` AS `clssName`, `sections`.`secnSecName` AS `secnSecName`, count(0) AS `count` FROM ((`studentsclasses` join `classes` on(`studentsclasses`.`stuclClsMasterId` = `classes`.`clssId`)) join `sections` on(`studentsclasses`.`stuclSecMasterId` = `sections`.`secnId`)) GROUP BY `studentsclasses`.`stuclClsMasterId`, `studentsclasses`.`stuclSecMasterId``stuclSecMasterId`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_students_strength`  AS SELECT `classes`.`clssName` AS `clssName`, `sections`.`secnSecName` AS `secnSecName`, count(0) AS `count` FROM ((`studentsclasses` join `classes` on(`studentsclasses`.`stuclClsMasterId` = `classes`.`clssId`)) join `sections` on(`studentsclasses`.`stuclSecMasterId` = `sections`.`secnId`)) GROUP BY `studentsclasses`.`stuclClsMasterId`, `studentsclasses`.`stuclSecMasterId`  ;
 
 -- --------------------------------------------------------
 

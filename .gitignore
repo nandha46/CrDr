@@ -5,8 +5,6 @@ tests
 .env.example
 .gitattributes
 .styleci.yml
-artisan
-images
 bootstrap/cache/config.php
 bootstrap/cache/packages.php
 bootstrap/cache/services.php
