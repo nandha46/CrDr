@@ -14,20 +14,6 @@ Route::group(['middleware' => 'web'], function(){
 
 	$appDefaults = SharedController::getAppDefaults();
 
-	Route::get('/', [IndexController::class, 'getLanding'])->name('get-index');
-	Route::get('/home', [IndexController::class, 'getHome'])->name('get-home');
-	Route::get('/profile', [IndexController::class, 'getProfile'])->name('get-profile');
-	Route::get('/course/{cid?}', [IndexController::class, 'getCourse'])->where(['cid' => '^[0-9]+$'])->name('get-course');
-	Route::get('/online-test/{tid?}', [IndexController::class, 'takeOnlineTest'])->where(['tid' => '^[0-9]+$'])->name('get-online-test');
-
-	Route::post('/online-test/submission', [AjaxController::class, 'postResultSubmission'])->name('post-test-submission');
-	
-	Route::post('/api/v1/test-lists', [AjaxController::class, 'getTestLists'])->name('get-test-lists');
-
-	Route::get('/login', [IndexController::class, 'getStudentLogin'])->name('get-student-login');
-	Route::post('/login', [IndexController::class, 'postStudentLogin'])->name('post-student-login');
-	Route::get('/logout', [IndexController::class, 'getStudentLogout'])->name('post-student-logout');
-
 	Route::group(['prefix' => $appDefaults->prefix], function(){
 
 		/**

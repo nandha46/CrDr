@@ -10,9 +10,7 @@
 			@include('v1.Includes.PageTitleBox')
 			<div class="mi-form-area-container">
 			<div class='mi-btn-holder'>
-				<button class='button-49' onclick="addStudentsCSV()">Students</button>
-				<button class='button-49' onclick="addTeachersCSV()">Teachers</button>
-				<button class='button-49' onclick="addLessonsCSV()">Lessons</button>
+				<button class='button-49' onclick="addStudentsCSV()">Zips</button>
 			</div>
 			</div>
 		</div>
