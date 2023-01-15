@@ -6,27 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\SharedController;
-use App\Models\v1\Document;
-use App\Models\v1\Event;
-use App\Models\v1\Pressrelease;
-use App\Models\v1\Section;
-use App\Models\v1\Standard;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 
 class ReportsController extends Controller{
 
-    public function __construct(){
-
-		$this->default = SharedController::getAppDefaults();
-	}
-
 	public function getAnalyticReports(){
 
-        $data['appVersion'] 		= $this->default->defVersion;
-        $data['adminUrl'] 			= $this->default->defAdminUrl;
-        $data['baseUrl'] 			= $this->default->defBaseUrl;
-        $data['prefix'] 			= $this->default->prefix;
+        
         $data['pageRootTitle'] 		= 'Dashboard';
         $data['pageSubTitle'] 		= 'Analytics';
         $data['pageSubTitleNext']	= '';
@@ -73,15 +60,12 @@ class ReportsController extends Controller{
         $data['docs'] = 15;
         $data['videos'] = 0;
 
-        return view($this->default->defVersion.'.Reports.Analytics')->with($data);
+        return view('v1.Reports.Analytics')->with($data);
    }
 
     public function getUploadTSV(){
 
-        $data['appVersion'] 		= $this->default->defVersion;
-        $data['adminUrl'] 			= $this->default->defAdminUrl;
-        $data['baseUrl'] 			= $this->default->defBaseUrl;
-        $data['prefix'] 			= $this->default->prefix;
+        
         $data['pageRootTitle'] 		= 'Dashboard';
         $data['pageSubTitle'] 		= 'Uploads';
         $data['pageSubTitleNext']	= '';
@@ -118,15 +102,12 @@ class ReportsController extends Controller{
         $data['authUsr'] = $auth[0];
         $data['html'] = $auth[1];
 
-        return view($this->default->defVersion.'.Reports.Uploads')->with($data);
+        return view('v1.Reports.Uploads')->with($data);
    }
 
    public function getStudentReports(Request $request){
 
-    $data['appVersion'] 		= $this->default->defVersion;
-        $data['adminUrl'] 			= $this->default->defAdminUrl;
-        $data['baseUrl'] 			= $this->default->defBaseUrl;
-        $data['prefix'] 			= $this->default->prefix;
+    
         $data['pageRootTitle'] 		= 'Reports';
         $data['pageSubTitle'] 		= 'Students';
         $data['pageSubTitleNext']	= '';
@@ -207,12 +188,10 @@ class ReportsController extends Controller{
         $data['standardWise'] = $standardWise;
         $data['orgWise'] = $orgWise;
         $data['yearWise'] = $yearWise;
-        $data['standard'] 		= Standard::getStandard();
-		$data['section'] 		= Section::getSection();
         $data['authUsr'] = $auth[0];
         $data['html'] = $auth[1];
 
-        return view($this->default->defVersion.'.Reports.StudentReport')->with($data);
+        return view('v1.Reports.StudentReport')->with($data);
    }
 
    

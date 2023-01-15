@@ -4,29 +4,11 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\v1\Announcement;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\v1\Usergroup;
-use App\Models\v1\Student;
 use App\Models\v1\Appdefault;
-use App\Models\v1\Blog;
-use App\Models\v1\Document;
-use App\Models\v1\Exam;
-use App\Models\v1\Holiday;
-use App\Models\v1\Lesson;
 use App\Models\v1\Menu;
-use App\Models\v1\Pressrelease;
-use App\Models\v1\Question;
-use App\Models\v1\ReportSchedule;
-use App\Models\v1\Room;
-use App\Models\v1\Staff;
-use App\Models\v1\Standard;
 use App\Models\v1\State;
-use App\Models\v1\Subject;
-use App\Models\v1\Topic;
-use App\Models\v1\Video;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 
@@ -52,60 +34,6 @@ class SharedController extends Controller{
 
         if($type == 'users') {
 			$sts = Usergroup::updateStatus($id);
-		}
-		if($type == 'students'){
-			$sts = Student::updateStatus($id);
-		}
-		if($type == 'teachers'){
-			$sts = Staff::updateStatus($id);
-		}
-		if($type == 'lessons'){
-			$sts = Lesson::updateStatus($id);
-		}
-		if($type == 'videos'){
-			$sts = Video::updateStatus($id);
-		}
-		if($type == 'questions'){
-			$sts = Question::updateStatus($id);
-		}
-		if($type == 'subjects'){
-			$sts = Subject::updateStatus($id);
-		}
-		if($type == 'standard'){
-			$sts = Standard::updateStatus($id);
-		}
-		if($type == 'orgholidays'){
-			$sts = Holiday::updateStatus($id);
-		}
-		if($type == 'exams'){
-			$sts = Exam::updateStatus($id);
-		}
-		if($type == 'reportschedules'){
-			$sts = ReportSchedule::updateStatus($id);
-		}
-		if($type == 'pressreleases'){
-			$sts = Pressrelease::updateStatus($id);
-		}
-		if($type == 'documents'){
-			$sts = Document::updateStatus($id);
-		}
-		if($type == 'announcements'){
-			$sts = Announcement::updateStatus($id);
-		}
-		if($type == 'blogs'){
-			$sts = Blog::updateStatus($id);
-		}
-		if($type == 'topics'){
-			$sts = Topic::updateStatus($id);
-		}
-		if($type == 'onlinetests'){
-			$sts = Question::updateStatus($id);
-		}
-		if($type == 'events'){
-			$sts = Question::updateStatus($id);
-		}
-		if($type == 'rooms'){
-			$sts = Room::updateStatus($id);
 		}
 
 		
@@ -275,6 +203,7 @@ class SharedController extends Controller{
 				$urls[] = 'seat-arrangements';
 				$urls[] = 'profile';
 				$urls[] = 'analytics';
+				$urls[] = 'upload-test';
 				
 			}
 			Debugbar::stopMeasure('auth');

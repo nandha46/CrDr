@@ -9,40 +9,17 @@ use App\Models\v1\Menu;
 use App\Models\v1\Privilege;
 use App\Models\v1\Contactdetail;
 use App\Models\v1\Emailaddress;
-use App\Models\v1\Studentsclass;
-use App\Models\v1\Orgdetail;
-use App\Models\v1\Orgstudent;
-use App\Models\v1\StaffDetail;
-use App\Models\v1\Orgclassstaff;
-use App\Models\v1\Standard;
-use App\Models\v1\Section;
-use App\Models\v1\Subject;
-use App\Models\v1\Address;
-use App\Models\v1\Student;
-use App\Models\v1\Staff;
 use App\Models\v1\View;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\SharedController;
-use App\Models\v1\Family;
-use App\Models\v1\StaffEducation;
-use App\Models\v1\StaffEducationDetails;
-use App\Models\v1\StudentsMark;
 use App\Models\v1\UserDetails;
 use Barryvdh\Debugbar\Facades\Debugbar;
 
 class MembersController extends Controller{
 
-	public function __construct(){
-
-		$this->default = SharedController::getAppDefaults();
-	}
 
 	public function getUsers(){
 
-		$data['appVersion'] 		= $this->default->defVersion;
-		$data['adminUrl'] 			= $this->default->defAdminUrl;
-		$data['baseUrl'] 			= $this->default->defBaseUrl;
-		$data['prefix'] 			= $this->default->prefix;
     	$data['pageRootTitle'] 		= 'Members';
     	$data['pageSubTitle'] 		= 'Users';
     	$data['pageSubTitleNext']	= '';
@@ -81,12 +58,12 @@ class MembersController extends Controller{
 	 	$data['authUsr'] 	= $auth[0];
 	 	$data['html'] 		= $auth[1];
 		$data['menu'] 		= Menu::getMenus();
-		$data['users'] 		= View::getUsersView();
-		$data['organization'] 		= [];
+		$users = Usergroup::getUsersView();
+		$data['users'] 		= $users;
 
-		Debugbar::info(View::getUsersView());
+		Debugbar::info($users);
 
-	 	return view($this->default->defVersion.'.Members.Users')->with($data);
+	 	return view('v1.Members.Users')->with($data);
 	}
 
 	public function postAddEditUsers(){
@@ -136,7 +113,6 @@ class MembersController extends Controller{
 				$user = Usergroup::insertUser($userType, $pMobile, $password, $organization);
 				Usergroup::insertFile('uploads/userData/admin.png', $user);
 
-			$address = Address::insertaddress($address, $city, $state, $pincode);
 			$contact = Contactdetail::insertContact($pMobile, $sMobile);
 			$emailDet = Emailaddress::insertEmail($email);
 
@@ -177,7 +153,6 @@ class MembersController extends Controller{
 				
 				$userDetails = UserDetails::getUserDetailsByUID($user);
 				
-				$address = Address::updateAddress($userDetails->address_id, $address, $city, $state, $pincode);
 				$contact = Contactdetail::updateContact($userDetails->contact_id, $pMobile, $sMobile);
 				$emailDet = Emailaddress::updateEmail($userDetails->email_id, $email);
 
@@ -266,10 +241,7 @@ class MembersController extends Controller{
 
 public function getDashboardProfile (){
 
-	$data['appVersion'] 		= $this->default->defVersion;
-    	$data['adminUrl'] 			= $this->default->defAdminUrl;
-		$data['baseUrl'] 			= $this->default->defBaseUrl;
-		$data['prefix'] 			= $this->default->prefix;
+		
     	$data['pageRootTitle'] 		= 'Members';
     	$data['pageSubTitle'] 		= 'Students';
     	$data['pageSubTitleNext']	= '';
@@ -329,7 +301,7 @@ public function getDashboardProfile (){
 
 		Debugbar::info($profile);
 
-		return view($this->default->defVersion.'.Members.DashboardProfile')->with($data);
+		return view('v1.Members.DashboardProfile')->with($data);
 
 }
 }
