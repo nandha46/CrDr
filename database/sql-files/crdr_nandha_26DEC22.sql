@@ -1,4 +1,23 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 26, 2022 at 06:08 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
 -- Database: `crdr`
 --
 
@@ -97,6 +116,20 @@ INSERT INTO `blogs` (`id`, `categoryid`, `title`, `description`, `message`, `fil
 (2, 1, 'new post', 'hi ...', 'aagag', 'C:\\fakepath\\313304533_10161024889294903_4485896313951838767_n.jpg', 1, '2022-11-02 05:59:21', '2022-11-02 05:59:21'),
 (3, 2, 'fea', 'gaaeg', 'gaea', 'C:\\fakepath\\313304533_10161024889294903_4485896313951838767_n.jpg', 0, '2022-11-02 06:15:52', '2022-11-02 06:17:05'),
 (4, 0, 'afaf', 'gaagag', 'gagagagggggg', 'C:\\fakepath\\pexels-simon-berger-1323550.jpg', 1, '2022-11-14 07:14:02', '2022-11-14 07:14:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `companies`
+--
+
+CREATE TABLE `companies` (
+  `id` int(11) NOT NULL,
+  `name` varchar(155) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` tinytext NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -217,15 +250,16 @@ INSERT INTO `menus` (`id`, `menuname`, `isdirlink`, `icons`, `position`, `ismain
 (23, 'events', b'0', NULL, 1, 0, 'events', 1, 51, 1, '2018-12-20 18:04:00', '2018-12-20 18:04:00'),
 (25, 'press-releases', b'0', 'reports', 4, 0, 'press-releases', 1, 51, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
 (26, 'blogs', b'0', NULL, 1, 0, 'blogs', 1, 51, 1, '2018-12-20 18:04:00', '2018-12-20 18:04:00'),
-(27, 'reports', b'0', 'layers', 10, 1, NULL, 1, 0, 1, '2018-12-20 18:04:00', '2018-12-20 18:04:00'),
-(46, 'Upload', b'0', 'users', 11, 1, NULL, 1, 0, 1, '2022-09-01 18:03:00', '2022-09-01 10:42:01'),
-(47, 'Upload TSV Data', b'0', NULL, 1, 0, 'upload-tsv', 1, 46, 1, '2022-09-28 18:30:00', '2022-01-18 19:44:28'),
-(51, 'programs', b'0', 'box', 5, 1, NULL, 1, 0, 1, '2022-12-21 18:30:50', '2022-12-21 18:30:50'),
+(27, 'reports', b'0', 'layers', 4, 1, NULL, 1, 0, 1, '2018-12-20 18:04:00', '2018-12-20 18:04:00'),
+(51, 'programs', b'0', 'box', 6, 1, NULL, 1, 0, 1, '2022-12-21 18:30:50', '2022-12-21 18:30:50'),
 (52, 'Daybooks', b'0', NULL, 1, 0, 'daybook', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
 (53, 'Ledger', b'0', NULL, 2, 0, 'ledger', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
 (54, 'Trial Balance', b'0', NULL, 3, 0, 'trial-balance', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
 (55, 'Trading - Profit & Loss', b'0', NULL, 4, 0, 'trading-pnl', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
-(56, 'Balance Sheet', b'0', NULL, 5, 0, 'balance-sheet', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00');
+(56, 'Balance Sheet', b'0', NULL, 5, 0, 'balance-sheet', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
+(57, 'companies', b'0', 'users', 3, 1, NULL, 1, 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(58, 'Create company', b'0', NULL, 1, 0, 'create-company', 1, 57, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
+(59, 'upload company', b'0', NULL, 2, 0, 'upload-company', 1, 57, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00');
 
 -- --------------------------------------------------------
 
@@ -420,6 +454,53 @@ INSERT INTO `privileges` (`id`, `menuid`, `isedit`, `isview`, `userid`, `isstatu
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `states`
+--
+
+CREATE TABLE `states` (
+  `id` int(2) NOT NULL,
+  `statename` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `states`
+--
+
+INSERT INTO `states` (`id`, `statename`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Andhra Pradesh', 1, '2022-07-06 12:55:50', '2022-07-16 19:03:15'),
+(2, 'Assam', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(3, 'Bihar', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(4, 'Chandigarh', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(5, 'Chhattisgarh', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(6, 'Goa', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(7, 'Gujarat', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(8, 'Himachal Pradesh', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(9, 'Haryana', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(10, 'Jammu and Kashmir', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(11, 'Jharkhand', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(12, 'Karnataka', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(13, 'Kerala', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(14, 'Madhya Pradesh', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(15, 'Maharashta', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(16, 'Meghalaya', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(17, 'New Delhi', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(18, 'Odisha', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(19, 'Punjab', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(20, 'Puducherry', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(21, 'Rajasthan', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(22, 'Sikkim', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(23, 'Telangana', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(24, 'Tamil Nadu', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(25, 'Uttarakhand', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(26, 'Uttar Pradesh', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50'),
+(27, 'West Bengal', 1, '2022-07-06 12:55:50', '2022-07-06 12:55:50');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `useragent_analytics`
 --
 
@@ -605,7 +686,9 @@ INSERT INTO `useragent_analytics` (`ua_id`, `username`, `user_agent`, `ip`, `ip2
 (164, 'nandha', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-11-24 12:53:09', '2022-11-24 12:53:09'),
 (165, 'nandha', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-11-25 01:33:55', '2022-11-25 01:33:55'),
 (166, 'nandha', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-11-25 04:49:24', '2022-11-25 04:49:24'),
-(167, 'admin', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-12-21 12:49:32', '2022-12-21 12:49:32');
+(167, 'admin', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-12-21 12:49:32', '2022-12-21 12:49:32'),
+(168, 'nandha', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-12-25 06:30:05', '2022-12-25 06:30:05'),
+(169, 'nandha', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36', '127.0.0.1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-12-25 07:10:11', '2022-12-25 07:10:11');
 
 -- --------------------------------------------------------
 
@@ -615,11 +698,9 @@ INSERT INTO `useragent_analytics` (`ua_id`, `username`, `user_agent`, `ip`, `ip2
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `userOrgId` int(11) NOT NULL,
-  `userOrgSubId` int(11) NOT NULL,
   `username` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `password` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `usertype` tinyint(4) NOT NULL COMMENT '1. SuperAdmin\n2. Admin\n3. Children\n4. Staff\n5. Manager\n6. Others',
+  `usertype` tinyint(4) NOT NULL COMMENT '1. Super Admin\r\n2. Admin\r\n3. Staff\r\n4. Others',
   `id_picture` varchar(150) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -630,15 +711,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `userOrgId`, `userOrgSubId`, `username`, `password`, `usertype`, `id_picture`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 2, 'some error image file ', 1, '2022-03-05 13:41:24', '2022-11-02 07:44:25'),
-(2, 1, 1, 'nandha', 'e10adc3949ba59abbe56e057f20f883e', 2, 'uploads/StudentData/Id_cards/nandha_2.jpg', 1, '2022-06-30 07:12:27', '2022-11-02 04:29:27'),
-(2887, 1, 0, 'hf-stu-0001', 'e10adc3949ba59abbe56e057f20f883e', 3, 'uploads/StudentData/Id_cards/Echo_2887.jpg', 1, '2022-11-22 05:00:11', '2022-11-25 05:05:11'),
-(2888, 1, 0, 'hf-stf-0001', 'e10adc3949ba59abbe56e057f20f883e', 4, 'uploads/teacherData/Id_cards/Tango_2888.jpg', 1, '2022-11-22 05:04:19', '2022-11-22 07:08:17'),
-(2889, 1, 0, 'hf-stu-0002', 'e10adc3949ba59abbe56e057f20f883e', 3, 'uploads/StudentData/default_boy.png', 1, '2022-11-22 06:02:51', '2022-11-22 06:02:51'),
-(2890, 1, 0, 'hf-stu-0003', 'e10adc3949ba59abbe56e057f20f883e', 3, 'uploads/StudentData/default_boy.png', 1, '2022-11-22 06:03:43', '2022-11-22 06:03:43'),
-(2891, 1, 0, 'hf-stu-0004', 'e10adc3949ba59abbe56e057f20f883e', 3, 'uploads/StudentData/default_boy.png', 1, '2022-11-22 06:35:23', '2022-11-22 06:35:23'),
-(2892, 1, 0, 'hf-stu-0005', 'e10adc3949ba59abbe56e057f20f883e', 3, 'uploads/StudentData/default_boy.png', 1, '2022-11-22 06:36:19', '2022-11-22 06:36:19');
+INSERT INTO `users` (`id`, `username`, `password`, `usertype`, `id_picture`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 2, 'some error image file ', 1, '2022-03-05 13:41:24', '2022-11-02 07:44:25'),
+(2, 'nandha', 'e10adc3949ba59abbe56e057f20f883e', 2, 'uploads/StudentData/Id_cards/nandha_2.jpg', 1, '2022-06-30 07:12:27', '2022-11-02 04:29:27');
 
 -- --------------------------------------------------------
 
@@ -653,15 +728,11 @@ CREATE TABLE `user_details` (
   `lastname` varchar(55) DEFAULT NULL,
   `gender` int(11) DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `years_of_exp` varchar(4) NOT NULL DEFAULT '0',
-  `contact_id` int(11) DEFAULT NULL,
-  `address_id` int(11) DEFAULT NULL,
-  `email_id` int(11) DEFAULT NULL,
-  `date_of_hiring` date DEFAULT NULL,
-  `proof_type` text DEFAULT NULL,
-  `proof_no` text DEFAULT NULL,
-  `proof_expiry` date DEFAULT NULL,
-  `proof_file` varchar(255) DEFAULT NULL COMMENT 'proof file location on disk',
+  `date_of_joining` date DEFAULT NULL,
+  `primary_mobile` varchar(13) DEFAULT NULL,
+  `secondary_mobile` varchar(13) DEFAULT NULL,
+  `address` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -671,9 +742,9 @@ CREATE TABLE `user_details` (
 -- Dumping data for table `user_details`
 --
 
-INSERT INTO `user_details` (`id`, `userid`, `firstname`, `lastname`, `gender`, `dob`, `years_of_exp`, `contact_id`, `address_id`, `email_id`, `date_of_hiring`, `proof_type`, `proof_no`, `proof_expiry`, `proof_file`, `status`, `created_at`, `updated_at`) VALUES
-(2, 2, 'Nandha kumar', 'Subramanian', 1, '2008-08-07', '12', 1, 5, 1, '2015-08-13', 'Driving License', '20514 0558 05888', '2023-08-10', NULL, 1, '2022-01-25 18:30:00', '2022-08-25 09:28:37'),
-(3, 1, 'Admin', 'PrivilagedUser', 2, '1999-08-11', '3', 2, 6, 2, '2009-08-06', 'Driving License', 'AXIKLSJUJ A', '2028-08-10', NULL, 1, '2022-09-02 18:30:00', '2022-09-03 09:29:04');
+INSERT INTO `user_details` (`id`, `userid`, `firstname`, `lastname`, `gender`, `dob`, `date_of_joining`, `primary_mobile`, `secondary_mobile`, `address`, `email`, `status`, `created_at`, `updated_at`) VALUES
+(2, 2, 'Nandha kumar', 'Subramanian', 1, '2008-08-07', '2015-08-13', NULL, NULL, NULL, NULL, 1, '2022-01-25 18:30:00', '2022-08-25 09:28:37'),
+(3, 1, 'Admin', 'PrivilagedUser', 2, '1999-08-11', '2009-08-06', NULL, NULL, NULL, NULL, 1, '2022-09-02 18:30:00', '2022-09-03 09:29:04');
 
 -- --------------------------------------------------------
 
@@ -707,6 +778,10 @@ CREATE TABLE `view_privileges` (
 -- (See below for the actual view)
 --
 CREATE TABLE `view_users` (
+`id` int(11)
+,`username` varchar(20)
+,`userstatus` varchar(9)
+,`usertyperesult` varchar(11)
 );
 
 -- --------------------------------------------------------
@@ -725,7 +800,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_users`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult`, `b`.`stuId` AS `stuId`, `stf`.`stffId` AS `stffId` FROM ((`users` `a` left join `students` `b` on(`a`.`id` = `b`.`stuUserId`)) left join `staffs` `stf` on(`a`.`id` = `stf`.`stffUserId`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult` FROM `users` AS `a``a`  ;
 
 --
 -- Indexes for dumped tables
@@ -753,6 +828,12 @@ ALTER TABLE `appprivileges`
 -- Indexes for table `blogs`
 --
 ALTER TABLE `blogs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -795,6 +876,12 @@ ALTER TABLE `pressreleases`
 -- Indexes for table `privileges`
 --
 ALTER TABLE `privileges`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `states`
+--
+ALTER TABLE `states`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -844,6 +931,12 @@ ALTER TABLE `blogs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `configurationmasters`
 --
 ALTER TABLE `configurationmasters`
@@ -865,7 +958,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `orgholidays`
@@ -886,10 +979,16 @@ ALTER TABLE `privileges`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
+-- AUTO_INCREMENT for table `states`
+--
+ALTER TABLE `states`
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
 -- AUTO_INCREMENT for table `useragent_analytics`
 --
 ALTER TABLE `useragent_analytics`
-  MODIFY `ua_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `ua_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -902,3 +1001,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `user_details`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

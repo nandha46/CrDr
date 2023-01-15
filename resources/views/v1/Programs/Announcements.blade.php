@@ -38,8 +38,8 @@
                                         <label for='validationCustom04' class='form-label required'>Type</label>
                                         <select class='form-select spl' id='typeid'>
                                             <option selected disabled value=''>Choose..</option>
-                                            @if($types)
-                                            @foreach($types as $index=>$type)
+                                            @if(announcementType)
+                                            @foreach(announcementType as $index=>$type)
                                             <option value='{{$index}}'>{{$type}}</option>
                                             @endforeach
                                             @endif

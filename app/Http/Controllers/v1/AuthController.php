@@ -12,28 +12,13 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller{
 
-    private $appRelease;
-
-    public function __construct(){
-
-		$this->default = SharedController::getAppDefaults();
-
-        $this->appRelease = env('APP_RELEASE') == 0 ? $this->default->defDevRelease :  $this->default->defRelease;
-	}
-
     public function getLogin(){
-
-    	$data['appRelease'] = $this->appRelease;
-    	$data['appVersion'] = $this->default->defVersion;
-    	$data['adminUrl'] 	= $this->default->defAdminUrl;
-        $data['baseUrl'] 	= $this->default->defBaseUrl;
-        $data['prefix'] 	= $this->default->prefix;
-        $data['poweredBy'] 	= $this->default->poweredBy;
 
     	$auth = SharedController::checkAuthenticated();
 
+        $data[] = [];
         if($auth) return redirect()->route('get-reports-analytics'); 
-    	return view($this->default->defVersion.'.Auth.Login')->with($data);
+    	return view('v1.Auth.Login')->with($data);
     }
 
     public function postLogin(){
@@ -71,7 +56,7 @@ class AuthController extends Controller{
                         if($newAuth[2] > 0){
 
                             foreach($newAuth[2] as $redirect){
-                                return redirect()->to($this->default->prefix.'/'.$redirect);
+                                return redirect()->to('v1/'.$redirect);
                             }  
                         }
                         return back()->with('Msg', 'Access denied');
@@ -101,16 +86,10 @@ class AuthController extends Controller{
 
     public function getProfile(){
 
-        $data['appVersion'] = $this->default->defVersion;
-        $data['appDefault'] = $this->default;
-        $data['adminUrl'] 	= $this->default->defAdminUrl;
-        $data['baseUrl'] 	= $this->default->defBaseUrl;
-        $data['prefix']     = $this->default->prefix;
-
         if(Auth::user()){           
 
             $data['authUser'] = Auth::user();
-            return view($this->default->defVersion.'.Auth.Profile')->with($data);
+            return view('v1.Auth.Profile')->with($data);
             
         }
     }
@@ -131,8 +110,6 @@ class AuthController extends Controller{
 
         if($urls != ''){
 
-            $data['appVersion'] = $this->default->defVersion;
-            $data['appDefault'] = $this->default;
             $data['urls'] = $urls;
             $data['assesurl'] = url()->asset('');
 
@@ -142,7 +119,7 @@ class AuthController extends Controller{
                 return response()->json($data);
             }
 
-            return view($this->default->defVersion.'.Errors.AccessDenied')->with($data);
+            return view('v1.Errors.AccessDenied')->with($data);
         }
 
         self::getLogout(1);

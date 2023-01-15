@@ -29,11 +29,6 @@ class Usergroup extends Model{
         return false;
     }
 
-    protected function updatePassword($staffid, $password){
-        $staff = Staff::getStaffById($staffid);
-        return $this->where('id', $staff->stffUserId)->update(['password' => md5($password)]);
-    }
-
     protected function updateUserPassword($userid, $password){
         return $this->where('id', $userid)->update(['password' => md5($password)]);
     }
@@ -140,10 +135,11 @@ class Usergroup extends Model{
         return 'FALSE';
     }
 
-    protected function getStaffsCount($orgId){
-       
-        // return $staffs = $this->where('userOrgId',$orgId)->whereIn('usertype',[2,5,6])->count();
-        return $staffs = $this->whereIn('usertype',[2,5,6])->count();
-    
+    protected function getUsersView(){
+        $users = Usergroup::whereIn('users.usertype', [1,2,3,4])->leftJoin('user_details', 'users.id','=', 'user_details.userid')
+                    ->select('users.*', 'user_details.*', 'users.status as userstatus')
+                    ->get();
+
+        return $users;
     }
 }

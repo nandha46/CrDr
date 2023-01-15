@@ -35,16 +35,7 @@
                                     <input type='hidden' id='_id' class='input-only' value=''>
                                     <input type='hidden' class='input-only current-row' value=''>
                                     <div class="mi-form-area-container">
-                                    <div class="mi-grid-4-layout">
-                                        <div class=''>
-                                            <label for='validationCustom05' class='form-label required'>Organization</label>
-                                            <select class='form-select spl' id='organization'>
-                                                <option selected disabled value=''>Choose...</option>
-                                                <?php  foreach($organization as $key => $sepOrganization){ ?>
-                                                    <option value='<?= $sepOrganization->olId ?>'><?= $sepOrganization->olName?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>        
+                                    <div class="mi-grid-4-layout">       
                                     <div class=''>
                                         <label for='validationCustom04' class='form-label required'>User Type</label>
                                         <select class='form-select spl' id='user-type' onchange = 'return changeUserType()'>
@@ -61,35 +52,26 @@
                                     <div class=''>
                                         <label for='validationCustom02' class='form-label required'>Last name</label>
                                         <input type='text' class='form-control spl input-only' id='lastname' value='' />
-                                       
                                     </div>
                                     <div class=''>
                                         <label for='validationCustom03' class='form-label required'>Primary Mobile</label>
                                         <input type='text' class='form-control spl numbers-only input-only' id='p-mobile' minlength="10" maxlength="10" />
-                                        
                                     </div>
-
                                     <div class=''>
                                         <label for='validationCustom03' class='form-label'>Secondary Mobile</label>
                                         <input type='text' class='form-control spl numbers-only input-only' id='s-mobile' minlength="10" maxlength="10"/>
-                                       
                                     </div>
-
                                     <div class=''>
                                         <label for='validationCustom03' class='form-label required'>Email</label>
                                         <input type='text' class='form-control spl input-only' id='email' placeholder="example@mail.com"/>
-                                        
                                     </div>
-
                                     <div class=''>
                                         <label for='validationCustom03' class='form-label required'>Address</label>
                                         <input type='text' class='form-control spl input-only' id='address' />
-                                        
                                     </div>
                                     <div class=''>
                                         <label for='validationCustom05' class='form-label required'>City</label>
                                         <input type='text' class='form-control spl input-only' id='city' />
-                                        
                                     </div>
 
                                     <div class=''>
@@ -130,23 +112,22 @@
                                                     </div>
                                             </div>
 
-                                    <div class=''>
+                                    <div class='d-none'>
                                         <label for='validationCustom05' class='form-label required'>Date of Birth</label>
                                         <input type='text' class='form-control spl input-only date-input' id='date-of-birth' max="<?= date('Y-m-d', strtotime('-18 year')); ?>" />
-                                        
                                     </div>
 
-                                    <div class=''>
+                                    <div class='d-none'>
                                         <label for='validationCustom05' class='form-label required'>Year of exp</label>
                                         <input type='text' class='form-control spl decimal-numbers input-only' id='yr-of-exp' maxlength="4"/>
                                     </div>
 
-                                    <div class=''>
+                                    <div class='d-none'>
                                         <label for='validationCustom05' class='form-label required'>Date of Hiring</label>
                                         <input type='text' class='form-control spl input-only date-input' id='date-of-hiring' />
                                     </div>
 
-                                    <div class=''>
+                                    <div class='d-none'>
                                         <label for='validationCustom04' class='form-label required'>Proof Type</label>
                                         <select class='form-select spl' id='proof-type'>
                                             <option selected disabled value=''>Choose...</option>
@@ -157,11 +138,11 @@
                                             <option value='Passport'>Passport</option>
                                         </select>
                                     </div> 
-                                    <div class=''>
+                                    <div class='d-none'>
                                         <label for='validationCustom05' class='form-label required'>Proof Number</label>
                                         <input type='text' class='form-control spl input-only' id='proof-no' />
                                     </div>
-                                    <div class=''>
+                                    <div class='d-none'>
                                         <label for='validationCustom05' class='form-label'>Proof Expiry Date</label>
                                         <input type='text' class='form-control spl input-only date-input' id='expiry-date' min="<?= date('Y-m-d', strtotime('3 month')); ?>" />
                                     </div>
@@ -170,7 +151,7 @@
                                         <input type='password' autocomplete="off" class='form-control spl input-only' id='password'/>
                                     </div>
 
-                                    <div class=''>
+                                    <div class='d-none'>
                                         <label for='validationCustom05' class='form-label'>User's ID Proof (Max size 10MB)</label>
                                         <div class='input-group mb-3'>
                                             <input type='file' class='form-control input-only' id='file' name='file[]' />

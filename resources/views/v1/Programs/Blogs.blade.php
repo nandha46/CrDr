@@ -38,8 +38,8 @@
                                         <label for='validationCustom04' class='form-label required'>Category</label>
                                         <select class='form-select spl' id='cat-id' onchange = 'return changeUserType()'>
                                             <option selected disabled value=''>Choose...</option>
-                                            @if($category)
-                                            @foreach($category as $index=>$cat)
+                                            @if(blogCategory)
+                                            @foreach(blogCategory as $index=>$cat)
                                             <option value='{{$index}}'>{{$cat}}</option>
                                             @endforeach
                                             @endif
@@ -116,7 +116,7 @@
                                         <tr id = 'row-<?= $i ?>'>
                                             <td><?= $i ?></td>
                                             <td><?= $sepBlogs->title ?></td>
-                                            <td><?= $category[$sepBlogs->categoryid] ?></td>
+                                            <td><?= blogCategory[$sepBlogs->categoryid] ?></td>
                                             <td><?= $sepBlogs->description ?></td>
                                             <td><?= $sepBlogs->message ?></td>
                                             <td class='status'><?= $sepBlogs->status?'<span class="badge bg-success text-bg-success">Active</span>':'<span class="badge bg-danger text-bg-success">In-Active</span>' ?></td>

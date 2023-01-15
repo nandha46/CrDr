@@ -2,12 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\v1\AuthController;
+use App\Http\Controllers\v1\CompanyController;
 use App\Http\Controllers\v1\MembersController;
 use App\Http\Controllers\v1\SharedController;
 use App\Http\Controllers\v1\ReportsController;
 use App\Http\Controllers\v1\ProgramsController;
-use App\Http\Controllers\v1\IndexController;
-use App\Http\Controllers\v1\UploadController;
 use App\Services\AnalyticServices;
 
 Route::group(['middleware' => 'web'], function(){
@@ -36,19 +35,17 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/users', [MembersController::class, 'getUsers'])->name('get-users');
 		Route::post('/users/action', [MembersController::class, 'postAddEditUsers'])->name('add-edit-post-users');
 		
-		// Data Upload
-		Route::post('/students/upload', [UploadController::class, 'uploadStudents'])->name('upload-students');
+		// Companies
+		Route::get('/create-company', [CompanyController::class, 'getCompanies'])->name('get-companies');
+		Route::post('/create-company', [CompanyController::class, 'postAddEditCompany'])->name('add-company');
+		Route::get('/upload-company', [CompanyController::class, 'getUploadPage'])->name('get-upload-company');
+		Route::post('/upload-company', [CompanyController::class, 'postUploadData'])->name('post-company-upload');	
+		Route::get('/upload-test', [CompanyController::class, 'getTestPage'])->name('get-upload-test');
 			
 		// Programs
 
 		Route::get('/events',[ProgramsController::class,'getEvents'])->name('get-events');
 		Route::post('/events/action',[ProgramsController::class,'postAddEditEvents'])->name('add-edit-post-events');
-
-		Route::get('/blogs',[ProgramsController::class,'getBlogs'])->name('get-blogs');
-		Route::post('/blogs/action',[ProgramsController::class,'postAddEditBlogs'])->name('add-edit-post-blogs');
-
-		Route::get('/announcements',[ProgramsController::class,'getAnnouncements'])->name('get-announcements');
-		Route::post('/announcements/action',[ProgramsController::class,'postAddEditAnnouncements'])->name('add-edit-post-announcements');
 
 		Route::get('/press-releases',[ProgramsController::class,'getPressReleases'])->name('get-press-releases');
 		Route::post('/press-releases/action',[ProgramsController::class,'postAddEditPressReleases'])->name('add-edit-post-press-releases');
@@ -72,15 +69,9 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/get-performance-reports/{stuUId?}', [ReportsController::class, 'getPerformanceReport'])->where(['stuUId' => '^[0-9]+$'])->name('get-performance-reports');
 		Route::get('/get-staff-reports', [ReportsController::class, 'getStaffReport'])->name('get-student-reports');
 		Route::get('/get-exam-reports', [ReportsController::class, 'getExamReport'])->name('get-exam-reports');
-
-		// Uploads
-		Route::get('/upload-tsv', [ReportsController::class, 'getUploadTSV'])->name('get-uploads-tsv');
 		
 		// Analytics
 		Route::get('/analytics', [AnalyticServices::class, 'getAnalytics'])->name('get-analytics');
-
-		// Delete Routes API 
-		Route::delete('/delete/student/{stuId?}',[MembersController::class, 'deleteStudent']);
 
 	});
 });
