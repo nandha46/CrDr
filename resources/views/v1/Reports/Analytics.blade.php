@@ -18,7 +18,7 @@
 							<div class='row d-flex justify-content-center'>
 								<div class='col'>
 									<p class='text-dark mb-1 fw-semibold'>Total Users</p>
-									<h3 class='m-1'>{{$students}}</h3>
+									<h3 class='m-1'>100</h3>
 								</div>
 								<div class='col-auto align-self-center'>
 									<div class='report-main-icon bg-light-alt'>
@@ -36,7 +36,7 @@
 							<div class='row d-flex justify-content-center'>
 								<div class='col'>
 									<p class='text-dark mb-1 fw-semibold'>Total Companies</p>
-									<h3 class='m-1'>{{$teachers}}</h3>
+									<h3 class='m-1'>25</h3>
 								</div>
 								<div class='col-auto align-self-center'>
 									<div class='report-main-icon bg-light-alt'>
@@ -54,7 +54,7 @@
 							<div class='row d-flex justify-content-center'>
 								<div class='col'>
 									<p class='text-dark mb-1 fw-semibold'>Total Admins</p>
-									<h3 class='m-1'>{{$staffs}}</h3>
+									<h3 class='m-1'>7</h3>
 								</div>
 								<div class='col-auto align-self-center'>
 									<div class='report-main-icon bg-light-alt'>
@@ -71,7 +71,7 @@
 							<div class='row d-flex justify-content-center'>
 								<div class='col'>
 									<p class='text-dark mb-0 fw-semibold'>Events</p>
-									<h3 class='m-0'>{{$events.'/'.$press_releases}}</h3>
+									<h3 class='m-0'>3/2</h3>
 								</div>
 								<div class='col-auto align-self-center'>
 									<div class='report-main-icon bg-light-alt'>
@@ -94,7 +94,7 @@
 									<div class='row d-flex justify-content-center'>
 										<div class='col'>
 											<p class='text-dark mb-0 fw-semibold'>Press Releases</p>
-											<h3 class='m-0'>{{$events.'/'.$press_releases}}</h3>
+											<h3 class='m-0'>4/9</h3>
 										</div>
 										<div class='col-auto align-self-center'>
 											<div class='report-main-icon bg-light-alt'>

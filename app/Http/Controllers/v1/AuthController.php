@@ -12,13 +12,30 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller{
 
-    public function getLogin(){
+    public function getLogin(Request $request){
 
     	$auth = SharedController::checkAuthenticated();
 
-        $data[] = [];
+        
+        $text = mt_rand(100000,999999); 
+        // $_SESSION["vercode"] = $text; 
+        $height = 25; 
+        $width = 65;   
+        $image_p = imagecreate($width, $height); 
+        $black = imagecolorallocate($image_p, 0, 0, 0); 
+        $white = imagecolorallocate($image_p, 255, 255, 255); 
+        $font_size = 14; 
+        imagestring($image_p, $font_size, 5, 5, $text, $white);
+        $captcha = "./storage/app/public/captcha.jpg"; 
+        $catchaGenStatus = imagejpeg($image_p ,$captcha, 80);
+
+        $data['captcha'] = Storage::url('app/public/captcha.jpg');
+        // $data['captcha'] = $captcha;
+        $request->session()->put('secret', $text);
+
         if($auth) return redirect()->route('get-reports-analytics'); 
-    	return view('v1.Auth.Login')->with($data);
+        return view('v1.Auth.Login')->with($data);
+
     }
 
     public function postLogin(){
@@ -29,8 +46,13 @@ class AuthController extends Controller{
 
     		$username = request()->input('username');
             $password = request()->input('password');
+            $captcha = request()->input('captcha');
+            $secret = request()->session()->get('secret');
 
-            if($username == '' || $password == '') return back()->with('Msg', 'Please fill the form details');
+            if($username == '' || $password == '' || $captcha == '') return back()->with('Msg', 'Please fill the form details');
+            
+            if($captcha != $secret) return back()->with('Msg', 'Invalid Captcha');
+
             $check    = Usergroup::checkLogin($username, $password);
 
     		if($check){
@@ -56,7 +78,7 @@ class AuthController extends Controller{
                         if($newAuth[2] > 0){
 
                             foreach($newAuth[2] as $redirect){
-                                return redirect()->to('v1/'.$redirect);
+                                return redirect()->to($redirect);
                             }  
                         }
                         return back()->with('Msg', 'Access denied');

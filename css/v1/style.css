@@ -373,3 +373,45 @@ table#datatable-buttons2 > tbody > tr > td:first-child {
 .next.disabled{
     display: none;
 }
+
+.message {
+    font-size: 1.2rem;
+    color: green;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 600;
+}
+
+.error-message {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: red;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.open-button{
+    text-align: center;
+    border: 0.25rem white ridge;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background: whitesmoke;
+    transition: font-size cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.open-button:hover{
+    font-size: 120%;
+}
+
+.close-button{
+    text-align: center;
+    border: 0.25rem white ridge;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background: lawngreen;
+    transition: font-size cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
+.close-button:hover{
+    font-size: 120%;
+}

@@ -11,10 +11,6 @@ use App\Services\AnalyticServices;
 
 Route::group(['middleware' => 'web'], function(){
 
-	$appDefaults = SharedController::getAppDefaults();
-
-	Route::group(['prefix' => $appDefaults->prefix], function(){
-
 		/**
 		 * Route to get a CSRF token for use in POSTMAN tests
 		 */
@@ -36,11 +32,13 @@ Route::group(['middleware' => 'web'], function(){
 		Route::post('/users/action', [MembersController::class, 'postAddEditUsers'])->name('add-edit-post-users');
 		
 		// Companies
-		Route::get('/create-company', [CompanyController::class, 'getCompanies'])->name('get-companies');
-		Route::post('/create-company', [CompanyController::class, 'postAddEditCompany'])->name('add-company');
+		Route::get('/list-company', [CompanyController::class, 'getCompanies'])->name('get-companies');
+		Route::post('/list-company', [CompanyController::class, 'postAddEditCompany'])->name('add-company');
+		Route::get('/select-company', [CompanyController::class, 'selectCompany'])->name('get-select-company');
+		Route::post('/select-company', [CompanyController::class, 'postSelectCompany'])->name('post-select-company');
+		Route::get('/close-company', [CompanyController::class, 'selectCompany'])->name('get-close-company');
 		Route::get('/upload-company', [CompanyController::class, 'getUploadPage'])->name('get-upload-company');
 		Route::post('/upload-company', [CompanyController::class, 'postUploadData'])->name('post-company-upload');	
-		Route::get('/upload-test', [CompanyController::class, 'getTestPage'])->name('get-upload-test');
 			
 		// Programs
 
@@ -63,8 +61,18 @@ Route::group(['middleware' => 'web'], function(){
 
 		// Reports
 
+		Route::get('/daybook', [ReportsController::class, 'getDaybooks'])->name('get-daybooks');
+		Route::get('/daybook-report', [ReportsController::class, 'getDaybooksReport'])->name('get-daybooks-report');
+		Route::get('/ledger', [ReportsController::class, 'getLedger'])->name('get-ledger');
+		Route::get('/ledger-report', [ReportsController::class, 'getLedgerReport'])->name('get-ledger-report');
+		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
+		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
+		Route::get('/trading-pnl', [ReportsController::class, 'getTradingPNL'])->name('get-trading-pnl');
+		Route::get('/trading-pnl-report', [ReportsController::class, 'getTradingPNLReport'])->name('get-trading-pnl-report');
+		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
+		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
+
 		Route::get('/reports-analytics', [ReportsController::class, 'getAnalyticReports'])->name('get-reports-analytics');
-		
 		Route::get('/get-student-reports', [ReportsController::class, 'getStudentReports'])->name('get-student-reports');
 		Route::get('/get-performance-reports/{stuUId?}', [ReportsController::class, 'getPerformanceReport'])->where(['stuUId' => '^[0-9]+$'])->name('get-performance-reports');
 		Route::get('/get-staff-reports', [ReportsController::class, 'getStaffReport'])->name('get-student-reports');
@@ -73,6 +81,5 @@ Route::group(['middleware' => 'web'], function(){
 		// Analytics
 		Route::get('/analytics', [AnalyticServices::class, 'getAnalytics'])->name('get-analytics');
 
-	});
 });
 

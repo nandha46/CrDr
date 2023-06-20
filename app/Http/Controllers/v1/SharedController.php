@@ -139,11 +139,17 @@ class SharedController extends Controller{
 			$loggedUsr 	= request()->session()->get('LoggedUsr');
 
 			$authUsr 	= Usergroup::getAuthenticated($loggedUsr);
+			$user = User::where('id', $authUsr->id)->first(); 
 
 			$mainMenu = $subMenu = $urls = [];
 
-			if($authUsr->usertyperesult !== 'Admin') $menus = Menu::getPrivilegedMenus($authUsr->id);
-			else $menus = Menu::getMenus();
+			if($authUsr->usertyperesult !== 'Admin') {
+				$menus = Menu::getPrivilegedMenus($authUsr->id);
+			} else if($user->companyId === null){
+				$menus = Menu::getMenusExceptReports();
+			} else {
+				$menus = Menu::getMenus();
+			}
 			
 			if(count($menus) == 0){
 
@@ -177,7 +183,7 @@ class SharedController extends Controller{
 						if($sepMenu->id === $sepSubMenu->mainid && $sepSubMenu->ismain == 0){
 
 							$urls[] = $url;
-							$url =  config('app.url').'insight/'.$url;
+							$url =  config('app.url').$url;
 			
 							$hereDocSub = <<<sideSubMenu
 							<li class="nav-item"><a class="nav-link" href="{$url}"><i class="ti-control-record"></i>{$subName}</a></li>
@@ -193,17 +199,11 @@ class SharedController extends Controller{
 				}
 
 				if($authUsr->usertyperesult === 'Admin'){
-					$urls[] = 'vehicles/action';
-					$urls[] = 'packages/action';
 					$urls[] = 'users/action';
-					$urls[] = 'vehicles/delete';
 				}
-				$urls[] = 'view-questions';
-				$urls[] = 'set-questions';
-				$urls[] = 'seat-arrangements';
 				$urls[] = 'profile';
 				$urls[] = 'analytics';
-				$urls[] = 'upload-test';
+				$urls[] = 'select-company';
 				
 			}
 			Debugbar::stopMeasure('auth');
@@ -218,11 +218,6 @@ class SharedController extends Controller{
         $finalUrl = str_replace('/', '%2F', $url);
 
 		return urlencode($finalUrl);
-	}
-
-	static function getUserBranch($userid){
-		$user = User::where('id',$userid)->first();
-        return $user->userOrgSubId;
 	}
 
 	static function getLoggedStudent(){

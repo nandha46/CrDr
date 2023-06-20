@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2023 at 07:51 PM
+-- Generation Time: May 26, 2023 at 08:02 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -204,7 +204,7 @@ INSERT INTO `menus` (`id`, `menuname`, `isdirlink`, `icons`, `position`, `ismain
 (55, 'Trading - Profit & Loss', b'0', NULL, 4, 0, 'trading-pnl', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
 (56, 'Balance Sheet', b'0', NULL, 5, 0, 'balance-sheet', 1, 27, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
 (57, 'companies', b'0', 'users', 3, 1, NULL, 1, 0, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(58, 'Create company', b'0', NULL, 1, 0, 'create-company', 1, 57, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
+(58, 'All Companies', b'0', NULL, 1, 0, 'list-company', 1, 57, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00'),
 (59, 'upload company', b'0', NULL, 2, 0, 'upload-company', 1, 57, 1, '2018-12-20 18:03:00', '2018-12-20 18:03:00');
 
 -- --------------------------------------------------------
@@ -466,6 +466,7 @@ CREATE TABLE `useragent_analytics` (
 --
 
 INSERT INTO `useragent_analytics` (`ua_id`, `username`, `user_agent`, `ip`, `ip2`, `status`, `created_at`, `updated_at`) VALUES
+(0, 'admin', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2023-05-26 00:26:11', '2023-05-26 00:26:11'),
 (1, 'hf-stu-0001', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-09-22 06:10:44', '2022-09-22 06:10:44'),
 (2, 'hf-stu-0005', 'Mozilla/5.0 (Linux; Android 11; ONEPLUS A6010) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36', '192.168.1.3', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-09-22 06:11:57', '2022-09-22 06:11:57'),
 (3, 'hf-stu-0001', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.42', '::1', 'No HTTP_X_FORWARDED_FOR Set', 1, '2022-09-22 06:34:22', '2022-09-22 06:34:22'),
@@ -748,7 +749,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_users`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult` FROM `users` AS `a` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_users`  AS SELECT `a`.`id` AS `id`, `a`.`username` AS `username`, if(`a`.`status` = 1,'Active','In-Active') AS `userstatus`, CASE WHEN `a`.`usertype` = 1 THEN 'Super-Admin' WHEN `a`.`usertype` = 2 THEN 'Admin' WHEN `a`.`usertype` = 3 THEN 'Children' WHEN `a`.`usertype` = 4 THEN 'Staff' ELSE 'Others' END AS `usertyperesult` FROM `users` AS `a``a`  ;
 
 --
 -- Indexes for dumped tables
@@ -825,106 +826,6 @@ ALTER TABLE `states`
 --
 ALTER TABLE `useragent_analytics`
   ADD PRIMARY KEY (`ua_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_details`
---
-ALTER TABLE `user_details`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `appdefaults`
---
-ALTER TABLE `appdefaults`
-  MODIFY `defId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `appprivileges`
---
-ALTER TABLE `appprivileges`
-  MODIFY `aeId` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `companies`
---
-ALTER TABLE `companies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `configurationmasters`
---
-ALTER TABLE `configurationmasters`
-  MODIFY `cnId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `configurations`
---
-ALTER TABLE `configurations`
-  MODIFY `cfnId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `menus`
---
-ALTER TABLE `menus`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
-
---
--- AUTO_INCREMENT for table `orgholidays`
---
-ALTER TABLE `orgholidays`
-  MODIFY `orhlId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `pressreleases`
---
-ALTER TABLE `pressreleases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `privileges`
---
-ALTER TABLE `privileges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
-
---
--- AUTO_INCREMENT for table `states`
---
-ALTER TABLE `states`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- AUTO_INCREMENT for table `useragent_analytics`
---
-ALTER TABLE `useragent_analytics`
-  MODIFY `ua_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2893;
-
---
--- AUTO_INCREMENT for table `user_details`
---
-ALTER TABLE `user_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

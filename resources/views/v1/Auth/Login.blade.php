@@ -47,12 +47,19 @@
 
               <div class='form-group first'>
                 <input type='text' class='form-control' id='username' name='username' placeholder='Username'>
-
               </div>
-              <div class='form-group last mb-4'>
+              <div class='form-group mb-4'>
                 <input type='password' class='form-control' id='password' name='password' placeholder='Password'>
-                
               </div>
+              <div class='form-group last row'>
+                <div class="col">
+                  <input type='text' class='form-control' id='captcha' name='captcha' placeholder='Captcha' minlength="6" maxlength="6">
+                </div>
+                <div class="col" style="margin: auto">
+                  <img src="{{asset($captcha)}}" alt="captcha">
+                </div>
+              </div>
+              
               
               <div class='d-flex mb-5 align-items-center'>
                 <label class='control control--checkbox mb-0 d-none'><span class='caption'>Remember me</span>
@@ -64,7 +71,7 @@
 
               <input type='submit' value='Log In' class='btn text-white btn-block btn-primary login-button'>
 
-              <span class='d-block text-right my-4 text-muted powered-by'>v<?= $appRelease  ?> Powered by <?= $poweredBy ?> </span>
+              <span class='d-block text-right my-4 text-muted powered-by'>v1 Powered by Trident Softwares </span>
               
               
             </form>
@@ -77,14 +84,14 @@
     </div>
   </div>
 
-  <script src='{{asset('./js/'.$appVersion.'/jquery.min.js')}}'></script>
+  <script src='{{asset('./js/v1/jquery.min.js')}}'></script>
 
   <script type='text/javascript'>
     
     setTimeout( () => {
 
       $('.msg').fadeOut()
-    }, 4000)
+    }, 4000)  
   </script>
 
   </body>

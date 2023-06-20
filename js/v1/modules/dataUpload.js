@@ -1,11 +1,11 @@
 const uploadCompanyZip = () => {
-    let zip = $('#file0').val();
+    let inputFile = $('#file0')
+    let zip = inputFile.val();
 
     if (zip == ''){
-        alert('Choose file')
+        alert('Please Choose the backup file.')
         return false;
     }
-
     return true;
 
 }

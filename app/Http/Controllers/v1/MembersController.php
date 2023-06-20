@@ -61,7 +61,8 @@ class MembersController extends Controller{
 		$users = Usergroup::getUsersView();
 		$data['users'] 		= $users;
 
-		Debugbar::info($users);
+		$uid = request()->session()->get('LoggedUsr');
+		$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
 
 	 	return view('v1.Members.Users')->with($data);
 	}

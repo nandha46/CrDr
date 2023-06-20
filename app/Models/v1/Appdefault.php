@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Appdefault extends Model{
+    
     use HasFactory;
 
     protected $fillable = ['defName', 'defVersion', 'defBaseUrl' ,'defAdminUrl'];
