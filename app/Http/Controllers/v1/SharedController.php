@@ -4,11 +4,9 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 use App\Models\v1\Usergroup;
 use App\Models\v1\Appdefault;
 use App\Models\v1\Menu;
-use App\Models\v1\State;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 
@@ -73,7 +71,7 @@ class SharedController extends Controller{
 
 			if($auth[1] == ''){
 
-				$res['Msg'] 	= 'You may be disabled or no privilges to access. Contact your administrator';
+				$res['Msg'] 	= 'You may be disabled or no privilges to access[14]. Contact your administrator';
 				$res['Status'] 	= false;
 				return $res;
 			}else{
@@ -107,25 +105,6 @@ class SharedController extends Controller{
 		return $res;
 	}
 
-	static function getStates(){
-
-		return State::getAllStates();
-	}
-
-	static function getCities(){
-		
-		$storage = Storage::disk('countries')->get('cities.json');
-		return json_decode($storage);
-	}
-
-    // Get Countries
-
-	static function getCountries(){
-
-		$storage = Storage::disk('countries')->get('countries_new.json'); 
-		return json_decode($storage);
-	}
-
     // Menu Handling
 
 	static function checkAuthenticated(){
@@ -143,16 +122,16 @@ class SharedController extends Controller{
 
 			$mainMenu = $subMenu = $urls = [];
 
-			if($authUsr->usertyperesult !== 'Admin') {
-				$menus = Menu::getPrivilegedMenus($authUsr->id);
-			} else if($user->companyId === null){
-				$menus = Menu::getMenusExceptReports();
-			} else {
+			if($authUsr->usertyperesult === 'Admin' || $authUsr->usertyperesult === 'Super-Admin') {
 				$menus = Menu::getMenus();
+			} else {
+				$menus = Menu::getPrivilegedMenus($authUsr->id);
+				if($user->companyId === null){
+					$menus->except([27,52,53,54,55,56]);
+				}
 			}
 			
 			if(count($menus) == 0){
-
 				return [$authUsr, '', $urls];
 			}else{
 
@@ -204,6 +183,7 @@ class SharedController extends Controller{
 				$urls[] = 'profile';
 				$urls[] = 'analytics';
 				$urls[] = 'select-company';
+				$urls[] = 'close-company';
 				
 			}
 			Debugbar::stopMeasure('auth');

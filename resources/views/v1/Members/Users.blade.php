@@ -30,7 +30,7 @@
 
                                 <p class='msg-to-view d-none'></p>
 
-                                <form class='row g-3 needs-validation' method='post' action='' onsubmit='AddUpdateUsers();return false;' >
+                                <form class='row g-3 needs-validation' method='post' action='' onsubmit='addUpdateUsers();return false;' >
                                     @csrf
                                     <input type='hidden' id='_id' class='input-only' value=''>
                                     <input type='hidden' class='input-only current-row' value=''>
@@ -40,9 +40,11 @@
                                         <label for='validationCustom04' class='form-label required'>User Type</label>
                                         <select class='form-select spl' id='user-type' onchange = 'return changeUserType()'>
                                             <option selected disabled value=''>Choose...</option>
+                                            @if($usertype == 1)
                                             <option value='2'>Admin</option>
-                                            <option value='5'>Manager</option>
-                                            <option value='6'>Others</option>
+                                            @elseif($usertype == 2)
+                                            <option value='3'>Staff</option>
+                                            @endif
                                         </select>
                                     </div>                                    
                                     <div class=''>
@@ -63,101 +65,12 @@
                                     </div>
                                     <div class=''>
                                         <label for='validationCustom03' class='form-label required'>Email</label>
-                                        <input type='text' class='form-control spl input-only' id='email' placeholder="example@mail.com"/>
+                                        <input type='text' class='form-control spl input-only' id='email'/>
                                     </div>
-                                    <div class=''>
-                                        <label for='validationCustom03' class='form-label required'>Address</label>
-                                        <input type='text' class='form-control spl input-only' id='address' />
-                                    </div>
-                                    <div class=''>
-                                        <label for='validationCustom05' class='form-label required'>City</label>
-                                        <input type='text' class='form-control spl input-only' id='city' />
-                                    </div>
-
-                                    <div class=''>
-                                        <label for='validationCustom05' class='form-label required'>State</label>
-                                        <select class='form-select spl state-details' id='state'>
-                                            <option selected disabled value=''>Choose...</option>
-                                            <?php
-
-                                                foreach($states as $key => $sepStates){
-                                            ?>
-                                                    <option value = '<?= $sepStates->id ?>'><?= $sepStates->statename?></option>
-                                            <?php
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class=''>
-                                        <label for='validationCustom05' class='form-label required'>Pincode</label>
-                                        <input type='text' minlength="6" maxlength="6" class='form-control spl input-only numbers-only' id='pincode' />
-                                        
-                                    </div>
-                                    <div class=''>
-                                                    <label for='validationCustom02' class='form-label required'>Gender</label>
-                                                    <div class='display-flex mb-3 margin-top-18'>
-                                                        
-                                                        <div class='form-check form-check-inline'>
-                                                                <input class='form-check-input' type='radio' name='gender' id='male' value='1' checked='checked'/>
-                                                                <label class='form-check-label' for='male'>Male</label>
-                                                            </div>
-                                                            <div class='form-check form-check-inline'>
-                                                                <input class='form-check-input' type='radio' name='gender' id='female' value='2' />
-                                                                <label class='form-check-label' for='female'>Female</label>
-                                                            </div>
-                                                            <div class='form-check form-check-inline'>
-                                                                <input class='form-check-input' type='radio' name='gender' id='others' value='2' />
-                                                                <label class='form-check-label' for='others'>Others</label>
-                                                            </div>
-                                                    </div>
-                                            </div>
-
-                                    <div class='d-none'>
-                                        <label for='validationCustom05' class='form-label required'>Date of Birth</label>
-                                        <input type='text' class='form-control spl input-only date-input' id='date-of-birth' max="<?= date('Y-m-d', strtotime('-18 year')); ?>" />
-                                    </div>
-
-                                    <div class='d-none'>
-                                        <label for='validationCustom05' class='form-label required'>Year of exp</label>
-                                        <input type='text' class='form-control spl decimal-numbers input-only' id='yr-of-exp' maxlength="4"/>
-                                    </div>
-
-                                    <div class='d-none'>
-                                        <label for='validationCustom05' class='form-label required'>Date of Hiring</label>
-                                        <input type='text' class='form-control spl input-only date-input' id='date-of-hiring' />
-                                    </div>
-
-                                    <div class='d-none'>
-                                        <label for='validationCustom04' class='form-label required'>Proof Type</label>
-                                        <select class='form-select spl' id='proof-type'>
-                                            <option selected disabled value=''>Choose...</option>
-                                            <option value='Aadhaar card'>Aadhaar card</option>
-                                            <option value='Driving License'>Driving License</option>
-                                            <option value='PAN Card'>PAN Card</option>
-                                            <option value='Bank Passbook Frontpage'>Bank Passbook Frontpage</option>
-                                            <option value='Passport'>Passport</option>
-                                        </select>
-                                    </div> 
-                                    <div class='d-none'>
-                                        <label for='validationCustom05' class='form-label required'>Proof Number</label>
-                                        <input type='text' class='form-control spl input-only' id='proof-no' />
-                                    </div>
-                                    <div class='d-none'>
-                                        <label for='validationCustom05' class='form-label'>Proof Expiry Date</label>
-                                        <input type='text' class='form-control spl input-only date-input' id='expiry-date' min="<?= date('Y-m-d', strtotime('3 month')); ?>" />
-                                    </div>
+            
                                     <div class=''>
                                         <label for='validationCustom05' class='form-label'>Password</label>
                                         <input type='password' autocomplete="off" class='form-control spl input-only' id='password'/>
-                                    </div>
-
-                                    <div class='d-none'>
-                                        <label for='validationCustom05' class='form-label'>User's ID Proof (Max size 10MB)</label>
-                                        <div class='input-group mb-3'>
-                                            <input type='file' class='form-control input-only' id='file' name='file[]' />
-                                            {{-- <label class='input-group-text' for='file'>Upload</label> --}}
-                                        </div>
-
                                     </div>
                                 </div>
                                     <div class='col-md-12 prvl-menu d-none'>
@@ -275,11 +188,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Name</th>
-                                        <th>Gender</th>
-                                        <th>Date of Birth</th>
-                                        <th>Experience</th>
                                         <th>Phone</th>
-                                        <th>Date of Hiring</th>
                                         <th>Username</th>
                                         <th>User Type</th>
                                         <th>Status</th>
@@ -294,7 +203,7 @@
 
                                     if(count($users) > 0){
 
-                                        $usertypes = [1 => 'SuperAdmin', 2 => 'Admin', 3 => 'Children', 4 => 'Staff', 5 => 'Manager', 6 => 'Others'];
+                                        $usertypes = [1 => 'Super-Admin', 2 => 'Admin', 3 => 'Staff'];
 
                                         foreach($users as $sepUsers){
        
@@ -302,11 +211,7 @@
                                         <tr id = 'row-<?= $i ?>'>
                                             <td><?= $i ?></td>
                                             <td><?= $sepUsers->firstname.' '.$sepUsers->lastname ?></td>
-                                            <td><?= $sepUsers->gender==1?'Male':'Female' ?></td>
-                                            <td><?= $sepUsers->dob ?></td>
-                                            <td><?= $sepUsers->years_of_exp ?></td>
-                                            <td><?= $sepUsers->condOfficialNumber ?></td>
-                                            <td><?= $sepUsers->date_of_hiring ?></td>
+                                            <td><?= $sepUsers->primary_mobile ?></td>
                                             <td><?= $sepUsers->username ?></td>
                                             <td class='status'><?= $usertypes[$sepUsers->usertype] ?></td>
                                             <td class='status'><?= $sepUsers->userstatus?'<span class="badge bg-success text-bg-success">Active</span>':'<span class="badge bg-danger text-bg-success">In-Active</span>' ?></td>

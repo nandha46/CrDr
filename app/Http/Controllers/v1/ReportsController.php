@@ -27,7 +27,7 @@ class ReportsController extends Controller{
                  if($auth[1] == ''){
   
                       AuthController::getLogout(1);
-                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[10]. Contact your administrator');
                  }else{
   
                       $urlExist = 'FALSE';
@@ -75,7 +75,7 @@ class ReportsController extends Controller{
                  if($auth[1] == ''){
   
                       AuthController::getLogout(1);
-                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[11]. Contact your administrator');
                  }else{
   
                       $urlExist = 'FALSE';
@@ -120,7 +120,7 @@ class ReportsController extends Controller{
 			if($auth[1] == ''){
 
 				AuthController::getLogout(1);
-				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[12]. Contact your administrator');
 			}else{
 
 				$urlExist = 'FALSE';
@@ -172,7 +172,7 @@ class ReportsController extends Controller{
 			if($auth[1] == ''){
 
 				AuthController::getLogout(1);
-				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[13]. Contact your administrator');
 			}else{
 
 				$urlExist = 'FALSE';

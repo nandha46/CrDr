@@ -8,7 +8,7 @@ class UserDetails extends Model{
 
     protected $table = 'user_details';
     
-    protected $fillable =['userid','firstname', 'lastname', 'gender','years_of_exp','contact_id','address_id', 'email_id', 'date_of_hiring', 'dob','proof_type', 'proof_no', 'proof_expiry', 'proof_file'];
+    protected $fillable =['userid','firstname', 'lastname','primary_mobile', 'secondary_mobile', 'email'];
 
     protected function getUserDetailsByUID($userid){
 

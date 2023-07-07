@@ -19,8 +19,4 @@ class Menu extends Model{
         return View::getPrivilegedMenus($userId);
     }
 
-    protected function getMenusExceptReports () {
-        $menus = Menu::orderBy('mainid','DESC')->orderBy('position', 'ASC')->get();
-        return $menus->except([27,52,53,54,55,56]);
-    }
 }

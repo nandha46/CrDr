@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\CompanyController;
+use App\Http\Controllers\v1\EditController;
 use App\Http\Controllers\v1\MembersController;
 use App\Http\Controllers\v1\SharedController;
 use App\Http\Controllers\v1\ReportsController;
@@ -30,13 +31,16 @@ Route::group(['middleware' => 'web'], function(){
 		// Members
 		Route::get('/users', [MembersController::class, 'getUsers'])->name('get-users');
 		Route::post('/users/action', [MembersController::class, 'postAddEditUsers'])->name('add-edit-post-users');
+
+		// Edit Routes
+		Route::post('/edit/common', [EditController::class, 'getEditJson'])->name('get-edit-json');
 		
 		// Companies
 		Route::get('/list-company', [CompanyController::class, 'getCompanies'])->name('get-companies');
 		Route::post('/list-company', [CompanyController::class, 'postAddEditCompany'])->name('add-company');
 		Route::get('/select-company', [CompanyController::class, 'selectCompany'])->name('get-select-company');
 		Route::post('/select-company', [CompanyController::class, 'postSelectCompany'])->name('post-select-company');
-		Route::get('/close-company', [CompanyController::class, 'selectCompany'])->name('get-close-company');
+		Route::get('/close-company', [CompanyController::class, 'closeCompany'])->name('get-close-company');
 		Route::get('/upload-company', [CompanyController::class, 'getUploadPage'])->name('get-upload-company');
 		Route::post('/upload-company', [CompanyController::class, 'postUploadData'])->name('post-company-upload');	
 			

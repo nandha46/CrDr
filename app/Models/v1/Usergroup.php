@@ -10,7 +10,7 @@ class Usergroup extends Model{
 
     protected $table = 'users';
     
-    protected $fillable =['username','password','usertype', 'userOrgId', 'status', 'created_at', 'updated_at'];
+    protected $fillable =['admin_id', 'username','password','usertype', 'companyId', 'status'];
 
     protected function getUsers(){
 
@@ -60,7 +60,7 @@ class Usergroup extends Model{
         return false;       
     }    
 
-    protected function insertUser($userType = '', $username = '', $password = '', $organization = '1'){
+    protected function insertUser($userType = '', $username = '', $password = '', $adminId = null){
 
         $password = md5($password);
 
@@ -68,8 +68,7 @@ class Usergroup extends Model{
             'username' =>  $username,
             'password' =>  $password,
             'usertype' =>  $userType,
-            'userOrgId' => $organization,
-            'userOrgSubId' => 1,
+            'admin_id' => $adminId,
         ]);
 
         return $user->id;
@@ -135,8 +134,19 @@ class Usergroup extends Model{
         return 'FALSE';
     }
 
-    protected function getUsersView(){
-        $users = Usergroup::whereIn('users.usertype', [1,2,3,4])->leftJoin('user_details', 'users.id','=', 'user_details.userid')
+    protected function getAllUsersView (){
+        $users = Usergroup::where('users.usertype', 2)
+                    ->leftJoin('user_details', 'users.id','=', 'user_details.userid')
+                    ->select('users.*', 'user_details.*', 'users.status as userstatus')
+                    ->get();
+
+        return $users;
+    }
+
+    protected function getUsersView($uid){
+        $users = Usergroup::where('users.usertype', 3)
+                    ->where('users.admin_id', $uid)
+                    ->leftJoin('user_details', 'users.id','=', 'user_details.userid')
                     ->select('users.*', 'user_details.*', 'users.status as userstatus')
                     ->get();
 

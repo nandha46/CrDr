@@ -185,9 +185,6 @@ const hideShowFormEditState = (isHide, changeText) => {
         $('.decimal-numbers').val('');
         $('.form-checkbox-input').prop('checked', false);
         $(".chosen-select").val('').trigger("chosen:updated");
-        for (let i = 0; i< 10; i++){
-            deleteDegreeInputs();
-        }
         $('.button-add-edit').html('Add')
     }else{
         $('.form-add-edit').fadeIn('slow').removeClass('d-none');
@@ -342,7 +339,7 @@ const changeUserType = () =>  {
 
     $('.prvl-menu').addClass('d-none')
 
-    if(userType == '4' || userType == '5' || userType == '6') $('.prvl-menu').removeClass('d-none');
+    if(userType == '3') $('.prvl-menu').removeClass('d-none');
 }
 
 const changeStatus = async (type, id, rowId) => {
@@ -394,18 +391,15 @@ const changeStatus = async (type, id, rowId) => {
     }
 }
 
-const AddUpdateUsers = async() => {
+const addUpdateUsers = async() => {
 
     loaderOpt.addClass('d-none');
     loaderMsg.addClass('d-none');
 
     let editId = $('#_id').val(), userType = $('#user-type');
 
-    let firstName = $('#firstname'), lastName = $('#lastname'), pMobile = $('#p-mobile'), sMobile = $('#s-mobile'), 
-                        email = $('#email'), address = $('#address'), dateOfHiring = $('#date-of-hiring'), organization = $('#organization'),
-                            city = $('#city'), state = $('#state'), country = $('#country'), pincode = $('#pincode'), 
-                                dateOfBirth = $('#date-of-birth'), yrOfExp = $('#yr-of-exp'), proofType = $('#proof-type'), 
-                                    proofNo = $('#proof-no'), expiryDate = $('#expiry-date'), password = $('#password');
+    let firstName = $('#firstname'), lastName = $('#lastname'), pMobile = $('#p-mobile'), 
+                        sMobile = $('#s-mobile'), email = $('#email'), password = $('#password');
 
     let privilegesAdd = [], privilegesView = [];
 
@@ -426,12 +420,6 @@ const AddUpdateUsers = async() => {
     inputOnly.removeClass('err-input-admin');
     allFormSelect.removeClass('err-input-admin');
 
-    if(organization.val() == null){
-        organization.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html('Organization is required');
-        return false;
-    }
-
     if(userType.val() == null){	
         userType.addClass('err-input-admin'); 
         errMsg.removeClass('d-none').html('Select the UserType'); 
@@ -444,15 +432,6 @@ const AddUpdateUsers = async() => {
             }
         }
         
-    }
-    if(userType.val() == 3){
-
-        if(yrOfExp.val() == ''){
-            yrOfExp.addClass('err-input-admin'); 
-            errMsg.html('Enter Experience details').removeClass('d-none');
-            yrOfExp.focus();
-            return false;
-        }
     }
     
     if(firstName.val() == ''){	
@@ -493,37 +472,7 @@ const AddUpdateUsers = async() => {
             return false;
         }
     }
-    if(address.val() == ''){
-        address.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html('Address is required');
-        address.focus();
-        return false;
-    }
-    if(city.val() == ''){
-        city.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html('City is required');
-        city.focus();
-        return false;
-    }
-    
-    if(state.val() == null){
-        state.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html(' State is required');
-        return false;
-    }
-    if(pincode.val() == ''){
-        pincode.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html('Pincode is required');
-        pincode.focus();
-        return false;
-    }
 
-    if(dateOfBirth.val() == ''){
-        dateOfBirth.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html('Date of Birth is required');
-        dateOfBirth.focus();
-        return false;
-    }
     // if(editId == '' && password.val() == ''){
     //     password.addClass('err-input-admin'); 
     //     errMsg.removeClass('d-none').html('Password is required');
@@ -531,63 +480,15 @@ const AddUpdateUsers = async() => {
     //     return false;
     // }
 
-    if(proofType.val() == ''){
-        proofType.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html('Proof type is required');
-        proofType.focus();
-        return false;
-    }
-    if(proofNo.val() == ''){
-        proofNo.addClass('err-input-admin'); 
-        errMsg.removeClass('d-none').html('Proof Number is required');
-        proofNo.focus();
-        return false;
-    }
-    // if(expiryDate.val() == ''){
-    //     expiryDate.addClass('err-input-admin'); 
-    //     errMsg.removeClass('d-none').html('Expiry Date is required');
-    //     expiryDate.focus();
-    //     return false;
-    // }
-
     const body = new FormData();
 
-    let fileValidate = filesValidate();
-
-    if(!fileValidate){
-        errMsg.html('Provide valid file').removeClass('d-none');
-        return false;
-    }else{
-        if(fileValidate.length > 0){
-            let i = 0;   
-            for(let file of fileValidate){
-                body.append(`files_${i}`, file);
-                i++;
-            }
-            body.append('totalFiles', i);
-        } 
-    }
-
     let details = {
-        organization : organization.val(),
         userType : userType.val(),
         firstName : firstName.val(),
         lastName : lastName.val(),
         pMobile : pMobile.val(),
         sMobile : sMobile.val(),
         email : email.val(),
-        gender : $('input[name=gender]:checked').val(),
-        address : address.val(),
-        city : city.val(),
-        state : state.val(),
-        country : country.val(),
-        pincode : pincode.val(),
-        dateOfBirth : dateOfBirth.val(),
-        dateOfHiring :dateOfHiring.val(),
-        yrOfExp : yrOfExp.val(),
-        proofType : proofType.val(),
-        proofNo : proofNo.val(),
-        expiryDate : expiryDate.val(),
         password : password.val(),
         editId,
         prvlAdd,
@@ -605,7 +506,7 @@ const AddUpdateUsers = async() => {
         loaderOpt.removeClass('d-none');
         loaderMsg.html('adding...').removeClass('d-none');
 
-        let request = await fetch(`${baseURL}/users/action`, {
+        let request = await fetch(`${baseURL}users/action`, {
             method : 'POST',
             headers : {
                 'X-CSRF-TOKEN': _token
@@ -628,16 +529,7 @@ const AddUpdateUsers = async() => {
                 change = '<span class="badge badge-bg2 text-bg-success">Modified</span>';
             }
 
-            let gendername = 'Others';
-            
-            if (results.gender == 1){
-                gendername = 'Male';
-                
-            } else if (results.gender == 2){
-                gendername = 'Female';
-            }
-
-           let usertypes = ['','SuperAdmin', 'Admin', 'Children', 'Staff', 'Manager', 'Others'];
+           let usertypes = ['','SuperAdmin', 'Admin', 'Staff'];
 
             let usertypeName = 'Admin';
 
@@ -646,14 +538,10 @@ const AddUpdateUsers = async() => {
             let inUpAry = [
                 incCount,
                 `${results.firstname} ${results.lastname} ${change}`,
-                gendername,
-                `${results.dob}`,
-                results.years_of_exp,
-                results.condOfficialNumber,
-                results.date_of_hiring,
-                results.username,
+                results.primary_mobile,
+                results.primary_mobile,
                 usertypes[results.usertype],
-                results.status ? spanActive:spanInactive,
+                results.userstatus ? spanActive:spanInactive,
                 `<i color="blue" id='column-td-${incCount}' onclick = 'editUser(${results.userid}, ${incCount})' data-feather='edit' class='menu-icon-form-td-i cursor-pointer'></i>
                 <i color="red" onclick = "return changeStatus('users', '${results.userid}', 'row-${incCount}')" data-feather='power' class='menu-icon-form-td-i cursor-pointer'></i>
                 <i data-bs-toggle="modal" onclick="generateUserModal(${results.userid})" data-bs-target="#profileModal" data-feather='eye' color="green" class='menu-icon-form-td-i cursor-pointer'></i>`
@@ -701,9 +589,8 @@ const editUser = async (userid, getId) => {
 
     let userType = [
         { id :  2, name : 'ADMIN'},
-        { id :  4, name : 'STAFF'},
-        { id :  6, name : 'OTHERS'},
-    ];   
+        { id :  3, name : 'STAFF'},
+    ];
 
     $('.current-row').val(getId)
       
@@ -711,7 +598,7 @@ const editUser = async (userid, getId) => {
     body.append('id', userid)
     body.append('type', 'user')
 
-    let request = await fetch(baseURL + '/edit/common',{
+    let request = await fetch(baseURL + 'edit/common',{
         method 	: 'POST',
         headers 	: {
             'X-CSRF-TOKEN': _token
@@ -722,39 +609,19 @@ const editUser = async (userid, getId) => {
 
     if (response.success){
         pData = response.jData;
-        console.log(pData)
     } else {
         alert('Some error in Edit AJAX')
     }
 
-    let gender = 3;
-    
-    if(pData.gender === 'MALE') gender = 1;
-    if(pData.gender === 'FEMALE') gender = 2;
-
-    $(`input[name=gender][value=${gender}]`).prop('checked', true);
-
-    $('#organization').val(pData.userOrgId);
     $('#user-type').val(pData.usertype);
     $('#firstname').val(pData.firstname);
     $('#lastname').val(pData.lastname);
     $('#p-mobile').val(pData.condOfficialNumber);
     $('#s-mobile').val(pData.condPersonalNumber);
     $('#email').val(pData.emlOfficialAddress == 'null'? '' : pData.emlOfficialAddress);
-    $('#address').val(pData.address == 'null' || city == undefined ? '' : pData.address);
-    $('#city').val(pData.city == 'null' || pData.city == undefined ? '' : pData.city);
-    $('#state').val(pData.state).attr('selected','selected');
-    // $('#country').val(country).attr('selected','selected');
-    $('#pincode').val(pData.pincode == 'null' || pData.pincode == undefined ? '' : pData.pincode);
-    $('#date-of-birth').val(pData.dob == 'null' || pData.dob == '0000-00-00'? '' : pData.dob);
-    $('#date-of-hiring').val(pData.date_of_hiring == 'null' || pData.date_of_hiring == '0000-00-00'? '' : pData.date_of_hiring);
-    $('#yr-of-exp').val(pData.years_of_exp == 'null' || pData.years_of_exp == null? '' : pData.years_of_exp);
-    $('#proof-type').val(pData.proof_type);
-    $('#proof-no').val(pData.proof_no);
-    $('#expiry-date').val(pData.proof_expiry);
     $('#_id').val(pData.userid);
 
-    if(pData.usertyperesult != 'DRIVER' || pData.usertyperesult != 'ADMIN'){
+    if(pData.usertyperesult != 'SUPER-ADMIN' || pData.usertyperesult != 'ADMIN'){
 
         let privilges = pData.privilges;
 
@@ -1002,7 +869,7 @@ const AddUpdateEvents = async () => {
         loaderOpt.removeClass('d-none');
         loaderMsg.html('adding...').removeClass('d-none');
 
-        let request = await fetch(`${baseURL}/events/action`, {
+        let request = await fetch(`${baseURL}events/action`, {
             method : 'POST',
             headers : {
                 'X-CSRF-TOKEN': _token
@@ -1073,7 +940,7 @@ const editEvent = async(eventId, getId) => {
     body.append('id', eventId)
     body.append('type', 'event')
 
-    let request = await fetch(baseURL + '/edit/common',{
+    let request = await fetch(baseURL + 'edit/common',{
         method 	: 'POST',
         headers 	: {
             'X-CSRF-TOKEN': _token
@@ -1180,7 +1047,7 @@ const AddUpdateBlogs = async () => {
         loaderOpt.removeClass('d-none');
         loaderMsg.html('adding...').removeClass('d-none');
 
-        let request = await fetch(`${baseURL}/blogs/action`, {
+        let request = await fetch(`${baseURL}blogs/action`, {
             method : 'POST',
             headers : {
                 'X-CSRF-TOKEN': _token
@@ -1250,7 +1117,7 @@ const editBlog = async (blogId, getId) => {
     body.append('id', blogId)
     body.append('type', 'blog')
 
-    let request = await fetch(baseURL + '/edit/common',{
+    let request = await fetch(baseURL + 'edit/common',{
         method 	: 'POST',
         headers 	: {
             'X-CSRF-TOKEN': _token
@@ -1341,7 +1208,7 @@ const AddUpdateAnnouncements = async () => {
         loaderOpt.removeClass('d-none');
         loaderMsg.html('adding...').removeClass('d-none');
 
-        let request = await fetch(`${baseURL}/announcements/action`, {
+        let request = await fetch(`${baseURL}announcements/action`, {
             method : 'POST',
             headers : {
                 'X-CSRF-TOKEN': _token
@@ -1409,7 +1276,7 @@ const editAnnouncement = async (announcementId, getId) => {
     body.append('id', announcementId)
     body.append('type', 'announcement')
 
-    let request = await fetch(baseURL + '/edit/common',{
+    let request = await fetch(baseURL + 'edit/common',{
         method 	: 'POST',
         headers 	: {
             'X-CSRF-TOKEN': _token
@@ -1509,7 +1376,7 @@ const AddUpdatePressReleases = async () => {
         loaderOpt.removeClass('d-none');
         loaderMsg.html('adding...').removeClass('d-none');
 
-        let request = await fetch(`${baseURL}/press-releases/action`, {
+        let request = await fetch(`${baseURL}press-releases/action`, {
             method : 'POST',
             headers : {
                 'X-CSRF-TOKEN': _token
@@ -1578,7 +1445,7 @@ const editPressRelease = async(prId, getId) => {
     body.append('id', prId)
     body.append('type', 'pressRelease')
 
-    let request = await fetch(baseURL + '/edit/common',{
+    let request = await fetch(baseURL + 'edit/common',{
         method 	: 'POST',
         headers 	: {
             'X-CSRF-TOKEN': _token

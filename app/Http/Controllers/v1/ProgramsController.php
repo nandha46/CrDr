@@ -28,7 +28,7 @@ class ProgramsController extends Controller{
 			if($auth[1] == ''){
 
 				AuthController::getLogout(1);
-				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[6]. Contact your administrator');
 			}else{
 
 				$urlExist = 'FALSE';
@@ -73,7 +73,7 @@ class ProgramsController extends Controller{
             if($auth[1] == ''){
 
                 AuthController::getLogout(1);
-                $res['Msg'] 	= 'You may be disabled or no privilges to access. Contact your administrator';
+                $res['Msg'] 	= 'You may be disabled or no privilges to access[7]. Contact your administrator';
 				$res['Status'] 	= $Status;
 
 			    return response()->json($res);
@@ -159,7 +159,7 @@ class ProgramsController extends Controller{
 			if($auth[1] == ''){
 
 				AuthController::getLogout(1);
-				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+				return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[8]. Contact your administrator');
 			}else{
 
 				$urlExist = 'FALSE';
@@ -202,7 +202,7 @@ class ProgramsController extends Controller{
             if($auth[1] == ''){
 
                 AuthController::getLogout(1);
-                $res['Msg'] 	= 'You may be disabled or no privilges to access. Contact your administrator';
+                $res['Msg'] 	= 'You may be disabled or no privilges to access[9]. Contact your administrator';
 				$res['Status'] 	= $Status;
 
 			    return response()->json($res);

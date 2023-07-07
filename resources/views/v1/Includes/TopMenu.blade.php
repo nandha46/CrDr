@@ -22,7 +22,8 @@
                     aria-haspopup='false' aria-expanded='false'>
                 <span class='ms-1 nav-user-name hidden-sm'><?= !$authUsr ? 'Admin' : ucfirst($authUsr->username)?></span>
                 @if(Session::has('profile_pic'))
-                    <img src='{{asset(Session::get('profile_pic'))}}' alt='profile-user' class='rounded-circle thumb-xs' />
+                    {{-- <img src='{{asset(Session::get('profile_pic'))}}' alt='profile-user' class='rounded-circle thumb-xs' /> --}}
+                    <img src='./storage/app/profile_pic/admin.png' alt='profile-user' class='rounded-circle thumb-xs' />
 			    @else
                     <img src='{{asset('./storage/uploads/StudentData/Id_cards/default_boy.png')}}' alt='profile-user' class='rounded-circle thumb-xs' />
                 @endif

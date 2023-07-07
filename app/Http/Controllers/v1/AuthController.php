@@ -85,10 +85,10 @@ class AuthController extends Controller{
                     }
 
                     self::getLogout();
-                    return back()->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+                    return back()->with('Msg', 'You have no privilges to access. Contact your administrator');
                 }
 
-                return back()->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');  			
+                return back()->with('Msg', 'Your account is disabled. Contact your administrator');  			
     		}
     		return back()->with('Msg', 'Invalid credentials');
     	}

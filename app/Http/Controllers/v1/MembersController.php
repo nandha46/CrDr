@@ -7,13 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\v1\Usergroup;
 use App\Models\v1\Menu;
 use App\Models\v1\Privilege;
-use App\Models\v1\Contactdetail;
-use App\Models\v1\Emailaddress;
 use App\Models\v1\View;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\SharedController;
+use App\Models\User;
 use App\Models\v1\UserDetails;
 use Barryvdh\Debugbar\Facades\Debugbar;
+use Illuminate\Support\Arr;
 
 class MembersController extends Controller{
 
@@ -24,9 +24,6 @@ class MembersController extends Controller{
     	$data['pageSubTitle'] 		= 'Users';
     	$data['pageSubTitleNext']	= '';
 
-		$data['country'] = SharedController::getCountries();
-		$data['states'] = SharedController::getStates();
-
 		$auth = SharedController::checkAuthenticated();
 
 	 	if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
@@ -35,7 +32,7 @@ class MembersController extends Controller{
             if($auth[1] == ''){
 
                 AuthController::getLogout(1);
-                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[4]. Contact your administrator');
 			}else{
 
                 $urlExist = 'FALSE';
@@ -57,11 +54,20 @@ class MembersController extends Controller{
 
 	 	$data['authUsr'] 	= $auth[0];
 	 	$data['html'] 		= $auth[1];
-		$data['menu'] 		= Menu::getMenus();
-		$users = Usergroup::getUsersView();
-		$data['users'] 		= $users;
-
+		$menus = Menu::getMenus();
+		$data['menu'] 		= $menus->except([4,7]);
+		
 		$uid = request()->session()->get('LoggedUsr');
+		$usertype = User::where('id', $uid)->first()->usertype;
+		$data['usertype'] = $usertype;
+		if ($usertype == 1){
+			$users = Usergroup::getAllUsersView();
+		} else if ($usertype == 2){
+			$users = Usergroup::getUsersView($uid);
+		}
+
+		$data['users'] 		= $users;
+		
 		$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
 
 	 	return view('v1.Members.Users')->with($data);
@@ -82,22 +88,10 @@ class MembersController extends Controller{
 		$pMobile 		= request()->pMobile;
 		$sMobile 		= request()->sMobile;
 		$email 			= request()->email;
-		$gender 		= request()->gender;
-		$address 		= request()->address;
-		$city 			= request()->city;
-		$state 			= request()->state;
-		$pincode 		= request()->pincode;
-		$dateOfBirth 	= request()->dateOfBirth;
-		$doh 			= request()->dateOfHiring;
-		$yrOfExp 		= request()->yrOfExp;
-		$proofType 		= request()->proofType;
-		$proofNo 		= request()->proofNo;
-		$expiryDate 	= request()->expiryDate;
 		$password 		= request()->password;
 		$editId 		= request()->editId;
 		$prvlAdd 		= request()->prvlAdd;
 		$prvlView 		= request()->prvlView;
-		$organization 	= request()->organization;
 
 			$checkUser = Usergroup::checkUser($pMobile);
 
@@ -110,37 +104,33 @@ class MembersController extends Controller{
 
 			if($editId == 'null'){		
 
-				if($password == 'null') $password = $pMobile;
-				$user = Usergroup::insertUser($userType, $pMobile, $password, $organization);
-				Usergroup::insertFile('uploads/userData/admin.png', $user);
+				$uid = request()->session()->get('LoggedUsr');
+				$usertype = User::where('id', $uid)->first()->usertype;
+				$adminId = null;
+				if ($usertype == 2){
+					$adminId = $uid;
+				}
 
-			$contact = Contactdetail::insertContact($pMobile, $sMobile);
-			$emailDet = Emailaddress::insertEmail($email);
+				if($password == 'null') $password = $pMobile;
+				$user = Usergroup::insertUser($userType, $pMobile, $password, $adminId);
 
 			$userDetailsAry = [
 				'userid'        =>  $user,
 				'firstname'     =>  $firstName,
 				'lastname'      =>  $lastName,
-				'gender'        =>  $gender,
-				'dob'           =>  date('Y-m-d', strtotime($dateOfBirth)),
-				'years_of_exp'	=>  $yrOfExp,
-				'contact_id' 	=> $contact,
-				'address_id' 	=> $address, 
-				'email_id' 		=> $emailDet, 
-				'date_of_hiring'=> date('Y-m-d', strtotime($doh)),
-				'proof_type' 	=> $proofType,
-				'proof_no'		=> $proofNo,
-				'proof_expiry'  => date('Y-m-d', strtotime($expiryDate)),
+				'primary_mobile' 	=> $pMobile,
+				'secondary_mobile' 	=> $sMobile, 
+				'email' 		=> $email, 
 			];
+
+			if ($sMobile == 'null'){
+				$userDetailsAry = Arr::except($userDetailsAry, ['secondary_mobile']);
+			}
 	
 			$userDetailsId = UserDetails::insertUserDetails($userDetailsAry);
 
-			if($userType == 2){
-				// set custom privilages for Admin
-			} else if ($userType == 5) {
-				Privilege::deletePrivileges($user);
-				$this->ModifyPrivilages($user, $prvlAdd, $prvlView);
-			} else {
+			// Set custom privileges for staff
+			if($userType == 3){
 				Privilege::deletePrivileges($user);
 				$this->ModifyPrivilages($user, $prvlAdd, $prvlView);
 			}
@@ -153,33 +143,15 @@ class MembersController extends Controller{
 				$user = $editId;
 				
 				$userDetails = UserDetails::getUserDetailsByUID($user);
-				
-				$contact = Contactdetail::updateContact($userDetails->contact_id, $pMobile, $sMobile);
-				$emailDet = Emailaddress::updateEmail($userDetails->email_id, $email);
 
 				$userDetailsAry = [
 					'firstname'     =>  $firstName,
 					'lastname'      =>  $lastName,
-					'gender'        =>  $gender,
-					'dob'           =>  date('Y-m-d', strtotime($dateOfBirth)),
-					'years_of_exp'	=>  $yrOfExp,
-					'date_of_hiring'=> date('Y-m-d', strtotime($doh)),
-					'proof_type' 	=> $proofType,
-					'proof_no'		=> $proofNo,
-					'proof_expiry'  => date('Y-m-d', strtotime($expiryDate)),
 				];
 		
 				$userDetailsId = UserDetails::updateUserDetails($user, $userDetailsAry);
 			 	$res['Msg'] 		= 'User Updated Successfully';
 
-			}
-
-			$totalFiles = request()->totalFiles;
-			if($totalFiles != 0) {
-				$ext = request()->files_0->extension();
-				$name = $firstName.'_'.$editId.'.'.$ext;
-				$id_photo = request()->files_0->storeAs('uploads/userData/proofs',$name);
-				UserDetails::updateUserproof($editId, $id_photo);
 			}
         
 	 	$res['Status'] 		= true;
@@ -246,7 +218,6 @@ public function getDashboardProfile (){
     	$data['pageRootTitle'] 		= 'Members';
     	$data['pageSubTitle'] 		= 'Students';
     	$data['pageSubTitleNext']	= '';
-		$data['states'] 			= SharedController::getStates();
 
 	 	$auth = SharedController::checkAuthenticated();
 		
@@ -256,7 +227,7 @@ public function getDashboardProfile (){
             if($auth[1] == ''){
 
                 AuthController::getLogout(1);
-                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[5]. Contact your administrator');
 			}else{
 
                 $urlExist = 'FALSE';

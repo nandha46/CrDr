@@ -41,15 +41,9 @@ class View extends Model{
     }
 
     protected function getUserViewById($userid){
-        $users = DB::table('users')->whereIn('usertype', [1,2,5,6])
-                    ->where('users.id', $userid)
+        $users = DB::table('users')->where('users.id', $userid)
                     ->leftJoin('user_details', 'users.id','=', 'user_details.userid')
-                    ->leftJoin('addresses','user_details.address_id','=','addresses.id')
-                    ->leftJoin('emailaddresses','user_details.email_id','=','emailaddresses.emlId')
-                    ->leftJoin('contactdetails','user_details.contact_id','=','contactdetails.condId')
-                    ->leftJoin('orgdetails','users.userOrgId','=','orgdetails.olSubOrgId')
-                    ->leftJoin('states','addresses.state','=','states.id')
-                    ->select('users.*', 'user_details.*', 'addresses.*', 'emailaddresses.*', 'contactdetails.*', 'orgdetails.*', 'states.*', 'users.status as userstatus')
+                    ->select('users.usertype', 'user_details.firstname', 'user_details.lastname', 'user_details.primary_mobile', 'user_details.secondary_mobile', 'user_details.email', 'users.status as userstatus')
                     ->first();
 
         if ($users) return $users;

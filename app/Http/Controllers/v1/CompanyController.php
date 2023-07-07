@@ -31,9 +31,6 @@ class CompanyController extends Controller
     	$data['pageSubTitle'] 		= 'Companies';
     	$data['pageSubTitleNext']	= '';
 
-		$data['country'] = SharedController::getCountries();
-		$data['states'] = SharedController::getStates();
-
 		$auth = SharedController::checkAuthenticated();
 
 	 	if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
@@ -42,7 +39,7 @@ class CompanyController extends Controller
             if($auth[1] == ''){
 
                 AuthController::getLogout(1);
-                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[1]. Contact your administrator');
 			}else{
 
                 $urlExist = 'FALSE';
@@ -88,7 +85,7 @@ class CompanyController extends Controller
             if($auth[1] == ''){
 
                 AuthController::getLogout(1);
-                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+                return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[3]. Contact your administrator');
 			}else{
 
                 $urlExist = 'FALSE';
@@ -350,8 +347,6 @@ class CompanyController extends Controller
 			$data['pageSubTitle'] 		= 'Select Company';
 			$data['pageSubTitleNext']	= '';
 	
-			$data['country'] = SharedController::getCountries();
-	
 			$auth = SharedController::checkAuthenticated();
 	
 			 if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
@@ -360,7 +355,7 @@ class CompanyController extends Controller
 				if($auth[1] == ''){
 	
 					AuthController::getLogout(1);
-					return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access. Contact your administrator');
+					return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[2]. Contact your administrator');
 				}else{
 	
 					$urlExist = 'FALSE';
@@ -390,6 +385,43 @@ class CompanyController extends Controller
 			$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
 	
 			 return view('v1.company.SelectCompany')->with($data);
+		}
+
+		public function closeCompany () {
+
+			$auth = SharedController::checkAuthenticated();
+	
+			 if(count($auth) == 0) {
+				return redirect()->route('get-login')->with('Msg', 'Please Login');
+			 } else {
+	
+				if($auth[1] == ''){
+	
+					AuthController::getLogout(1);
+					return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[2]. Contact your administrator');
+				}else{
+	
+					$urlExist = 'FALSE';
+					$currentURL = url()->current();
+					$newUrls = [];
+	
+					foreach($auth[2] as $key => $sepUrls){
+	
+						$finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+						$newUrls[] = $key.':'.$finalUrl;
+	
+						if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+					}
+	
+					$encode = implode('&&', $newUrls);
+					if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+				}
+			}
+
+			User::where('id', request()->session()->get('LoggedUsr'))->update(['companyId' => null]);
+
+			return redirect()->route('get-select-company');
+
 		}
 
 }
