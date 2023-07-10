@@ -124,13 +124,22 @@ class SharedController extends Controller{
 
 			if($authUsr->usertyperesult === 'Admin' || $authUsr->usertyperesult === 'Super-Admin') {
 				$menus = Menu::getMenus();
-			} else {
+
+				if($user->companyId === null){
+					$menus = $menus->except([27,52,53,54,55,56]);
+					Debugbar::info('Company not selected');
+				}
+			Debugbar::info('admin');
+		} else {
+				Debugbar::info('staff');
 				$menus = Menu::getPrivilegedMenus($authUsr->id);
 				if($user->companyId === null){
-					$menus->except([27,52,53,54,55,56]);
+					Debugbar::info('Company not selected');
+					$menus = $menus->except([27,52,53,54,55,56]);
 				}
 			}
-			
+
+
 			if(count($menus) == 0){
 				return [$authUsr, '', $urls];
 			}else{

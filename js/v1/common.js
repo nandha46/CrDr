@@ -616,9 +616,9 @@ const editUser = async (userid, getId) => {
     $('#user-type').val(pData.usertype);
     $('#firstname').val(pData.firstname);
     $('#lastname').val(pData.lastname);
-    $('#p-mobile').val(pData.condOfficialNumber);
-    $('#s-mobile').val(pData.condPersonalNumber);
-    $('#email').val(pData.emlOfficialAddress == 'null'? '' : pData.emlOfficialAddress);
+    $('#p-mobile').val(pData.primary_mobile);
+    $('#s-mobile').val(pData.secondary_mobile == 'null'? '' : pData.secondary_mobile);
+    $('#email').val(pData.email == 'null'? '' : pData.email);
     $('#_id').val(pData.userid);
 
     if(pData.usertyperesult != 'SUPER-ADMIN' || pData.usertyperesult != 'ADMIN'){

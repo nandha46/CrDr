@@ -43,7 +43,7 @@ class View extends Model{
     protected function getUserViewById($userid){
         $users = DB::table('users')->where('users.id', $userid)
                     ->leftJoin('user_details', 'users.id','=', 'user_details.userid')
-                    ->select('users.usertype', 'user_details.firstname', 'user_details.lastname', 'user_details.primary_mobile', 'user_details.secondary_mobile', 'user_details.email', 'users.status as userstatus')
+                    ->select('users.id as userid', 'users.usertype', 'user_details.firstname', 'user_details.lastname', 'user_details.primary_mobile', 'user_details.secondary_mobile', 'user_details.email', 'users.status as userstatus')
                     ->first();
 
         if ($users) return $users;

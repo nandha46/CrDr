@@ -30,7 +30,6 @@ class AuthController extends Controller{
         $catchaGenStatus = imagejpeg($image_p ,$captcha, 80);
 
         $data['captcha'] = Storage::url('app/public/captcha.jpg');
-        // $data['captcha'] = $captcha;
         $request->session()->put('secret', $text);
 
         if($auth) return redirect()->route('get-reports-analytics'); 
