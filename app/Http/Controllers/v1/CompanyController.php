@@ -62,7 +62,12 @@ class CompanyController extends Controller
 		$data['menu'] 		= Menu::getMenus();
 
 		$uid = request()->session()->get('LoggedUsr');
-		$data['companies'] 		= Company::where('userid', $uid)->get();
+		$user = User::find($uid);
+		if ($user->usertype == 3){
+			$data['companies'] 		= Company::where('userid', $user->admin_id)->get();
+		} else {
+			$data['companies'] 		= Company::where('userid', $uid)->get();
+		}
 		
 		$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
 
@@ -378,7 +383,12 @@ class CompanyController extends Controller
 			$data['menu'] 		= Menu::getMenus();
 	
 			$uid = request()->session()->get('LoggedUsr');
-			$data['companies'] 		= Company::where('userid', $uid)->get();
+			$user = User::find($uid);
+			if ($user->usertype == 3){
+				$data['companies'] 		= Company::where('userid', $user->admin_id)->groupBy('companyName')->get();
+			} else {
+				$data['companies'] 		= Company::where('userid', $uid)->groupBy('companyName')->get();
+			}
 			
 			$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
 	
@@ -421,5 +431,24 @@ class CompanyController extends Controller
 			return redirect()->route('get-select-company');
 
 		}
+
+	public function loadCompanyYear() {
+
+		$status = false;
+
+		$companyName = request()->companyName;
+
+		$years = Company::where('companyName', $companyName)->select('id', 'CompanyYear')->get();
+		
+		if ($years->count() == 0) {
+			$data['status'] = $status;
+			return response()->json($data);
+		}
+
+		$status = true;
+		$data['years'] = $years;
+		$data['status'] = $status;
+		return response()->json($data);
+	}
 
 }

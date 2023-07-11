@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\v1\Usergroup;
 use App\Models\v1\Appdefault;
 use App\Models\v1\Menu;
+use App\Models\v1\View;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 
@@ -122,20 +123,23 @@ class SharedController extends Controller{
 
 			$mainMenu = $subMenu = $urls = [];
 
-			if($authUsr->usertyperesult === 'Admin' || $authUsr->usertyperesult === 'Super-Admin') {
+			if($authUsr->usertyperesult === 'Super-Admin') {
 				$menus = Menu::getMenus();
-
-				if($user->companyId === null){
-					$menus = $menus->except([27,52,53,54,55,56]);
-					Debugbar::info('Company not selected');
-				}
+				$menus = $menus->except([27,52,53,54,55,56]);
+				Debugbar::info('super-admin');
+		} else if($authUsr->usertyperesult === 'Admin'){
 			Debugbar::info('admin');
+			$menus = Menu::getMenus();
+			if($user->companyId === null){
+				$menus = $menus->except([27,52,53,54,55,56]);
+				Debugbar::info('Company not selected');
+			}
 		} else {
 				Debugbar::info('staff');
 				$menus = Menu::getPrivilegedMenus($authUsr->id);
 				if($user->companyId === null){
 					Debugbar::info('Company not selected');
-					$menus = $menus->except([27,52,53,54,55,56]);
+					$menus = View::getPrivilegedMenusExceptReports($authUsr->id);
 				}
 			}
 

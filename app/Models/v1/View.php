@@ -39,6 +39,11 @@ class View extends Model{
         
         return DB::table('view_privileges')->where('userid', $userId)->get();
     }
+    
+    protected function getPrivilegedMenusExceptReports($userId = ''){
+        
+        return DB::table('view_privileges')->where('userid', $userId)->whereNotIn('id',[27,52,53,54,55,56])->get();
+    }
 
     protected function getUserViewById($userid){
         $users = DB::table('users')->where('users.id', $userid)

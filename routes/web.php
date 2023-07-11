@@ -42,7 +42,10 @@ Route::group(['middleware' => 'web'], function(){
 		Route::post('/select-company', [CompanyController::class, 'postSelectCompany'])->name('post-select-company');
 		Route::get('/close-company', [CompanyController::class, 'closeCompany'])->name('get-close-company');
 		Route::get('/upload-company', [CompanyController::class, 'getUploadPage'])->name('get-upload-company');
-		Route::post('/upload-company', [CompanyController::class, 'postUploadData'])->name('post-company-upload');	
+		Route::post('/upload-company', [CompanyController::class, 'postUploadData'])->name('post-company-upload');
+		
+		// load company year
+		Route::post('/load-company-year', [CompanyController::class, 'loadCompanyYear'])->name('load-company-year');
 			
 		// Programs
 

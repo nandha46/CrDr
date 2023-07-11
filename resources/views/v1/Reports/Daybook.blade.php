@@ -64,12 +64,12 @@
 							<div class=''>
 								<label for='validationCustom05' class='form-label'>From Date</label>
 								<input type='text' class='form-control spl input-only date-input' id='fromDate'
-									min="<?= date('Y-m-d', strtotime('3 month')); ?>" />
+									min="<?= date('Y-m-d', strtotime($fromDate)); ?>" max="{{date('Y-m-d'), strtotime($toDate)}}"/>
 							</div>
 							<div class=''>
 								<label for='validationCustom05' class='form-label'>To Date</label>
 								<input type='text' class='form-control spl input-only date-input' id='toDate'
-									min="<?= date('Y-m-d', strtotime('3 month')); ?>" />
+								min="<?= date('Y-m-d', strtotime($fromDate)); ?>" max="{{date('Y-m-d'), strtotime($toDate)}}" />
 							</div>
 	
 						</div>

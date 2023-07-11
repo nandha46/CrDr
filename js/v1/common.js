@@ -212,7 +212,7 @@ const checkDupliacte = async e => {
         body.append('fname', fname);
        
     try {
-        let request = await fetch(`${baseURL}/check-duplicate`, {
+        let request = await fetch(`${baseURL}check-duplicate`, {
         method : 'POST',
         headers : {
             'X-CSRF-TOKEN' : _token
@@ -355,7 +355,7 @@ const changeStatus = async (type, id, rowId) => {
         body.append('id', id);
         body.append('type', type);
 
-        let request = await fetch(`${baseURL}/status`, {
+        let request = await fetch(`${baseURL}status`, {
             method : 'POST',
             headers : {
                 'X-CSRF-TOKEN': _token
@@ -1487,8 +1487,52 @@ const validateDaybook = () => {
     
 }
 
-const loadCompanyYear = (cname, i) => {
+const loadCompanyYear = async (companyName, i) => {
     $('.list-group-item-action').removeClass('active')
     $('#'+i).addClass('active');
-    alert(cname);
+
+    $('#company-submit-button').addClass('d-none')
+
+    let body = new FormData();
+    body.append('companyName', companyName);
+
+    try {
+        let request = await fetch(`${baseURL}load-company-year`, {
+        method : 'POST',
+        headers : {
+            'X-CSRF-TOKEN' : _token
+        },
+        body
+       });
+       let response = await request.json();
+
+       if (response.status) {
+            let years = response.years;
+            let listTag = $('#years-list');
+            
+            $('.removable').remove();
+
+            years.forEach( year => {
+                let listHtml = `<a href="#" class="list-group-item list-group-item-action removable" data-selected="${year.id}" onclick="selectYear(this)">20${year.CompanyYear}</a>`;
+                listTag.append(listHtml);
+            });
+       } else {
+            alert('No company years found')
+       }
+
+    } catch(err) {
+        console.error(err);
+     }
+}
+
+const selectYear = e => {
+    $('.removable').removeClass('active');
+    $(e).addClass('active');
+    $('#company-submit-button').removeClass('d-none');
+}
+
+const submitCompany = () => {
+   let selectedCompany = $('.removable.active:first').attr('selected');
+
+   console.log(selectedCompany);
 }

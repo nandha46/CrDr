@@ -16,16 +16,19 @@
                 {{-- <div class='col-12'> --}}
                     <div class='mi-card'>
                         <div class='mi-card-body card-pads' style="flex-direction: row">
-                            <div class="list-group col-5">
+                            <div class="list-group col-6">
                                 <a href="#" class="list-group-item"><h4 class="mb-1">Company Name</h4></a>
                                 @foreach($companies as $company)
                                 <a href="#" class="list-group-item list-group-item-action" id="company{{$loop->index}}" onclick="loadCompanyYear('{{$company->companyName}}', 'company{{$loop->index}}');">{{$company->companyName}}</a>
                                 @endforeach
                             </div>
-                            <div class="list-group col-5">
+                            <div class="list-group col-6" id="years-list">
                                 <a href="#" class="list-group-item list-group-item-action"><h4 class="mb-1">Select Year</h4></a>
-                                <a href="#" class="list-group-item list-group-item-action">2019</a>
-                                <a href="#" class="list-group-item list-group-item-action active">2022</a>
+                            </div>
+                        </div>
+                        <div class="mi-card-body card-pads d-none" id="company-submit-button">
+                            <div class="col-12 d-grid" style="justify-content: center">
+                                <button class='mi-btn mi-btn-ternary' type="button" onclick="submitCompany()">Open Company</button>
                             </div>
                         </div>
                     </div>
