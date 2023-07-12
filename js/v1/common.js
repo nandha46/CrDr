@@ -1497,6 +1497,7 @@ const loadCompanyYear = async (companyName, i) => {
     body.append('companyName', companyName);
 
     try {
+        enableLoader();
         let request = await fetch(`${baseURL}load-company-year`, {
         method : 'POST',
         headers : {
@@ -1516,11 +1517,13 @@ const loadCompanyYear = async (companyName, i) => {
                 let listHtml = `<a href="#" class="list-group-item list-group-item-action removable" data-selected="${year.id}" onclick="selectYear(this)">20${year.CompanyYear}</a>`;
                 listTag.append(listHtml);
             });
+            disableLoader();
        } else {
             alert('No company years found')
        }
 
     } catch(err) {
+        alert('Something went wrong please try again')
         console.error(err);
      }
 }
@@ -1531,8 +1534,44 @@ const selectYear = e => {
     $('#company-submit-button').removeClass('d-none');
 }
 
-const submitCompany = () => {
-   let selectedCompany = $('.removable.active:first').attr('selected');
+const submitCompany = async () => {
+   let selectedCompany = $('.removable.active').data('selected');
+
+   let body = new FormData();
+    body.append('companyId', selectedCompany);
+
+    try {
+        enableLoader();
+        let request = await fetch(`${baseURL}select-company`, {
+        method : 'POST',
+        headers : {
+            'X-CSRF-TOKEN' : _token
+        },
+        body
+       });
+       let response = await request.json();
+
+       if (response.status) {
+            disableLoader();
+            location.reload();
+       } else {
+            alert('Something went wrong')
+       }
+
+    } catch(err) {
+        alert('Something went wrong please try again')
+        console.error(err);
+     }
 
    console.log(selectedCompany);
+}
+
+const enableLoader = () => {
+    loaderOpt.removeClass('d-none');
+    loaderMsg.removeClass('d-none');
+}
+
+const disableLoader = () => {
+    loaderOpt.addClass('d-none');
+    loaderMsg.addClass('d-none');
 }

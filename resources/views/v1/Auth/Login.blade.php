@@ -15,7 +15,7 @@
     <!-- Style -->
     <link rel='stylesheet' href='{{asset('./css/style.css')}}'>
 
-    <title>Hope Foundation  - Login</title>
+    <title>CrDr  - Login</title>
   </head>
   <body>
   

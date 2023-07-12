@@ -69,7 +69,7 @@ class CompanyController extends Controller
 			$data['companies'] 		= Company::where('userid', $uid)->get();
 		}
 		
-		$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
+		$data['companySelected'] = $user->companyId;
 
 	 	return view('v1.company.Companies')->with($data);
 	}
@@ -384,6 +384,9 @@ class CompanyController extends Controller
 	
 			$uid = request()->session()->get('LoggedUsr');
 			$user = User::find($uid);
+			if ($user->companyId != null){
+				return redirect('/');
+			}
 			if ($user->usertype == 3){
 				$data['companies'] 		= Company::where('userid', $user->admin_id)->groupBy('companyName')->get();
 			} else {
@@ -393,6 +396,25 @@ class CompanyController extends Controller
 			$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
 	
 			 return view('v1.company.SelectCompany')->with($data);
+		}
+
+		public function postSelectCompany() {
+
+			$status = false;
+	
+			$companyId = request()->companyId;
+			$uid = request()->session()->get('LoggedUsr');
+			
+			$updateStatus = User::where('id',$uid)->update(['companyId' => $companyId]);
+
+			if ($updateStatus == 0) {
+				$data['status'] = $status;
+				return response()->json($data);
+			}
+	
+			$status = true;
+			$data['status'] = $status;
+			return response()->json($data);
 		}
 
 		public function closeCompany () {
