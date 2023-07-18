@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\SharedController;
+use App\Models\User;
 use App\Models\v1\Company;
+use App\Models\v1\Daybook;
 use App\Models\v1\Usergroup;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +63,7 @@ class ReportsController extends Controller{
           return view('v1.Reports.Daybook')->with($data);
      }
      
-     public function getDaybooksReport() {
+     public function postDaybooksReport() {
 
           $data['pageRootTitle'] 		= 'Dashboard';
           $data['pageSubTitle'] 		= 'Daybooks';
@@ -99,10 +101,22 @@ class ReportsController extends Controller{
           $data['authUsr'] = $auth[0];
           $data['html'] = $auth[1];
 
-          $uid = request()->session()->get('LoggedUsr');
-		$data['companySelected'] = Usergroup::getUsergroupById($uid)->companyId;
+          $fromDate = request()->input('fromDate');
+          $toDate = request()->input('toDate');
+          $stockNeeded = request()->input('stockNeeded');
 
-          return view('v1.Reports.Analytics')->with($data);
+          $uid = request()->session()->get('LoggedUsr');
+          $user = User::find($uid);
+
+          $daybooks = Daybook::getDaybookReport($fromDate, $toDate, $user->companyId);
+
+          $data['pageTitle'] = 'Day Book Report '.$fromDate.' to '.$toDate;
+          $data['daybooks'] = $daybooks;
+
+          Debugbar::info($daybooks);
+          Debugbar::info($fromDate, $toDate, $stockNeeded);
+          
+          return view('v1.Reports.DaybookReport')->with($data);
      }
 
 	public function getAnalyticReports(){

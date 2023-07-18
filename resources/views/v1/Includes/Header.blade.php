@@ -2,7 +2,7 @@
 <html lang='en'>
     <head>
         <meta charset='utf-8' />
-        <title>Admin | Dashboard</title>
+        <title>{{isset($pageTitle) ? $pageTitle:"Admin | Dashboard"}}</title>
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
         <meta content='Admin & Dashboard - Powered by SKAT Technologies' name='description' />
         <meta content='' name='author' />

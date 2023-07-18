@@ -102,7 +102,18 @@ $(function() {
         changeYear: true,
     });
 
-    $( "#date-of-birth" ).datepicker( "option", "maxDate", new Date(2019, 3) );
+    // Control date picker range of Daybook
+    if ($('.daybook-date-input').length != 0) {
+        let minDate = $('#fromDate').data('fromdate');
+        let maxDate = $('#fromDate').data('todate');
+        $('.daybook-date-input').datepicker({
+            dateFormat : 'yy-mm-dd',
+            minDate : new Date(minDate),
+            maxDate : new Date(maxDate),
+            changeMonth: true,
+            changeYear: true,
+        });
+    }
 
    $(".chosen-select").chosen({width:"90%",disable_search_threshold: 10,inherit_select_classes:true});
    
@@ -1483,10 +1494,6 @@ const setStockEntries = () => {
     }
 }
 
-const validateDaybook = () => {
-    
-}
-
 const loadCompanyYear = async (companyName, i) => {
     $('.list-group-item-action').removeClass('active')
     $('#'+i).addClass('active');
@@ -1563,7 +1570,6 @@ const submitCompany = async () => {
         console.error(err);
      }
 
-   console.log(selectedCompany);
 }
 
 const enableLoader = () => {
@@ -1574,4 +1580,46 @@ const enableLoader = () => {
 const disableLoader = () => {
     loaderOpt.addClass('d-none');
     loaderMsg.addClass('d-none');
+}
+
+const submitDaybook = async () => {
+
+    let fromDate = new Date($('#fromDate').val());
+    let toDate = new Date($('#toDate').val());
+
+    let difference = toDate - fromDate;
+    if (difference < 0) {
+        showErrorToast('End Date cannot be later than start date.');
+        return false;
+    }
+
+    return true;
+
+//    let body = new FormData();
+//     body.append('fromDate', $('#fromDate').val());
+//     body.append('toDate', $('#toDate').val());
+
+//     try {
+//         enableLoader();
+//         let request = await fetch(`${baseURL}daybook-report`, {
+//         method : 'POST',
+//         headers : {
+//             'X-CSRF-TOKEN' : _token
+//         },
+//         body
+//        });
+//        let response = await request.json();
+
+//        if (response.status) {
+//             disableLoader();
+//             location.reload();
+//        } else {
+//             alert('Something went wrong')
+//        }
+
+//     } catch(err) {
+//         alert('Something went wrong please try again')
+//         console.error(err);
+//      }
+
 }

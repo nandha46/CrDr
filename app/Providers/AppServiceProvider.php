@@ -29,11 +29,15 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-       $companyId = User::find($uid)->companyId;
+        // View::share('companySelected', 1);
 
-        View::share('companySelected', $);
         View::composer('*', function($view){
-            $view->with('companySelected', )
+            $uid = Session::get('LoggedUsr');
+            if ($uid == null){
+                $view->with('companySelected', $uid);
+            } else {
+                $view->with('companySelected', User::find($uid)->companyId);
+            }
         });
 
     }

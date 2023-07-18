@@ -460,7 +460,15 @@ class CompanyController extends Controller
 
 		$companyName = request()->companyName;
 
-		$years = Company::where('companyName', $companyName)->select('id', 'CompanyYear')->get();
+		$user = User::find(request()->session()->get('LoggedUsr'));
+
+		if ($user->usertype == 2) {
+			$admin_id = $user->id;
+		} else {
+			$admin_id = $user->admin_id;
+		}
+
+		$years = Company::where('companyName', $companyName)->where('userid', $admin_id)->select('id', 'CompanyYear')->get();
 		
 		if ($years->count() == 0) {
 			$data['status'] = $status;

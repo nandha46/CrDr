@@ -56,32 +56,29 @@
 			<!-- First Review Start Here -->
 	
 			<div class='row justify-content-center'>
-				<form class='row g-3 needs-validation' method='post' onsubmit='validateDaybook();return false;'>
+				@include('v1.Includes.StatusToast')
+                @include('v1.Includes.UpdateToast')
+				<form class='row g-3 needs-validation' method='post'>
 					@csrf
-					<input type='hidden' class='input-only current-row' id="stockNeeded" value='0'>
+					<input type='hidden' class='input-only current-row' id="stockNeeded" name="stockNeeded" value='0'>
 					<div class="mi-form-area-container">
 						<div class="mi-grid-4-layout">
 							<div class=''>
 								<label for='validationCustom05' class='form-label'>From Date</label>
-								<input type='text' class='form-control spl input-only date-input' id='fromDate'
-									min="<?= date('Y-m-d', strtotime($fromDate)); ?>" max="{{date('Y-m-d'), strtotime($toDate)}}"/>
+								<input type='text' class='form-control spl input-only daybook-date-input' id='fromDate' name='fromDate' data-fromDate="{{date('Y-m-d', strtotime($fromDate));}}" data-toDate="{{date('Y-m-d', strtotime($toDate));}}" />
 							</div>
 							<div class=''>
 								<label for='validationCustom05' class='form-label'>To Date</label>
-								<input type='text' class='form-control spl input-only date-input' id='toDate'
-								min="<?= date('Y-m-d', strtotime($fromDate)); ?>" max="{{date('Y-m-d'), strtotime($toDate)}}" />
+								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' />
 							</div>
 	
 						</div>
 	
-						<div class='mi-btn-holder'>
-	
-						</div>
 						<div class='mi-btn-holder'>
 							<button class="btn btn-lg" id="stockButton" onclick="setStockEntries()">
 								Stock Entries Needed
 							</button>
-							<button class="btn btn-blue btn-lg" type="submit">
+							<button class="btn btn-blue btn-lg" type="submit" onclick="submitDaybook()">
 								Show
 							</button>
 							<button class="btn btn-lg">

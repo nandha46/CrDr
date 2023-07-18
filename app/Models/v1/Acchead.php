@@ -13,5 +13,9 @@ class Acchead extends Model
 
     protected $fillable = [];
 
+    public function daybooks () {
+        return $this->hasMany(Daybook::class, 'acccode', 'id');
+    }
+
     
 }

@@ -46,6 +46,19 @@ Route::group(['middleware' => 'web'], function(){
 		
 		// load company year
 		Route::post('/load-company-year', [CompanyController::class, 'loadCompanyYear'])->name('load-company-year');
+
+		// Reports
+
+		Route::get('/daybook', [ReportsController::class, 'getDaybooks'])->name('get-daybooks');
+		Route::post('/daybook', [ReportsController::class, 'postDaybooksReport'])->name('post-daybooks-report');
+		Route::get('/ledger', [ReportsController::class, 'getLedger'])->name('get-ledger');
+		Route::get('/ledger-report', [ReportsController::class, 'getLedgerReport'])->name('get-ledger-report');
+		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
+		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
+		Route::get('/trading-pnl', [ReportsController::class, 'getTradingPNL'])->name('get-trading-pnl');
+		Route::get('/trading-pnl-report', [ReportsController::class, 'getTradingPNLReport'])->name('get-trading-pnl-report');
+		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
+		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
 			
 		// Programs
 
@@ -65,19 +78,6 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/logout', [AuthController::class, 'getLogout'])->name('get-logout');
 
 		Route::get('/access-denied/{urls?}/{mode?}',  [AuthController::class, 'getAccessDenied'])->name('get-access-denied');
-
-		// Reports
-
-		Route::get('/daybook', [ReportsController::class, 'getDaybooks'])->name('get-daybooks');
-		Route::get('/daybook-report', [ReportsController::class, 'getDaybooksReport'])->name('get-daybooks-report');
-		Route::get('/ledger', [ReportsController::class, 'getLedger'])->name('get-ledger');
-		Route::get('/ledger-report', [ReportsController::class, 'getLedgerReport'])->name('get-ledger-report');
-		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
-		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
-		Route::get('/trading-pnl', [ReportsController::class, 'getTradingPNL'])->name('get-trading-pnl');
-		Route::get('/trading-pnl-report', [ReportsController::class, 'getTradingPNLReport'])->name('get-trading-pnl-report');
-		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
-		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
 
 		Route::get('/reports-analytics', [ReportsController::class, 'getAnalyticReports'])->name('get-reports-analytics');
 		Route::get('/get-student-reports', [ReportsController::class, 'getStudentReports'])->name('get-student-reports');
