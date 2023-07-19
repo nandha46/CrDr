@@ -16,7 +16,8 @@ $(document).ready(function() {
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
         bSort: true,
-        buttons: ['excel'],
+        aaSorting:[],
+        buttons: ['excel','pdf'],
         "drawCallback": function(settings) {
             feather.replace();
         }

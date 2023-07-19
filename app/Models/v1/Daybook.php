@@ -27,7 +27,7 @@ class Daybook extends Model
 
     public function acchead(){
         return $this->belongsTo(Acchead::class, 'acccode', 'accCode')->withDefault([
-            'shortName' => 'Empty'
+            'shortName' => ''
         ]);
     }
 }

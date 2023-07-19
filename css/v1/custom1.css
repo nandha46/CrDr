@@ -241,3 +241,18 @@ color: #fc5356;
 color: #20247b;
 }
 /* Profile css end */
+
+caption {
+    caption-side: top;
+    text-align: center;
+  }
+
+.red-cell{
+    color: #fc5356;
+    font-size: 1.15rem;
+}
+
+.green-cell{
+    font-size: 1.15rem;
+    color: #268601;
+}

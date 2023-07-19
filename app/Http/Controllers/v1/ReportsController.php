@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\SharedController;
 use App\Models\User;
+use App\Models\v1\CloseBl;
 use App\Models\v1\Company;
 use App\Models\v1\Daybook;
 use App\Models\v1\Usergroup;
@@ -109,12 +110,58 @@ class ReportsController extends Controller{
           $user = User::find($uid);
 
           $daybooks = Daybook::getDaybookReport($fromDate, $toDate, $user->companyId);
+          
+          // Adding opening balance
+          $startdate = date_create($fromDate);          
+          $openDate = date_add($startdate, date_interval_create_from_date_string('-1 day'));
+          $openBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $openDate)->first();
+
+          $openDaybook = new Daybook;
+          $openDaybook->tDate = $fromDate;
+          $openDaybook->narration = 'Opening Balance';
+          if ($openBal->closeBal > 0) {
+               $openDaybook->drAmt = 0.00;
+               $openDaybook->crAmt = $openBal->closeBal;
+          } else {
+               $openDaybook->drAmt = $openBal->closeBal;
+               $openDaybook->crAmt = 0.00;
+          }
+          $daybooks->prepend($openDaybook);
+
+          // Addding closing balance
+
+          $endDate = date_create($toDate);          
+          $closeDate = date_add($endDate, date_interval_create_from_date_string('1 day'));
+          $closeBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $closeDate)->first();
+
+          $closeDaybook = new Daybook;
+          $closeDaybook->tDate = $toDate;
+          $closeDaybook->narration = 'Closing Balance';
+          
+          if ($closeBal->closeBal > 0) {
+               $closeDaybook->drAmt = 0.00;
+               $closeDaybook->crAmt = $closeBal->closeBal;
+          } else {
+               $closeDaybook->drAmt = $closeBal->closeBal;
+               $closeDaybook->crAmt = 0.00;
+          }
+          $daybooks->push($closeDaybook);
+
+          $closeBalDays = CloseBl::where('companyId', $user->companyId)->whereBetween('cDate', [$fromDate, $toDate])->get();
+
+          $close = CloseBl::getDaybookCloseBalUnion($fromDate, $toDate, $user->companyId);
+          $close->prepend($openDaybook);
+          $close->push($closeDaybook);
 
           $data['pageTitle'] = 'Day Book Report '.$fromDate.' to '.$toDate;
-          $data['daybooks'] = $daybooks;
+          // $data['daybooks'] = $daybooks;
+          $data['daybooks'] = $close;
+          $data['fromDate'] = $fromDate;
+          $data['toDate'] = $toDate;
 
-          Debugbar::info($daybooks);
-          Debugbar::info($fromDate, $toDate, $stockNeeded);
+          // dd($close->first());
+
+          Debugbar::info($close);
           
           return view('v1.Reports.DaybookReport')->with($data);
      }
