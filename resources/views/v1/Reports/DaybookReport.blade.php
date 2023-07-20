@@ -36,13 +36,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($daybooks as $daybook)
-                                        @if($loop->first)
+                                @foreach($daybooks as $daybook)
+                                {{-- Opening Balance --}}
+                                    @if($loop->first)
                                         <tr id = 'row-{{$loop->index}}'>
-                                            <td>{{$daybook->tDate}} </td>
+                                            <td>{{$daybook->tDate}}</td>
                                             <td>Opening Balance</td>
-                                            <td>{{$daybook->drAmt}}</td>                
-                                            <td>{{$daybook->crAmt}}</td>
+                                            <td>{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
+                                            <td>{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
                                         </tr>
                                         <tr id = 'row-{{$loop->index}}a'>
                                             <td class="red-cell">{{$daybook->tDate}} </td>
@@ -50,37 +51,45 @@
                                             <td></td>                
                                             <td></td>
                                         </tr>
-                                        @endif
-                                        @if($loop->first && $loop->last && $daybook->sno == null)
+                                    {{-- Closing Balance --}}
+                                    @elseif($loop->last)
                                         <tr id = 'row-{{$loop->index}}'>
                                             <td>{{$daybook->tDate}} </td>
-                                            <td> </td>
-                                            <td>{{$daybook->drAmt}}</td>                
-                                            <td>{{$daybook->crAmt}}</td>
+                                            <td>Closing Balance</td>
+                                            <td>{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
+                                            <td>{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
+                                        </tr>
+
+                                    {{-- Daily entries --}}
+                                    @elseif($daybook->sno != null)
+                                        <tr id ='row-{{$loop->index}}'>
+                                            <td>{{$daybook->shortName}} </td>
+                                            <td>{{$daybook->narration}} </td>
+                                            <td>{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
+                                            <td>{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
+                                        </tr>
+                                    @else
+                                    {{-- Daily closing balance --}}
+                                        <tr id ='row-{{$loop->index}}'>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="green-cell">{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
+                                            <td class="green-cell">{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
                                         </tr>
                                         <tr id = 'row-{{$loop->index}}a'>
                                             <td></td>
                                             <td></td>
+                                            @if($daybook->closeBal > 0)
+                                            <td></td>
                                             <td class="red-cell">{{$daybook->closeBal}}</td>                
-                                            <td class="red-cell">{{$daybook->crAmt}}</td>
+                                            @else
+                                            <td class="red-cell">{{$daybook->closeBal}}</td>                
+                                            <td></td>
+                                            @endif
                                         </tr>
-                                        @else
-                                        <tr id = 'row-{{$loop->index}}'>
-                                            <td>{{$daybook->shortName}} </td>
-                                            <td>{{$daybook->narration}} </td>
-                                            <td class="green-cell">{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
-                                            <td class="green-cell">{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
-                                        </tr>
-                                        @endif
-                                        @if($loop->last)
-                                        <tr id = 'row-{{$loop->index}}'>
-                                            <td>{{$daybook->tDate}} </td>
-                                            <td>Closing Balance</td>
-                                            <td>{{$daybook->drAmt}}</td>                
-                                            <td>{{$daybook->crAmt}}</td>
-                                        </tr>
-                                        @endif 
-                                    @endforeach
+                                    @endif
+                                        
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

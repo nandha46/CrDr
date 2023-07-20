@@ -18,7 +18,9 @@ class CloseBl extends Model
                         ->leftJoin('acchead', 'daybooks.acccode', 'acchead.accCode')
                         ->select('daybooks.sno', 'daybooks.tDate', 'daybooks.narration', 'daybooks.crAmt', 'daybooks.drAmt', 'daybooks.stkValue','acchead.shortName', DB::raw('null as closeBal'));
 
-        $closeBals = Closebl::where('companyId', $companyId)->whereBetween('cDate', [$fromDate, $toDate])
+        $maxDateCloseBal = Daybook::where('companyId', $companyId)->max('tDate');
+        
+        $closeBals = Closebl::where('companyId', $companyId)->whereBetween('cDate', [$fromDate, $maxDateCloseBal])
                         ->select(DB::raw('null as sno'), 'closeBl.cDate as tDate', DB::raw('null as narration'), 'closeBl.crTot as crAmt', 'closeBl.drTot as drAmt', DB::raw('null as stkValue'), DB::raw('null as shortName'), 'closeBal')
                         ->union($daybooks)
                         ->orderBy('tDate')->orderBy('sno')

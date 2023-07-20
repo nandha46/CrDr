@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\SharedController;
 use App\Models\User;
+use App\Models\v1\Acchead;
 use App\Models\v1\CloseBl;
 use App\Models\v1\Company;
 use App\Models\v1\Daybook;
@@ -109,8 +110,6 @@ class ReportsController extends Controller{
           $uid = request()->session()->get('LoggedUsr');
           $user = User::find($uid);
 
-          $daybooks = Daybook::getDaybookReport($fromDate, $toDate, $user->companyId);
-          
           // Adding opening balance
           $startdate = date_create($fromDate);          
           $openDate = date_add($startdate, date_interval_create_from_date_string('-1 day'));
@@ -126,13 +125,10 @@ class ReportsController extends Controller{
                $openDaybook->drAmt = $openBal->closeBal;
                $openDaybook->crAmt = 0.00;
           }
-          $daybooks->prepend($openDaybook);
-
           // Addding closing balance
 
           $endDate = date_create($toDate);          
-          $closeDate = date_add($endDate, date_interval_create_from_date_string('1 day'));
-          $closeBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $closeDate)->first();
+          $closeBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $endDate)->first();
 
           $closeDaybook = new Daybook;
           $closeDaybook->tDate = $toDate;
@@ -145,8 +141,6 @@ class ReportsController extends Controller{
                $closeDaybook->drAmt = $closeBal->closeBal;
                $closeDaybook->crAmt = 0.00;
           }
-          $daybooks->push($closeDaybook);
-
           $closeBalDays = CloseBl::where('companyId', $user->companyId)->whereBetween('cDate', [$fromDate, $toDate])->get();
 
           $close = CloseBl::getDaybookCloseBalUnion($fromDate, $toDate, $user->companyId);
@@ -154,16 +148,73 @@ class ReportsController extends Controller{
           $close->push($closeDaybook);
 
           $data['pageTitle'] = 'Day Book Report '.$fromDate.' to '.$toDate;
-          // $data['daybooks'] = $daybooks;
           $data['daybooks'] = $close;
           $data['fromDate'] = $fromDate;
           $data['toDate'] = $toDate;
 
-          // dd($close->first());
+          // $number = 150000.35;
+          // if(floor($number) == $number) {
+          //      $append='.00';
+          //  }else if($number){
+          //      $append='0';
+          //  }
+          //  $number = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $number);
+          // dd( $number.$append);
 
           Debugbar::info($close);
           
           return view('v1.Reports.DaybookReport')->with($data);
+     }
+
+     public function getLedger() {
+
+          $data['pageRootTitle'] 		= 'Dashboard';
+          $data['pageSubTitle'] 		= 'Ledger';
+          $data['pageSubTitleNext']	= '';
+  
+          $auth = SharedController::checkAuthenticated();
+          
+          if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+          else{
+  
+                 if($auth[1] == ''){
+  
+                      AuthController::getLogout(1);
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[10]. Contact your administrator');
+                 }else{
+  
+                      $urlExist = 'FALSE';
+                      $currentURL = url()->current();
+                      $newUrls = [];
+  
+                      foreach($auth[2] as $key => $sepUrls){
+  
+                           $finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+                              $newUrls[] = $key.':'.$finalUrl;
+  
+                              if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+                      }
+  
+                      $encode = implode('&&', $newUrls);
+  
+                      if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+                 }
+          }
+         
+          $data['authUsr'] = $auth[0];
+          $data['html'] = $auth[1];
+
+          $uid = request()->session()->get('LoggedUsr');
+          $user = Usergroup::getUsergroupById($uid);
+          $companyId = $user->companyId;
+		$data['companySelected'] = $companyId;
+
+          $company = Company::find($companyId);
+          $data['accheads'] = Acchead::getAccHeades($companyId);
+          $data['fromDate'] = $company->fromDate;
+          $data['toDate'] = $company->toDate;
+
+          return view('v1.Reports.Ledger')->with($data);
      }
 
 	public function getAnalyticReports(){

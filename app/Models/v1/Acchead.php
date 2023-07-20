@@ -17,5 +17,11 @@ class Acchead extends Model
         return $this->hasMany(Daybook::class, 'acccode', 'id');
     }
 
+    protected function getAccHeades($cid){
+        $accheads = Acchead::where('companyId', $cid)->orderBy('sno')->get();
+
+        return $accheads;
+    }
+
     
 }
