@@ -256,3 +256,39 @@ caption {
     font-size: 1.15rem;
     color: #268601;
 }
+
+/* account selection table */
+
+.table-fixed {
+    width: 100%;
+}
+.table-fixed tbody {
+    height: 500px;
+    overflow-y: auto;
+    width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    display: block;
+}
+.table-fixed tbody td {
+    float: left;
+    width: 50%;
+}
+.table-fixed thead tr th {
+    float: left;
+    width: 50%;
+}
+
+.disable-div {
+    pointer-events: none;
+    opacity: 0.45;
+}
+
+.padding1 {
+    padding-left: 0.8rem !important;
+}
+
+.padding2 {
+    padding-left: 1.4rem !important;
+}
+

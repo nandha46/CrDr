@@ -1595,31 +1595,14 @@ const submitDaybook = async () => {
 
     return true;
 
-//    let body = new FormData();
-//     body.append('fromDate', $('#fromDate').val());
-//     body.append('toDate', $('#toDate').val());
+}
 
-//     try {
-//         enableLoader();
-//         let request = await fetch(`${baseURL}daybook-report`, {
-//         method : 'POST',
-//         headers : {
-//             'X-CSRF-TOKEN' : _token
-//         },
-//         body
-//        });
-//        let response = await request.json();
+const changeReportOrder = e => {
+   let val = $(e).val();
 
-//        if (response.status) {
-//             disableLoader();
-//             location.reload();
-//        } else {
-//             alert('Something went wrong')
-//        }
-
-//     } catch(err) {
-//         alert('Something went wrong please try again')
-//         console.error(err);
-//      }
-
+   if (val == 2){
+        $('#account-select').removeClass('disable-div');
+    } else {
+       $('#account-select').addClass('disable-div');
+   }
 }

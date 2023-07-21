@@ -63,8 +63,7 @@
 					<input type='hidden' class='input-only current-row' id="stockNeeded" name="stockNeeded" value='0'>
 					<div class="mi-form-area-container">
 						<div class="mi-grid-4-layout">
-							<div class=''>
-								<table class='table-datatable table table-striped table-bordered dt-responsive nowrap scroll' style='border-collapse: collapse; border-spacing: 0; width: 100%;'>
+								<table id="account-select" class='disable-div table-fixed table-datatable table table-striped table-bordered dt-responsive nowrap scroll' style='border-collapse: collapse; border-spacing: 0; width: 100%;'>
 									<thead>
 										<tr>
 											<th>No</th>
@@ -75,17 +74,16 @@
 										@foreach($accheads as $acchead)
 										<tr id = 'row-{{$loop->index}}'>
 											<td>{{$acchead->sno}}</td>
-											<td>{{$acchead->accName}}</td>
+											<td @class(['red-cell' => $acchead->accCode == 0, 'padding1' => $acchead->level1 == 2, 'padding2' => $acchead->level1 == 3,])>{{$acchead->accName}}</td>
 										</tr>
 										@endforeach
 									</tbody>
 								</table>
-							</div>
 							<div class=''>
 								<label for='validationCustom04' class='form-label required'>Report Order</label>
-                                        <select class='form-select spl' id='user-type' onchange = 'return changeUserType()'>
-                                            <option value='2'>All</option>
-                                            <option value='3'>Selected</option>
+                                        <select class='form-select spl' id='user-type' onchange = 'return changeReportOrder(this)'>
+                                            <option value='1'>All</option>
+                                            <option value='2'>Selected</option>
                                         </select>
 								<label for='validationCustom05' class='form-label'>From Date</label>
 								<input type='text' class='form-control spl input-only daybook-date-input' id='fromDate' name='fromDate' data-fromDate="{{date('Y-m-d', strtotime($fromDate));}}" data-toDate="{{date('Y-m-d', strtotime($toDate));}}" />
@@ -114,6 +112,7 @@
 							<button class="btn btn-lg">
 								Cancel
 							</button>
+						</div>
 						</div>
 				</form>
 			</div>
