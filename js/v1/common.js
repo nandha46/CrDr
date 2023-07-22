@@ -169,6 +169,10 @@ $(function() {
         if (hasClass) hideShowFormEditState(false, false);
     });
 
+    $('.hoverable > tr').on('click', function(){
+        console.log($(this).data('ids'));
+    });
+
 });
 
 const hideShowFormEditState = (isHide, changeText) => {

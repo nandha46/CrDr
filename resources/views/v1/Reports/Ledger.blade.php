@@ -70,9 +70,9 @@
 											<th>Account Name</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody class="hoverable" style="border-color: transparent">
 										@foreach($accheads as $acchead)
-										<tr id = 'row-{{$loop->index}}'>
+										<tr id = 'row-{{$loop->index}}' data-ids="{{$acchead->id}}">
 											<td>{{$acchead->sno}}</td>
 											<td @class(['red-cell' => $acchead->accCode == 0, 'padding1' => $acchead->level1 == 2, 'padding2' => $acchead->level1 == 3,])>{{$acchead->accName}}</td>
 										</tr>

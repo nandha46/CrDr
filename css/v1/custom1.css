@@ -270,13 +270,25 @@ caption {
 .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
     display: block;
 }
-.table-fixed tbody td {
+.table-fixed tbody td:first-child {
     float: left;
-    width: 50%;
+    width: 20%;
 }
-.table-fixed thead tr th {
+.table-fixed tbody td:not(first-child) {
+    float: left;
+    width: 80%;
+}
+/* .table-fixed thead tr th {
     float: left;
     width: 50%;
+} */
+.table-fixed thead tr th:first-child {
+    float: left;
+    width: 20%;
+}
+.table-fixed thead tr th:not(:first-child) {
+    float: left;
+    width: 80%;
 }
 
 .disable-div {

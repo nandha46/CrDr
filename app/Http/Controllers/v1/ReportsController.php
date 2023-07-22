@@ -152,14 +152,14 @@ class ReportsController extends Controller{
           $data['fromDate'] = $fromDate;
           $data['toDate'] = $toDate;
 
-          // $number = 150000.35;
-          // if(floor($number) == $number) {
-          //      $append='.00';
-          //  }else if($number){
-          //      $append='0';
-          //  }
-          //  $number = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $number);
-          // dd( $number.$append);
+          $number = 150000.30;
+          if(floor($number) == $number) {
+               $append='.00';
+           }else if($number){
+               $append='';
+           }
+           $number = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $number);
+          dd( $number.$append);
 
           Debugbar::info($close);
           
