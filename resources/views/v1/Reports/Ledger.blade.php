@@ -5,7 +5,7 @@
 	@include('v1.Includes.TopMenu')
 
 	<style>
-	.btn {
+	.btn2 {
 		padding: 4px 12px;
 		min-width: 88px;
 		border: none;
@@ -19,30 +19,30 @@
 		background: #fff;
 		box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.30), 0px 1px 1px rgba(0, 0, 0, .4);
 		}
-		.btn:active {
+		.btn2:active {
 		background: linear-gradient(#4faefc, #006bff);
 		color: #fff;
 		position: relative;
 		}
-		.btn.btn-blue {
+		.btn2.btn-blue {
 		color: #fff;
 		background: linear-gradient(#81c5fd, #3389ff);
 		}
-		.btn.btn-blue:active {
+		.btn2.btn-blue:active {
 		background: linear-gradient(#4faefc, #006bff);
 		}
-		.btn.btn-green {
+		.btn2.btn-green {
 		color: #fff;
 		background: linear-gradient(#89e36b, #44ae21);
 		}
-		.btn.btn-green:active {
+		.btn2.btn-green:active {
 		background: linear-gradient(#56d72b, #338319);
 		}
-		.btn.btn-lg {
+		.btn2.btn-lg {
 		font-size: 1.2em;
 		padding: 12px 24px;
 		}
-		.btn.btn-block {
+		.btn2.btn-block {
 		display: block;
 		width: 100%;
 		}
@@ -72,7 +72,7 @@
 									</thead>
 									<tbody class="hoverable" style="border-color: transparent">
 										@foreach($accheads as $acchead)
-										<tr id = 'row-{{$loop->index}}' data-ids="{{$acchead->id}}">
+										<tr id = 'row-{{$loop->index}}' data-ids="{{$acchead->id}}" data-acclevel="{{$acchead->level1}}" data-acccode="{{$acchead->accCode}}">
 											<td>{{$acchead->sno}}</td>
 											<td @class(['red-cell' => $acchead->accCode == 0, 'padding1' => $acchead->level1 == 2, 'padding2' => $acchead->level1 == 3,])>{{$acchead->accName}}</td>
 										</tr>
@@ -81,7 +81,7 @@
 								</table>
 							<div class=''>
 								<label for='validationCustom04' class='form-label required'>Report Order</label>
-                                        <select class='form-select spl' id='user-type' onchange = 'return changeReportOrder(this)'>
+                                        <select class='form-select spl' id='report-order' onchange = 'return changeReportOrder(this)'>
                                             <option value='1'>All</option>
                                             <option value='2'>Selected</option>
                                         </select>
@@ -90,26 +90,29 @@
 								<label for='validationCustom05' class='form-label'>To Date</label>
 								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' />
 								<label for='validationCustom04' class='form-label required'>Transacted Accounts Only</label>
-								<select class='form-select spl' id='user-type' onchange = 'return changeUserType()'>
-									<option value='2'>Yes</option>
-									<option value='3'>No</option>
+								<select class='form-select spl' id='transacted-only'>
+									<option value='1'>Yes</option>
+									<option value='0'>No</option>
 								</select>
 								<label for='validationCustom04' class='form-label required'>Monthly Cut-Off</label>
-                                        <select class='form-select spl' id='user-type' onchange = 'return changeUserType()'>
-                                            <option value='2'>Don't Include</option>
-                                            <option value='3'>Include</option>
+                                        <select class='form-select spl' id='monthly-cutoff'>
+                                            <option value='0'>Don't Include</option>
+                                            <option value='1'>Include</option>
                                         </select>
-								<input type='checkbox' class='' id='isStockNeeded' value='' />
-								<label for='isStockNeeded' class='form-label'>Stock Entries Needed</label>
+								<div style="padding: 0.65rem 2rem 0.65rem 0.75rem">
+									<label for='isStockNeeded' class='form-label' style="padding-right: 2rem">Stock Entries Needed</label>
+									<input type='checkbox' id='isStockNeeded' data-toggle="toggle" data-on="Yes" data-off="No" />
+								</div>
+
 							</div>
 	
 						</div>
 	
 						<div class='mi-btn-holder'>
-							<button class="btn btn-blue btn-lg" type="submit" onclick="submitDaybook()">
+							<button class="btn2 btn-blue btn-lg" type="submit" onclick="submitLedger(); return false;">
 								Show
 							</button>
-							<button class="btn btn-lg">
+							<button class="btn2 btn-lg">
 								Cancel
 							</button>
 						</div>

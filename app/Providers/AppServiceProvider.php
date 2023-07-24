@@ -31,8 +31,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        // View::share('companySelected', 1);
-
         View::composer('*', function($view){
             $uid = Session::get('LoggedUsr');
             if ($uid == null){

@@ -43,6 +43,10 @@
         <link rel='stylesheet' href='{{asset('./css/v1/updated-design/ui5.css')}}'>
         <link rel='stylesheet' href='{{asset('./css/v1/updated-design/ui6.css')}}'>
 
+        {{-- Bootstrap 5 toggle --}}
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/css/bootstrap5-toggle.min.css" rel="stylesheet">
+
+
         <link rel='stylesheet' href='{{asset('./css/v1/seating/seat.css')}}'>
         
         <link rel='stylesheet' href='{{asset('./css/v1/css-updated/interface.css')}}'>

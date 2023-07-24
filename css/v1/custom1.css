@@ -248,8 +248,8 @@ caption {
   }
 
 .red-cell{
-    color: #fc5356;
-    font-size: 1.15rem;
+    color: #fc5356 !important;
+    /* font-size: 1.15rem; */
 }
 
 .green-cell{
@@ -272,11 +272,11 @@ caption {
 }
 .table-fixed tbody td:first-child {
     float: left;
-    width: 20%;
+    width: 10%;
 }
 .table-fixed tbody td:not(first-child) {
     float: left;
-    width: 80%;
+    width: 90%;
 }
 /* .table-fixed thead tr th {
     float: left;
@@ -284,11 +284,11 @@ caption {
 } */
 .table-fixed thead tr th:first-child {
     float: left;
-    width: 20%;
+    width: 10%;
 }
 .table-fixed thead tr th:not(:first-child) {
     float: left;
-    width: 80%;
+    width: 90%;
 }
 
 .disable-div {
@@ -304,3 +304,14 @@ caption {
     padding-left: 1.4rem !important;
 }
 
+.hoverable tr:hover td {
+    background-color: grey;
+    color: #f7f7f7;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+tr.selected td {
+    background-color: grey;
+    color: #f7f7f7;
+}

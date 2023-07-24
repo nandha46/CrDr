@@ -170,7 +170,24 @@ $(function() {
     });
 
     $('.hoverable > tr').on('click', function(){
-        console.log($(this).data('ids'));
+        let element = $(this);
+        let acclevel = element.data('acclevel');
+        let accCode = element.data('acccode');
+        if (element.hasClass('selected')){
+            if(acclevel == 2 && accCode == 0){
+                element.nextUntil("[data-acclevel='1']").removeClass('selected');
+            } else if (acclevel == 1){
+                element.nextUntil("[data-acclevel='1']").removeClass('selected');
+            }
+            element.removeClass('selected');
+        } else {
+            if(acclevel == 2 && accCode == 0){
+                element.nextUntil("[data-acclevel='1']").addClass('selected');
+            } else if (acclevel == 1){
+                element.nextUntil("[data-acclevel='1']").addClass('selected');
+            }
+            element.addClass('selected');
+        }
     });
 
 });
@@ -1586,7 +1603,7 @@ const disableLoader = () => {
     loaderMsg.addClass('d-none');
 }
 
-const submitDaybook = async () => {
+const submitDaybook = () => {
 
     let fromDate = new Date($('#fromDate').val());
     let toDate = new Date($('#toDate').val());
@@ -1609,4 +1626,31 @@ const changeReportOrder = e => {
     } else {
        $('#account-select').addClass('disable-div');
    }
+}
+
+const submitLedger = async () => {
+
+    let reportOrder = $('#report-order').val();
+    let fromDate = new Date($('#fromDate').val());
+    let toDate = new Date($('#toDate').val());
+    let cutoff = $('#monthly-cutoff').val(); 
+    let transactedOnly = $('#transacted-only').val(); 
+    let isStockNeeded = $('#isStockNeeded').val(); 
+
+    let difference = toDate - fromDate;
+    if (difference < 0) {
+        showErrorToast('End Date cannot be later than start date.');
+        return false;
+    }
+
+    console.log(reportOrder)
+    console.log(fromDate)
+    console.log(toDate)
+    console.log(cutoff)
+    console.log(transactedOnly)
+    console.log(typeof(isStockNeeded))
+    console.log(isStockNeeded)
+
+    return false;
+
 }

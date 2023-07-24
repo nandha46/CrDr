@@ -57,6 +57,9 @@
     <script src='{{asset('js/v1/common.js?'.rand())}}'></script>
     <script src='{{asset('js/v1/modules/reports.js?'.rand())}}'></script>
 
+    {{-- Bootstrap 5 toggle --}}
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js"> </script>
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     {{-- Calendar Timetable --}}
