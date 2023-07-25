@@ -61,6 +61,7 @@
 				<form class='row g-3 needs-validation' method='post'>
 					@csrf
 					<input type='hidden' class='input-only current-row' id="stockNeeded" name="stockNeeded" value='0'>
+					<input type="hidden" class='input-only current-row' id="accheads" name="accheads" value="[]">
 					<div class="mi-form-area-container">
 						<div class="mi-grid-4-layout">
 								<table id="account-select" class='disable-div table-fixed table-datatable table table-striped table-bordered dt-responsive nowrap scroll' style='border-collapse: collapse; border-spacing: 0; width: 100%;'>
@@ -81,7 +82,7 @@
 								</table>
 							<div class=''>
 								<label for='validationCustom04' class='form-label required'>Report Order</label>
-                                        <select class='form-select spl' id='report-order' onchange = 'return changeReportOrder(this)'>
+                                        <select class='form-select spl' id='report-order' name="reportOrder" onchange = 'return changeReportOrder(this)'>
                                             <option value='1'>All</option>
                                             <option value='2'>Selected</option>
                                         </select>
@@ -90,20 +91,19 @@
 								<label for='validationCustom05' class='form-label'>To Date</label>
 								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' />
 								<label for='validationCustom04' class='form-label required'>Transacted Accounts Only</label>
-								<select class='form-select spl' id='transacted-only'>
+								<select class='form-select spl' id='transacted-only' name="transactedOnly">
 									<option value='1'>Yes</option>
 									<option value='0'>No</option>
 								</select>
 								<label for='validationCustom04' class='form-label required'>Monthly Cut-Off</label>
-                                        <select class='form-select spl' id='monthly-cutoff'>
+                                        <select class='form-select spl' id='monthly-cutoff' name="cutoff">
                                             <option value='0'>Don't Include</option>
                                             <option value='1'>Include</option>
                                         </select>
 								<div style="padding: 0.65rem 2rem 0.65rem 0.75rem">
 									<label for='isStockNeeded' class='form-label' style="padding-right: 2rem">Stock Entries Needed</label>
-									<input type='checkbox' id='isStockNeeded' data-toggle="toggle" data-on="Yes" data-off="No" />
+								<input type='checkbox' id='isStockNeeded' data-toggle="toggle" data-onlabel="Yes" data-offlabel="No"/>
 								</div>
-
 							</div>
 	
 						</div>

@@ -751,7 +751,7 @@ const filesValidate = () => {
     return true;
 }
 
-const AddUpdateEvents = async () => {
+const addUpdateEvents = async () => {
 
     loaderOpt.addClass('d-none');
     loaderMsg.addClass('d-none');
@@ -1006,7 +1006,7 @@ const editEvent = async(eventId, getId) => {
     hideShowFormEditState(false, true);
 }
 
-const AddUpdateBlogs = async () => {
+const addUpdateBlogs = async () => {
 
     loaderOpt.addClass('d-none');
     loaderMsg.addClass('d-none');
@@ -1176,7 +1176,7 @@ const editBlog = async (blogId, getId) => {
     hideShowFormEditState(false, true);
 } 
 
-const AddUpdateAnnouncements = async () => {
+const addUpdateAnnouncements = async () => {
 
     loaderOpt.addClass('d-none');
     loaderMsg.addClass('d-none');
@@ -1334,7 +1334,7 @@ const editAnnouncement = async (announcementId, getId) => {
     hideShowFormEditState(false, true);
 } 
 
-const AddUpdatePressReleases = async () => {
+const addUpdatePressReleases = async () => {
 
     loaderOpt.addClass('d-none');
     loaderMsg.addClass('d-none');
@@ -1643,14 +1643,8 @@ const submitLedger = async () => {
         return false;
     }
 
-    console.log(reportOrder)
-    console.log(fromDate)
-    console.log(toDate)
-    console.log(cutoff)
-    console.log(transactedOnly)
-    console.log(typeof(isStockNeeded))
-    console.log(isStockNeeded)
 
-    return false;
+
+    return true;
 
 }

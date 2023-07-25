@@ -217,6 +217,111 @@ class ReportsController extends Controller{
           return view('v1.Reports.Ledger')->with($data);
      }
 
+     public function postLedgerReport() {
+
+          $data['pageRootTitle'] 		= 'Dashboard';
+          $data['pageSubTitle'] 		= 'Ledger';
+          $data['pageSubTitleNext']	= '';
+  
+          $auth = SharedController::checkAuthenticated();
+          
+          if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+          else{
+  
+                 if($auth[1] == ''){
+  
+                      AuthController::getLogout(1);
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[11]. Contact your administrator');
+                 }else{
+  
+                      $urlExist = 'FALSE';
+                      $currentURL = url()->current();
+                      $newUrls = [];
+  
+                      foreach($auth[2] as $key => $sepUrls){
+  
+                           $finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+                              $newUrls[] = $key.':'.$finalUrl;
+  
+                              if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+                      }
+  
+                      $encode = implode('&&', $newUrls);
+  
+                      if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+                 }
+          }
+         
+          $data['authUsr'] = $auth[0];
+          $data['html'] = $auth[1];
+
+          $accheads = request()->input('accheads');
+          $reportOrder = request()->input('reportOrder');
+          $fromDate = request()->input('fromDate');
+          $toDate = request()->input('toDate');
+          $cutoff = request()->input('cutoff');
+          $transactedOnly = request()->input('transactedOnly');
+          $stockNeeded = request()->input('stockNeeded');
+
+          $uid = request()->session()->get('LoggedUsr');
+          $user = User::find($uid);
+
+          // Adding opening balance
+          $startdate = date_create($fromDate);          
+          $openDate = date_add($startdate, date_interval_create_from_date_string('-1 day'));
+          $openBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $openDate)->first();
+
+          $openDaybook = new Daybook;
+          $openDaybook->tDate = $fromDate;
+          $openDaybook->narration = 'Opening Balance';
+          if ($openBal->closeBal > 0) {
+               $openDaybook->drAmt = 0.00;
+               $openDaybook->crAmt = $openBal->closeBal;
+          } else {
+               $openDaybook->drAmt = $openBal->closeBal;
+               $openDaybook->crAmt = 0.00;
+          }
+          // Addding closing balance
+
+          $endDate = date_create($toDate);          
+          $closeBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $endDate)->first();
+
+          $closeDaybook = new Daybook;
+          $closeDaybook->tDate = $toDate;
+          $closeDaybook->narration = 'Closing Balance';
+          
+          if ($closeBal->closeBal > 0) {
+               $closeDaybook->drAmt = 0.00;
+               $closeDaybook->crAmt = $closeBal->closeBal;
+          } else {
+               $closeDaybook->drAmt = $closeBal->closeBal;
+               $closeDaybook->crAmt = 0.00;
+          }
+          $closeBalDays = CloseBl::where('companyId', $user->companyId)->whereBetween('cDate', [$fromDate, $toDate])->get();
+
+          $close = CloseBl::getDaybookCloseBalUnion($fromDate, $toDate, $user->companyId);
+          $close->prepend($openDaybook);
+          $close->push($closeDaybook);
+
+          $data['pageTitle'] = 'Day Book Report '.$fromDate.' to '.$toDate;
+          $data['daybooks'] = $close;
+          $data['fromDate'] = $fromDate;
+          $data['toDate'] = $toDate;
+
+          $number = 150000.30;
+          if(floor($number) == $number) {
+               $append='.00';
+           }else if($number){
+               $append='';
+           }
+           $number = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $number);
+          dd( $number.$append);
+
+          Debugbar::info($close);
+          
+          return view('v1.Reports.DaybookReport')->with($data);
+     }
+
 	public function getAnalyticReports(){
 
         

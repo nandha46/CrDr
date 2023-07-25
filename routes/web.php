@@ -52,7 +52,7 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/daybook', [ReportsController::class, 'getDaybooks'])->name('get-daybooks');
 		Route::post('/daybook', [ReportsController::class, 'postDaybooksReport'])->name('post-daybooks-report');
 		Route::get('/ledger', [ReportsController::class, 'getLedger'])->name('get-ledger');
-		Route::get('/ledger-report', [ReportsController::class, 'getLedgerReport'])->name('get-ledger-report');
+		Route::post('/ledger', [ReportsController::class, 'postLedgerReport'])->name('post-ledger-report');
 		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
 		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
 		Route::get('/trading-pnl', [ReportsController::class, 'getTradingPNL'])->name('get-trading-pnl');

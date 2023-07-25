@@ -32,6 +32,9 @@
     <script src='{{asset('js/v1/buttons.print.min.js')}}'></script>
     <script src='{{asset('js/v1/buttons.colVis.min.js')}}'></script>
     
+        {{-- Bootstrap 5 toggle --}}
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js"> </script>
+
 {{--  Disabled chart functions 
     <script src='{{asset('js/v1/chart.min.js')}}'></script>
     <script src='{{asset('js/v1/jquery.chartjs.init.js')}}'></script>
@@ -56,9 +59,6 @@
     <script src='{{asset('js/v1/modules/dataUpload.js?'.rand())}}'></script>
     <script src='{{asset('js/v1/common.js?'.rand())}}'></script>
     <script src='{{asset('js/v1/modules/reports.js?'.rand())}}'></script>
-
-    {{-- Bootstrap 5 toggle --}}
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js"> </script>
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
 

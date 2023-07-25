@@ -28,7 +28,7 @@
 
                                 <p class='msg-to-view d-none'></p>
 
-                                <form class='row g-3 needs-validation' method='post' action='' onsubmit='AddUpdateBlogs();return false;' >
+                                <form class='row g-3 needs-validation' method='post' action='' onsubmit='addUpdateBlogs();return false;' >
                                     @csrf
                                     <input type='hidden' id='_id' class='input-only' value=''>
                                     <input type='hidden' class='input-only current-row' value=''>
