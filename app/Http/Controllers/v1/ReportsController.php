@@ -266,60 +266,14 @@ class ReportsController extends Controller{
           $uid = request()->session()->get('LoggedUsr');
           $user = User::find($uid);
 
-          // Adding opening balance
-          $startdate = date_create($fromDate);          
-          $openDate = date_add($startdate, date_interval_create_from_date_string('-1 day'));
-          $openBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $openDate)->first();
+          $ledger = Acchead::getLedger($user->companyId , $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
 
-          $openDaybook = new Daybook;
-          $openDaybook->tDate = $fromDate;
-          $openDaybook->narration = 'Opening Balance';
-          if ($openBal->closeBal > 0) {
-               $openDaybook->drAmt = 0.00;
-               $openDaybook->crAmt = $openBal->closeBal;
-          } else {
-               $openDaybook->drAmt = $openBal->closeBal;
-               $openDaybook->crAmt = 0.00;
-          }
-          // Addding closing balance
-
-          $endDate = date_create($toDate);          
-          $closeBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $endDate)->first();
-
-          $closeDaybook = new Daybook;
-          $closeDaybook->tDate = $toDate;
-          $closeDaybook->narration = 'Closing Balance';
-          
-          if ($closeBal->closeBal > 0) {
-               $closeDaybook->drAmt = 0.00;
-               $closeDaybook->crAmt = $closeBal->closeBal;
-          } else {
-               $closeDaybook->drAmt = $closeBal->closeBal;
-               $closeDaybook->crAmt = 0.00;
-          }
-          $closeBalDays = CloseBl::where('companyId', $user->companyId)->whereBetween('cDate', [$fromDate, $toDate])->get();
-
-          $close = CloseBl::getDaybookCloseBalUnion($fromDate, $toDate, $user->companyId);
-          $close->prepend($openDaybook);
-          $close->push($closeDaybook);
-
-          $data['pageTitle'] = 'Day Book Report '.$fromDate.' to '.$toDate;
-          $data['daybooks'] = $close;
+          $data['pageTitle'] = 'Ledger '.$fromDate.' to '.$toDate;
+          $data['ledger'] = $ledger;
           $data['fromDate'] = $fromDate;
           $data['toDate'] = $toDate;
-
-          $number = 150000.30;
-          if(floor($number) == $number) {
-               $append='.00';
-           }else if($number){
-               $append='';
-           }
-           $number = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $number);
-          dd( $number.$append);
-
-          Debugbar::info($close);
           
-          return view('v1.Reports.DaybookReport')->with($data);
+          return view('v1.Reports.LedgerReport')->with($data);
      }
 
 	public function getAnalyticReports(){

@@ -26,8 +26,6 @@ class CloseBl extends Model
                         ->orderBy('tDate')->orderBy('sno')
                         ->get();
 
-        // $union = $daybooks->union($daybooks);
-
         return $closeBals;
     }
 }

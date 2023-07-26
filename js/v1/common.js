@@ -1643,8 +1643,6 @@ const submitLedger = async () => {
         return false;
     }
 
-
-
     return true;
 
 }

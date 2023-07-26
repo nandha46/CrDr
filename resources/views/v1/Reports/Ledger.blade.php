@@ -87,13 +87,13 @@
                                             <option value='2'>Selected</option>
                                         </select>
 								<label for='validationCustom05' class='form-label'>From Date</label>
-								<input type='text' class='form-control spl input-only daybook-date-input' id='fromDate' name='fromDate' data-fromDate="{{date('Y-m-d', strtotime($fromDate));}}" data-toDate="{{date('Y-m-d', strtotime($toDate));}}" />
+								<input type='text' class='form-control spl input-only daybook-date-input' id='fromDate' name='fromDate' value="{{date('Y-m-d', strtotime($fromDate));}}" data-fromDate="{{date('Y-m-d', strtotime($fromDate));}}" data-toDate="{{date('Y-m-d', strtotime($toDate));}}" />
 								<label for='validationCustom05' class='form-label'>To Date</label>
-								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' />
+								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' value="{{date('Y-m-d', strtotime($toDate));}}" />
 								<label for='validationCustom04' class='form-label required'>Transacted Accounts Only</label>
 								<select class='form-select spl' id='transacted-only' name="transactedOnly">
-									<option value='1'>Yes</option>
 									<option value='0'>No</option>
+									<option value='1'>Yes</option>
 								</select>
 								<label for='validationCustom04' class='form-label required'>Monthly Cut-Off</label>
                                         <select class='form-select spl' id='monthly-cutoff' name="cutoff">
@@ -109,7 +109,7 @@
 						</div>
 	
 						<div class='mi-btn-holder'>
-							<button class="btn2 btn-blue btn-lg" type="submit" onclick="submitLedger(); return false;">
+							<button class="btn2 btn-blue btn-lg" type="submit" onclick="submitLedger();">
 								Show
 							</button>
 							<button class="btn2 btn-lg">

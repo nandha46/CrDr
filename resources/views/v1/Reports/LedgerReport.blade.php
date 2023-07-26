@@ -26,7 +26,7 @@
                     <div class='mi-card'>
                         <div class='mi-card-body card-pads'>
                             <table id='datatable-buttons' class='table-datatable table table-striped table-bordered dt-responsive nowrap' style='border-collapse: collapse; border-spacing: 0; width: 100%;'>
-                                <caption>From: {{$fromDate}} To: {{$toDate}}</caption>
+                                <caption>From: {{$fromDate}} <br>To: {{$toDate}}</caption>
                                 <thead>
                                     <tr>
                                         <th>Date</th>
@@ -38,57 +38,33 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($accheads as $accs)
-                                {{-- Opening Balance --}}
-                                    @if($loop->first)
-                                        <tr id = 'row-{{$loop->index}}'>
-                                            <td>{{$daybook->tDate}}</td>
-                                            <td>Opening Balance</td>
-                                            <td>{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
-                                            <td>{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
-                                        </tr>
-                                        <tr id = 'row-{{$loop->index}}a'>
-                                            <td class="red-cell">{{$daybook->tDate}} </td>
-                                            <td class="red-cell">{{date('l' ,strtotime($daybook->tDate))}}</td>
-                                            <td></td>                
-                                            <td></td>
-                                        </tr>
-                                    {{-- Closing Balance --}}
-                                    @elseif($loop->last)
-                                        <tr id = 'row-{{$loop->index}}'>
-                                            <td>{{$daybook->tDate}} </td>
-                                            <td>Closing Balance</td>
-                                            <td>{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
-                                            <td>{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
-                                        </tr>
-
-                                    {{-- Daily entries --}}
-                                    @elseif($daybook->sno != null)
-                                        <tr id ='row-{{$loop->index}}'>
-                                            <td>{{$daybook->shortName}} </td>
-                                            <td>{{$daybook->narration}} </td>
-                                            <td>{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
-                                            <td>{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
-                                        </tr>
+                                @foreach($ledger as $accs)
+                                    @if($accs->tDate == null)
+                                    <tr id = 'row-{{$loop->index}}'>
+                                        <td></td>
+                                        <td style="font-weight: bold">{{$accs->accName}}</td>
+                                        <td></td>                
+                                        <td></td>
+                                        <td>{{$accs->sno}}</td>
+                                        <td>{{$accs->asno}}</td>
+                                    </tr>
+                                    <tr id = 'row-{{$loop->index}}a'>
+                                        <td class="red-cell">{{$fromDate}}</td>
+                                        <td class="red-cell">Opening Balance</td>
+                                        <td class="red-cell">{{$accs->drAmt == 0.00?'0.00': $accs->drAmt}}</td>                
+                                        <td class="red-cell">{{$accs->crAmt == 0.00?'0.00': $accs->crAmt}}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
                                     @else
-                                    {{-- Daily closing balance --}}
-                                        <tr id ='row-{{$loop->index}}'>
-                                            <td></td>
-                                            <td></td>
-                                            <td class="green-cell">{{$daybook->drAmt == 0.00?'': $daybook->drAmt}}</td>                
-                                            <td class="green-cell">{{$daybook->crAmt == 0.00?'': $daybook->crAmt}}</td>
-                                        </tr>
-                                        <tr id = 'row-{{$loop->index}}a'>
-                                            <td></td>
-                                            <td></td>
-                                            @if($daybook->closeBal > 0)
-                                            <td></td>
-                                            <td class="red-cell">{{$daybook->closeBal}}</td>                
-                                            @else
-                                            <td class="red-cell">{{$daybook->closeBal}}</td>                
-                                            <td></td>
-                                            @endif
-                                        </tr>
+                                    <tr id = 'row-{{$loop->index}}'>
+                                        <td>{{$accs->tDate}}</td>
+                                        <td>{{$accs->accName}}</td>
+                                        <td>{{$accs->drAmt == 0.00?'': $accs->drAmt}}</td>                
+                                        <td>{{$accs->crAmt == 0.00?'': $accs->crAmt}}</td>
+                                        <td>{{$accs->sno}}</td>
+                                        <td>{{$accs->asno}}</td>
+                                    </tr>
                                     @endif
                                         
                                 @endforeach
