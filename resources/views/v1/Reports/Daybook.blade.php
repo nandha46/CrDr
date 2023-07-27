@@ -65,17 +65,17 @@
 						<div class="mi-grid-4-layout">
 							<div class=''>
 								<label for='validationCustom05' class='form-label'>From Date</label>
-								<input type='text' class='form-control spl input-only daybook-date-input' id='fromDate' name='fromDate' data-fromDate="{{date('Y-m-d', strtotime($fromDate));}}" data-toDate="{{date('Y-m-d', strtotime($toDate));}}" />
+								<input type='text' class='form-control spl input-only daybook-date-input' id='fromDate' name='fromDate' value="{{date('Y-m-d', strtotime($fromDate));}}" data-fromDate="{{date('Y-m-d', strtotime($fromDate));}}" data-toDate="{{date('Y-m-d', strtotime($toDate));}}" />
 							</div>
 							<div class=''>
 								<label for='validationCustom05' class='form-label'>To Date</label>
-								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' />
+								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' value="{{date('Y-m-d', strtotime($toDate));}}"/>
 							</div>
 	
 						</div>
 	
 						<div class='mi-btn-holder'>
-							<button class="btn btn-lg" id="stockButton" onclick="setStockEntries()">
+							<button class="btn btn-lg" id="stockButton" onclick="setStockEntries(); return false;">
 								Stock Entries Needed
 							</button>
 							<button class="btn btn-blue btn-lg" type="submit" onclick="submitDaybook()">

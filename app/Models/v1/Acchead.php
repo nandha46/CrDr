@@ -23,6 +23,16 @@ class Acchead extends Model
 
         return $accheads;
     }
+    
+    protected function getTradingPnlAccs($cid){
+        $accheads = Acchead::where('companyId', $cid)->whereIn('orderCode', [3,4,5,6])->orderBy('sno')->get();
+        return $accheads;
+    }
+    
+    protected function getBalanceSheetAccs($cid){
+        $accheads = Acchead::where('companyId', $cid)->whereIn('orderCode', [1,2])->orderBy('sno')->get();
+        return $accheads;
+    }
 
     protected function getLedger($cid, $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly){
         

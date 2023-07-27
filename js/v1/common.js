@@ -1628,6 +1628,19 @@ const changeReportOrder = e => {
    }
 }
 
+const changeTrialBalReportOrder = e => {
+   let val = $(e).val();
+
+   if (val == 2){
+        $('#account-select').removeClass('disable-div');
+        $('#level-div').removeClass('d-none');
+    } else {
+        $('#account-select').addClass('disable-div');
+        $('#level-div').addClass('d-none');
+   }
+   accLevelDisplay();
+}
+
 const submitLedger = async () => {
 
     let reportOrder = $('#report-order').val();
@@ -1645,4 +1658,45 @@ const submitLedger = async () => {
 
     return true;
 
+}
+
+const accLevelDisplay = () => {
+   let level = $('#level').val();
+
+
+   switch (level){
+       case "6":
+            $('.padding1, .padding2, .padding3, .padding4, .padding5').parent().css({'pointer-events' : "", 'opacity' : '1'});
+            break;
+       case '5':
+            $('.padding1, .padding2, .padding3, .padding4').parent().css({'pointer-events' : "", 'opacity' : '1'});
+            $('.padding5').parent().css({'pointer-events' : 'none', 'opacity' : '0.45'});
+            break;
+        case '4':
+           $('.padding1, .padding2, .padding3').parent().css({'pointer-events' : "", 'opacity' : '1'});
+           $('.padding4, .padding5').parent().css({'pointer-events' : 'none', 'opacity' : '0.45'});
+           break;
+        case '3':
+           $('.padding1, .padding2').parent().css({'pointer-events' : "", 'opacity' : '1'});
+           $('.padding3, .padding4, .padding5').parent().css({'pointer-events' : 'none', 'opacity' : '0.45'});
+           break;
+       case '2':
+           $('.padding1').parent().css({'pointer-events' : "", 'opacity' : '1'});
+           $('.padding2, .padding3, .padding4, .padding5').parent().css({'pointer-events' : 'none', 'opacity' : '0.45'});
+           break;
+        case '1':
+           $('.padding1, .padding2, .padding3, .padding4, .padding5').parent().css({'pointer-events' : 'none', 'opacity' : '0.45'});
+           break;
+        default:
+            console.log('Something went wrong in level selection');
+        
+   }
+}
+
+const enableClosingStockInput = e => {
+    if (e.checked){
+        $('#closingStock').attr('disabled',false);
+    } else {
+        $('#closingStock').attr('disabled',true);
+    }
 }

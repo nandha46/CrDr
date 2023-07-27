@@ -54,11 +54,11 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/ledger', [ReportsController::class, 'getLedger'])->name('get-ledger');
 		Route::post('/ledger', [ReportsController::class, 'postLedgerReport'])->name('post-ledger-report');
 		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
-		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
+		Route::post('/trial-balance', [ReportsController::class, 'postTrialBalanceReport'])->name('post-trial-balance-report');
 		Route::get('/trading-pnl', [ReportsController::class, 'getTradingPNL'])->name('get-trading-pnl');
-		Route::get('/trading-pnl-report', [ReportsController::class, 'getTradingPNLReport'])->name('get-trading-pnl-report');
-		Route::get('/trial-balance', [ReportsController::class, 'getTrialBalance'])->name('get-trial-balance');
-		Route::get('/trial-balance-report', [ReportsController::class, 'getTrialBalanceReport'])->name('get-trial-balance-report');
+		Route::post('/trading-pnl', [ReportsController::class, 'postTradingPNLReport'])->name('post-trading-pnl-report');
+		Route::get('/balance-sheet', [ReportsController::class, 'getBalanceSheet'])->name('get-balance-sheet');
+		Route::post('/balance-sheet', [ReportsController::class, 'postBalanceSheetReport'])->name('post-balance-sheet-report');
 			
 		// Programs
 

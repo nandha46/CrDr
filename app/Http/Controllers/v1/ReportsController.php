@@ -152,17 +152,15 @@ class ReportsController extends Controller{
           $data['fromDate'] = $fromDate;
           $data['toDate'] = $toDate;
 
-          $number = 150000.30;
-          if(floor($number) == $number) {
-               $append='.00';
-           }else if($number){
-               $append='';
-           }
-           $number = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $number);
-          dd( $number.$append);
+          // $number = 150000.30;
+          // if(floor($number) == $number) {
+          //      $append='.00';
+          //  }else if($number){
+          //      $append='';
+          //  }
+          //  $number = preg_replace("/(\d+?)(?=(\d\d)+(\d)(?!\d))(\.\d+)?/i", "$1,", $number);
+          // dd( $number.$append);
 
-          Debugbar::info($close);
-          
           return view('v1.Reports.DaybookReport')->with($data);
      }
 
@@ -274,6 +272,218 @@ class ReportsController extends Controller{
           $data['toDate'] = $toDate;
           
           return view('v1.Reports.LedgerReport')->with($data);
+     }
+
+     public function getTrialBalance() {
+
+          $data['pageRootTitle'] 		= 'Dashboard';
+          $data['pageSubTitle'] 		= 'Trial Balance';
+          $data['pageSubTitleNext']	= '';
+  
+          $auth = SharedController::checkAuthenticated();
+          
+          if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+          else{
+  
+                 if($auth[1] == ''){
+  
+                      AuthController::getLogout(1);
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[10]. Contact your administrator');
+                 }else{
+  
+                      $urlExist = 'FALSE';
+                      $currentURL = url()->current();
+                      $newUrls = [];
+  
+                      foreach($auth[2] as $key => $sepUrls){
+  
+                           $finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+                              $newUrls[] = $key.':'.$finalUrl;
+  
+                              if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+                      }
+  
+                      $encode = implode('&&', $newUrls);
+  
+                      if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+                 }
+          }
+         
+          $data['authUsr'] = $auth[0];
+          $data['html'] = $auth[1];
+
+          $uid = request()->session()->get('LoggedUsr');
+          $user = Usergroup::getUsergroupById($uid);
+          $companyId = $user->companyId;
+		$data['companySelected'] = $companyId;
+
+          $company = Company::find($companyId);
+          $data['accheads'] = Acchead::getAccHeades($companyId);
+          $data['fromDate'] = $company->fromDate;
+          $data['toDate'] = $company->toDate;
+
+          return view('v1.Reports.TrialBalance')->with($data);
+     }
+
+     public function postTrialBalanceReport () {
+
+          $data['pageRootTitle'] 		= 'Dashboard';
+          $data['pageSubTitle'] 		= 'Ledger';
+          $data['pageSubTitleNext']	= '';
+  
+          $auth = SharedController::checkAuthenticated();
+          
+          if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+          else{
+  
+                 if($auth[1] == ''){
+  
+                      AuthController::getLogout(1);
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[11]. Contact your administrator');
+                 }else{
+  
+                      $urlExist = 'FALSE';
+                      $currentURL = url()->current();
+                      $newUrls = [];
+  
+                      foreach($auth[2] as $key => $sepUrls){
+  
+                           $finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+                              $newUrls[] = $key.':'.$finalUrl;
+  
+                              if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+                      }
+  
+                      $encode = implode('&&', $newUrls);
+  
+                      if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+                 }
+          }
+         
+          $data['authUsr'] = $auth[0];
+          $data['html'] = $auth[1];
+
+          $accheads = request()->input('accheads');
+          $reportOrder = request()->input('reportOrder');
+          $fromDate = request()->input('fromDate');
+          $toDate = request()->input('toDate');
+          $cutoff = request()->input('cutoff');
+          $transactedOnly = request()->input('transactedOnly');
+          $stockNeeded = request()->input('stockNeeded');
+
+          $uid = request()->session()->get('LoggedUsr');
+          $user = User::find($uid);
+
+          $ledger = Acchead::getLedger($user->companyId , $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
+
+          $data['pageTitle'] = 'Ledger '.$fromDate.' to '.$toDate;
+          $data['ledger'] = $ledger;
+          $data['fromDate'] = $fromDate;
+          $data['toDate'] = $toDate;
+          
+          return view('v1.Reports.LedgerReport')->with($data);
+     }
+
+     public function getTradingPNL () {
+
+          $data['pageRootTitle'] 		= 'Dashboard';
+          $data['pageSubTitle'] 		= 'Trading - Profit And Loss Account';
+          $data['pageSubTitleNext']	= '';
+  
+          $auth = SharedController::checkAuthenticated();
+          
+          if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+          else{
+  
+                 if($auth[1] == ''){
+  
+                      AuthController::getLogout(1);
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[10]. Contact your administrator');
+                 }else{
+  
+                      $urlExist = 'FALSE';
+                      $currentURL = url()->current();
+                      $newUrls = [];
+  
+                      foreach($auth[2] as $key => $sepUrls){
+  
+                           $finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+                              $newUrls[] = $key.':'.$finalUrl;
+  
+                              if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+                      }
+  
+                      $encode = implode('&&', $newUrls);
+  
+                      if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+                 }
+          }
+         
+          $data['authUsr'] = $auth[0];
+          $data['html'] = $auth[1];
+
+          $uid = request()->session()->get('LoggedUsr');
+          $user = Usergroup::getUsergroupById($uid);
+          $companyId = $user->companyId;
+		$data['companySelected'] = $companyId;
+
+          $company = Company::find($companyId);
+          $data['accheads'] = Acchead::getTradingPnlAccs($companyId);
+          $data['fromDate'] = $company->fromDate;
+          $data['toDate'] = $company->toDate;
+
+          return view('v1.Reports.TradingPNL')->with($data);
+     }
+
+     public function getBalanceSheet () {
+
+          $data['pageRootTitle'] 		= 'Dashboard';
+          $data['pageSubTitle'] 		= 'Balance Sheet';
+          $data['pageSubTitleNext']	= '';
+  
+          $auth = SharedController::checkAuthenticated();
+          
+          if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+          else{
+  
+                 if($auth[1] == ''){
+  
+                      AuthController::getLogout(1);
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[10]. Contact your administrator');
+                 }else{
+  
+                      $urlExist = 'FALSE';
+                      $currentURL = url()->current();
+                      $newUrls = [];
+  
+                      foreach($auth[2] as $key => $sepUrls){
+  
+                           $finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+                              $newUrls[] = $key.':'.$finalUrl;
+  
+                              if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+                      }
+  
+                      $encode = implode('&&', $newUrls);
+  
+                      if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+                 }
+          }
+         
+          $data['authUsr'] = $auth[0];
+          $data['html'] = $auth[1];
+
+          $uid = request()->session()->get('LoggedUsr');
+          $user = Usergroup::getUsergroupById($uid);
+          $companyId = $user->companyId;
+		$data['companySelected'] = $companyId;
+
+          $company = Company::find($companyId);
+          $data['accheads'] = Acchead::getBalanceSheetAccs($companyId);
+          $data['fromDate'] = $company->fromDate;
+          $data['toDate'] = $company->toDate;
+
+          return view('v1.Reports.BalanceSheet')->with($data);
      }
 
 	public function getAnalyticReports(){
