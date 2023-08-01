@@ -11,6 +11,7 @@ use App\Models\v1\Acchead;
 use App\Models\v1\CloseBl;
 use App\Models\v1\Company;
 use App\Models\v1\Daybook;
+use App\Models\v1\Daystock;
 use App\Models\v1\Usergroup;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
@@ -328,7 +329,7 @@ class ReportsController extends Controller{
      public function postTrialBalanceReport () {
 
           $data['pageRootTitle'] 		= 'Dashboard';
-          $data['pageSubTitle'] 		= 'Ledger';
+          $data['pageSubTitle'] 		= 'Trial Balance Report';
           $data['pageSubTitleNext']	= '';
   
           $auth = SharedController::checkAuthenticated();
@@ -363,25 +364,26 @@ class ReportsController extends Controller{
           $data['authUsr'] = $auth[0];
           $data['html'] = $auth[1];
 
-          $accheads = request()->input('accheads');
           $reportOrder = request()->input('reportOrder');
-          $fromDate = request()->input('fromDate');
           $toDate = request()->input('toDate');
-          $cutoff = request()->input('cutoff');
-          $transactedOnly = request()->input('transactedOnly');
-          $stockNeeded = request()->input('stockNeeded');
+          $transactedOnly = request()->input('isZeroBalAccs');
+          $level = request()->input('level');
 
           $uid = request()->session()->get('LoggedUsr');
           $user = User::find($uid);
+          $companyId = $user->companyId;
+          $company = Company::find($companyId);
 
-          $ledger = Acchead::getLedger($user->companyId , $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
+          $accHeads = Acchead::getTrialAccHeads($user->companyId, $reportOrder, $toDate, $level, $transactedOnly);
+          $daybookTotal = Daybook::getTotalBalByAccHead($user->companyId, $company->fromDate, $toDate);
 
-          $data['pageTitle'] = 'Ledger '.$fromDate.' to '.$toDate;
-          $data['ledger'] = $ledger;
-          $data['fromDate'] = $fromDate;
+          dd($daybookTotal->toArray());
+
+          $data['pageTitle'] = 'Trial Balance as on '.$toDate;
+          $data['trialBalances'] = $accHeads;
           $data['toDate'] = $toDate;
           
-          return view('v1.Reports.LedgerReport')->with($data);
+          return view('v1.Reports.TrialBalanceReport')->with($data);
      }
 
      public function getTradingPNL () {
@@ -429,8 +431,8 @@ class ReportsController extends Controller{
 
           $company = Company::find($companyId);
           $data['accheads'] = Acchead::getTradingPnlAccs($companyId);
-          $data['fromDate'] = $company->fromDate;
           $data['toDate'] = $company->toDate;
+          $data['dayStocks'] = Daystock::getDayStocks($companyId, $company->fromDate, $company->toDate);
 
           return view('v1.Reports.TradingPNL')->with($data);
      }

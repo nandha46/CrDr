@@ -109,10 +109,10 @@
 						</div>
 	
 						<div class='mi-btn-holder'>
-							<button class="btn2 btn-blue btn-lg" type="submit" onclick="submitTrialBalance();">
+							<button class="btn2 btn-blue btn-lg" type="submit">
 								Show
 							</button>
-							<button class="btn2 btn-lg">
+							<button class="btn2 btn-lg" type="reset">
 								Cancel
 							</button>
 						</div>

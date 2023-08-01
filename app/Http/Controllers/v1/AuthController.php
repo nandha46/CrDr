@@ -18,7 +18,6 @@ class AuthController extends Controller{
 
         
         $text = mt_rand(100000,999999); 
-        // $_SESSION["vercode"] = $text; 
         $height = 25; 
         $width = 65;   
         $image_p = imagecreate($width, $height); 

@@ -80,6 +80,22 @@
 										@endforeach
 									</tbody>
 								</table>
+								<table id="stock-select" class='d-none table-fixed table-datatable table table-bordered dt-responsive nowrap scroll' style='border-collapse: collapse; border-spacing: 0; width: 100%;'>
+									<thead>
+										<tr>
+											<th>Date</th>
+											<th>Stock Value</th>
+										</tr>
+									</thead>
+									<tbody class="" style="border-color: transparent">
+										@foreach($dayStocks as $stock)
+										<tr id = 'row-{{$loop->index}}'>
+											<td>{{$stock->cDate}}</td>
+											<td>{{$stock->stockValue}}</td>
+										</tr>
+										@endforeach
+									</tbody>
+								</table>
 							<div class=''>
 								<label for='validationCustom04' class='form-label required'>Report Order</label>
                                         <select class='form-select spl' id='report-order' name="reportOrder" onchange = 'return changeTrialBalReportOrder(this)'>
@@ -87,7 +103,7 @@
                                             <option value='2'>Group</option>
                                         </select>
 								<label for='validationCustom05' class='form-label'>Trading - P & L as on</label>
-								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' value="{{date('Y-m-d', strtotime($toDate));}}" data-fromDate="{{date('Y-m-d', strtotime($fromDate));}}" data-toDate="{{date('Y-m-d', strtotime($toDate));}}" />
+								<input type='text' class='form-control spl input-only daybook-date-input' id='toDate' name='toDate' value="{{date('Y-m-d', strtotime($toDate));}}" />
                                 <div class="" style="padding-top: 1rem">
 									<input type='checkbox' class='input-only' id='enableClosingStock' name='enableClosingStock' onchange="enableClosingStockInput(this);" />
 									<label for='enableClosingStock' class='form-label required'>Closing Stock</label>

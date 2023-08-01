@@ -51,5 +51,12 @@ class Acchead extends Model
 
     }
 
+    protected function getTrialAccHeads ($cid, $reportOrder, $toDate, $level, $transactedOnly) {
+        $accs = Acchead::where('companyId', $cid)->where('accCode', '!=', 0)
+                    ->get();
+
+        return $accs;
+    }
+
     
 }

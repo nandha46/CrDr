@@ -1696,7 +1696,11 @@ const accLevelDisplay = () => {
 const enableClosingStockInput = e => {
     if (e.checked){
         $('#closingStock').attr('disabled',false);
+        $('#stock-select').removeClass('d-none')
+        $('#account-select').addClass('d-none')
     } else {
         $('#closingStock').attr('disabled',true);
+        $('#stock-select').addClass('d-none')
+        $('#account-select').removeClass('d-none')
     }
 }

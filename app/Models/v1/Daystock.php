@@ -11,4 +11,11 @@ class Daystock extends Model
 
     protected $table = 'daystock';
     protected $fillable = [];
+
+    protected function getDayStocks ($companyId, $fromDate, $toDate) {
+
+        $daystocks = Daystock::where('companyId', $companyId)->whereBetween('cDate', [$fromDate, $toDate])->get();
+
+        return $daystocks;
+    }
 }
