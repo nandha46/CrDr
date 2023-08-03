@@ -56,7 +56,7 @@
                   <input type='text' class='form-control' id='captcha' name='captcha' placeholder='Captcha' minlength="6" maxlength="6">
                 </div>
                 <div class="col" style="margin: auto">
-                  <img src="{{asset($captcha)}}" alt="captcha">
+                  <img src="data:image/jpeg;base64,{{base64_encode( $captcha )}}" alt="captcha">
                 </div>
               </div>
               

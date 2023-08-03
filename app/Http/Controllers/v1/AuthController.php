@@ -25,10 +25,14 @@ class AuthController extends Controller{
         $white = imagecolorallocate($image_p, 255, 255, 255); 
         $font_size = 14; 
         imagestring($image_p, $font_size, 5, 5, $text, $white);
-        $captcha = "./storage/app/public/captcha.jpg"; 
-        $catchaGenStatus = imagejpeg($image_p ,$captcha, 80);
+        //Start capturing the output buffer
+        ob_start();
+        imagejpeg($image_p , null, 80);
+        $rawImageBytes = ob_get_clean();
+        // close and store the buffer to string
+        // encode the buffer at browser to display
 
-        $data['captcha'] = Storage::url('app/public/captcha.jpg');
+        $data['captcha'] = $rawImageBytes;
         $request->session()->put('secret', $text);
 
         if($auth) return redirect()->route('get-reports-analytics'); 
