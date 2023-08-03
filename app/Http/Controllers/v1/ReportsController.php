@@ -374,14 +374,15 @@ class ReportsController extends Controller{
           $companyId = $user->companyId;
           $company = Company::find($companyId);
 
-          $accHeads = Acchead::getTrialAccHeads($user->companyId, $reportOrder, $toDate, $level, $transactedOnly);
           $daybookTotal = Daybook::getTotalBalByAccHead($user->companyId, $company->fromDate, $toDate);
-
-          dd($daybookTotal->toArray());
+          $closeBal = CloseBl::where('companyId', $user->companyId)->where('cDate', $toDate)->value('closeBal');
 
           $data['pageTitle'] = 'Trial Balance as on '.$toDate;
-          $data['trialBalances'] = $accHeads;
+          $data['trialBalances'] = $daybookTotal;
           $data['toDate'] = $toDate;
+          $data['closeBal'] = $closeBal;
+
+          Debugbar::info($daybookTotal->toArray());
           
           return view('v1.Reports.TrialBalanceReport')->with($data);
      }

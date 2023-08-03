@@ -26,7 +26,7 @@
                     <div class='mi-card'>
                         <div class='mi-card-body card-pads'>
                             <table id='datatable-buttons' class='table-datatable table table-striped table-bordered dt-responsive nowrap' style='border-collapse: collapse; border-spacing: 0; width: 100%;'>
-                                <caption>From: {{$fromDate}} <br>To: {{$toDate}}</caption>
+                                <caption>From: {{$fromDate}} To: {{$toDate}}</caption>
                                 <thead>
                                     <tr>
                                         <th>Date</th>

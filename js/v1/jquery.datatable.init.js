@@ -6,15 +6,14 @@
 
 
 $(document).ready(function() {
-    $('#datatable').DataTable();
 
-    $(document).ready(function() {
-        $('#datatable2').DataTable();
-    });
+    $('#datatable').DataTable();
+    $('#datatable2').DataTable();
 
     //Buttons examples
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
+        "pageLength": 14,
         bSort: true,
         aaSorting:[],
         buttons: ['excel','pdf'],

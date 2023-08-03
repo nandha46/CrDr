@@ -33,10 +33,23 @@ class Daybook extends Model
     }
 
     protected function getTotalBalByAccHead ($cid, $fromDate, $toDate) {
-        $total = Daybook::where('companyId', '=', $cid)->whereBetween('tDate', [$fromDate, $toDate])->groupBy('acccode')
-                    ->select('sno', 'companyId', 'tDate', 'acccode', DB::raw('sum(crAmt) as crTotal'), DB::raw('sum(drAmt) as drTotal'))
+        $total = Acchead::where('daybooks.companyId', '=', $cid)
+                    ->where('acchead.companyId', '=', $cid)
+                    ->whereBetween('daybooks.tDate', [$fromDate, $toDate])
+                    ->leftJoin('daybooks', 'daybooks.acccode', '=', 'acchead.accCode')
+                    ->select('daybooks.companyId', 'daybooks.tDate', 'daybooks.acccode', 
+                        DB::raw('sum(daybooks.crAmt) as crTotal'), DB::raw('sum(daybooks.drAmt) as drTotal'), 
+                        'acchead.accName', 'acchead.sno', 'acchead.level1', 'acchead.orderCode', 'acchead.crAmt', 'acchead.drAmt')
+                    ->groupBy('daybooks.acccode')
+                    ->orderBy('acchead.sno');
+
+        $acchead = Acchead::where('companyId', '=', $cid)->where('accCode', '=', 0)
+                    ->union($total)
+                    ->select(DB::raw('0 as companyId'), DB::raw('null as tDate'), 'accCode as acccode', DB::raw('null as crTotal'), 
+                    DB::raw('null as drTotal'), 'accName', 'sno', 'level1', 'orderCode', 'crAmt', 'drAmt')
+                    ->orderBy('sno')                   
                     ->get();
 
-        return $total;
+        return $acchead;
     }
 }

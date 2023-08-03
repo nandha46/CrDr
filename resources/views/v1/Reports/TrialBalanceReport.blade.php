@@ -35,10 +35,17 @@
                                 </thead>
                                 <tbody>
                                 @foreach($trialBalances as $accs)
+                                    @if($loop->index == 1)
                                     <tr id = 'row-{{$loop->index}}'>
-                                        <td></td>
-                                        <td></td>                
-                                        <td></td>
+                                        <td style="text-align: left" class="red-cell padding1">Cash on Hand</td>
+                                        <td>{{$closeBal > 0 ? $closeBal: ''}}</td>                
+                                        <td>{{$closeBal < 0 ? $closeBal: ''}}</td>
+                                    </tr>
+                                    @endif
+                                    <tr id = 'row-{{$loop->index}}'>
+                                        <td style="text-align: left" @class(['red-cell' => $accs->acccode == 0, 'padding1' => $accs->level1 == 2, 'padding2' => $accs->level1 == 3,])>{{$accs->accName}}</td>
+                                        <td>{{$accs->drTotal}}</td>                
+                                        <td>{{$accs->crTotal}}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
