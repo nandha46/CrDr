@@ -43,6 +43,7 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/close-company', [CompanyController::class, 'closeCompany'])->name('get-close-company');
 		Route::get('/upload-company', [CompanyController::class, 'getUploadPage'])->name('get-upload-company');
 		Route::post('/upload-company', [CompanyController::class, 'postUploadData'])->name('post-company-upload');
+		Route::get('/delete-company/{cid?}', [CompanyController::class, 'deleteCompany'])->where(['cid' => '^[0-9]+$'])->name('delete-company');
 		
 		// load company year
 		Route::post('/load-company-year', [CompanyController::class, 'loadCompanyYear'])->name('load-company-year');

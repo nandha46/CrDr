@@ -10,7 +10,8 @@
     <script src='{{asset('js/v1/bootstrap.bundle.min.js')}}'></script>
     <script src='{{asset('js/v1/metismenu.min.js')}}'></script>
     <script src='{{asset('js/v1/waves.js')}}'></script>
-    <script src='{{asset('js/v1/feather.min.js')}}'></script>
+    {{-- <script src='{{asset('js/v1/feather.min.js')}}'></script> --}}
+    <script src='{{asset('js/v1/feather4.29.0.min.js')}}'></script>
     <script src='{{asset('js/v1/simplebar.min.js')}}'></script>
     <script src='{{asset('js/v1/moment.js')}}'></script>
 

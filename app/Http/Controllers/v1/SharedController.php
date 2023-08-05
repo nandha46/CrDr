@@ -5,18 +5,12 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\v1\Usergroup;
-use App\Models\v1\Appdefault;
 use App\Models\v1\Menu;
 use App\Models\v1\View;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 
 class SharedController extends Controller{
-
-    static function getAppDefaults(){
-
-        return Appdefault::getDetails();
-    }
 
     public function updateStatus(){
 
@@ -197,6 +191,7 @@ class SharedController extends Controller{
 				$urls[] = 'analytics';
 				$urls[] = 'select-company';
 				$urls[] = 'close-company';
+				$urls[] = 'delete-company';
 				
 			}
 			Debugbar::stopMeasure('auth');

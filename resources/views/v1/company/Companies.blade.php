@@ -13,6 +13,12 @@
             <!-- Second Review Starts Here -->
 
             <div class='row mi-table-space'>
+            @if(Session::has('Msg'))
+            <p class='mb-4 lgn-error msg'>{{Session::get('Msg')}}</p>
+            @endif
+            @if(Session::has('SMsg'))
+            <p class='mb-4 lgn-success msg'>{{Session::get('SMsg')}}</p>
+            @endif
                 <div class='col-12'>
                     <div class='mi-card'>
                         <div class='mi-card-body card-pads'>
@@ -28,6 +34,7 @@
                                         <th>Address</th>
                                         <th>Phone</th>
                                         <th>Email</th>
+                                        <th>Operation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,6 +58,9 @@
                                             <td><?= $company->address1 ?> {{$company->address2}} {{$company->city}} {{$company->pincode}} {{$company->state}}</td>
                                             <td><?= $company->phone1 ?> <?= $company->phone2 ?></td>
                                             <td><?= $company->email ?></td>
+                                            <td>
+                                                <a href="{{route('delete-company', $company->id)}}" onclick="return confirm('Are you sure want to delete this company?');"><i color="red" data-feather='trash' class='menu-icon-form-td-i cursor-pointer'></i></a>
+                                            </td>
                                         </tr>
                                     <?php
                                             $i++;
