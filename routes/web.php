@@ -31,6 +31,7 @@ Route::group(['middleware' => 'web'], function(){
 		// Members
 		Route::get('/users', [MembersController::class, 'getUsers'])->name('get-users');
 		Route::post('/users/action', [MembersController::class, 'postAddEditUsers'])->name('add-edit-post-users');
+		Route::get('/delete-user/{uid?}', [MembersController::class, 'deleteUser'])->where(['uid' => '^[0-9]+$'])->name('delete-user');
 
 		// Edit Routes
 		Route::post('/edit/common', [EditController::class, 'getEditJson'])->name('get-edit-json');

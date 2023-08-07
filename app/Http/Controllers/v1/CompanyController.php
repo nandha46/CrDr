@@ -516,6 +516,13 @@ class CompanyController extends Controller
 				return redirect()->route('get-companies')->with('Msg', 'Company Id not present');
 			}
 
+			$deletionStatus = Company::destroy($cid);
+
+			if ($deletionStatus) {
+				return redirect()->back()->with('SMsg', 'Company deleted successfully');
+			} else {
+				return redirect()->back()->with('Msg', 'Error deleting Company.');
+			}
 			
 	}
 

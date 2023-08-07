@@ -137,7 +137,7 @@ class Usergroup extends Model{
     protected function getAllUsersView (){
         $users = Usergroup::where('users.usertype', 2)
                     ->leftJoin('user_details', 'users.id','=', 'user_details.userid')
-                    ->select('users.*', 'user_details.*', 'users.status as userstatus')
+                    ->select('users.*', 'user_details.*', 'users.status as userstatus', 'users.id as id')
                     ->get();
 
         return $users;
@@ -147,7 +147,7 @@ class Usergroup extends Model{
         $users = Usergroup::where('users.usertype', 3)
                     ->where('users.admin_id', $uid)
                     ->leftJoin('user_details', 'users.id','=', 'user_details.userid')
-                    ->select('users.*', 'user_details.*', 'users.status as userstatus')
+                    ->select('users.*', 'user_details.*', 'users.status as userstatus', 'users.id as id')
                     ->get();
 
         return $users;

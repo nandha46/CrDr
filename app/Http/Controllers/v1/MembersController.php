@@ -159,6 +159,51 @@ class MembersController extends Controller{
 		return response()->json($res);
 	}
 
+	public function deleteUser ($uid = null) {
+		
+		$auth = SharedController::checkAuthenticated();
+	
+			 if(count($auth) == 0) {
+				return redirect()->route('get-login')->with('Msg', 'Please Login');
+			 } else {
+	
+				if($auth[1] == ''){
+	
+					AuthController::getLogout(1);
+					return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[2]. Contact your administrator');
+				}else{
+	
+					$urlExist = 'FALSE';
+					$currentURL = url()->current();
+					$newUrls = [];
+	
+					foreach($auth[2] as $key => $sepUrls){
+	
+						$finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+						$newUrls[] = $key.':'.$finalUrl;
+	
+						if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+					}
+	
+					$encode = implode('&&', $newUrls);
+					if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+				}
+			}
+
+			if ($uid == null) {
+				return redirect()->back()->with('Msg', 'User Id not present');
+			}
+
+			$deletionStatus = User::destroy($uid);
+
+			if ($deletionStatus) {
+				return redirect()->back()->with('SMsg', 'User deleted successfully');
+			} else {
+				return redirect()->back()->with('Msg', 'Error deleting User.');
+			}
+			
+	}
+
 	protected function ModifyPrivilages($user, $prvlAdd, $prvlView){
 		
 		$prvl = $mainMenu = [];

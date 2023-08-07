@@ -219,7 +219,7 @@
                                                 {{-- <i data-bs-toggle="popover" data-feather='sunrise' color="gold" class='menu-icon-form-td-i cursor-pointer'></i> --}}
                                                 <i color="blue" data-feather='edit' class='menu-icon-form-td-i cursor-pointer' id='column-td-<?= $i ?>'  onclick='editUser({{$sepUsers->userid}},{{$i}})'></i>
                                                 <i color="red" onclick ="return changeStatus('users', '<?= $sepUsers->userid ?>', 'row-<?= $i ?>')" data-feather='power' class='menu-icon-form-td-i cursor-pointer'></i>
-                                                <i data-bs-toggle="modal" onclick="generateUserModal({{$sepUsers->userid}})" data-bs-target="#profileModal" data-feather='eye' color="green" class='menu-icon-form-td-i cursor-pointer'></i>
+                                               <a href="{{route('delete-user', $sepUsers->id)}}"><i color="red" onclick ="return confirm('Are you sure want to delete this user?')" data-feather='trash' class='menu-icon-form-td-i cursor-pointer'></i></a>
                                             </td>
                                         </tr>
                                     <?php

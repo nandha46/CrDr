@@ -192,6 +192,7 @@ class SharedController extends Controller{
 				$urls[] = 'select-company';
 				$urls[] = 'close-company';
 				$urls[] = 'delete-company';
+				$urls[] = 'delete-user';
 				
 			}
 			Debugbar::stopMeasure('auth');
