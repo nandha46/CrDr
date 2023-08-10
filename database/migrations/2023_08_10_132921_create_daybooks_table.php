@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserDetailsTable extends Migration
+class CreateDaybooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateUserDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_details', function (Blueprint $table) {
+        Schema::create('daybooks', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('userid')->unsigned();
-            $table->foreign('userid')->references('id')->on('users')->onDelete('cascade');
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('primary_mobile');
-            $table->string('secondary_mobile')->nullable()->default(null);
-            $table->string('email');
+            $table->bigInteger('companyId')->unsigned();
+            $table->foreign('companyId')->references('id')->on('companies')->onDelete('cascade');
+            $table->integer('sno');
+            $table->dateTime('tDate');
+            $table->string('narration');
+            $table->integer('acccode');
+            $table->double('drAmt',10,2);
+            $table->double('crAmt',10,2);
+            $table->integer('stkValue');
             $table->boolean('status')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
@@ -35,6 +37,6 @@ class CreateUserDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_details');
+        Schema::dropIfExists('daybooks');
     }
 }

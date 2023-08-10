@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserDetailsTable extends Migration
+class CreatePrivilegesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateUserDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_details', function (Blueprint $table) {
+        Schema::create('privileges', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('menuid')->unsigned();
+            $table->foreign('menuid')->references('id')->on('menus')->onDelete('cascade');
+            $table->boolean('isedit');
+            $table->boolean('isview');
             $table->bigInteger('userid')->unsigned();
             $table->foreign('userid')->references('id')->on('users')->onDelete('cascade');
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('primary_mobile');
-            $table->string('secondary_mobile')->nullable()->default(null);
-            $table->string('email');
-            $table->boolean('status')->default(true);
+            $table->boolean('isstatus')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
@@ -35,6 +34,6 @@ class CreateUserDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_details');
+        Schema::dropIfExists('privileges');
     }
 }

@@ -17,6 +17,10 @@ class Usergroup extends Model{
         return View::getUsers('Customer');
     }
 
+    public function userDetails () {
+        return $this->hasOne(UserDetails::class, 'userid', 'id');
+    }
+
     protected function checkUser($mobile){
         
         if($mobile){
