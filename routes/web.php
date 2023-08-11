@@ -62,14 +62,6 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/balance-sheet', [ReportsController::class, 'getBalanceSheet'])->name('get-balance-sheet');
 		Route::post('/balance-sheet', [ReportsController::class, 'postBalanceSheetReport'])->name('post-balance-sheet-report');
 			
-		// Programs
-
-		Route::get('/events',[ProgramsController::class,'getEvents'])->name('get-events');
-		Route::post('/events/action',[ProgramsController::class,'postAddEditEvents'])->name('add-edit-post-events');
-
-		Route::get('/press-releases',[ProgramsController::class,'getPressReleases'])->name('get-press-releases');
-		Route::post('/press-releases/action',[ProgramsController::class,'postAddEditPressReleases'])->name('add-edit-post-press-releases');
-
 		// Access Controllers
 
 		Route::post('/status', [SharedController::class, 'updateStatus'])->name('update-status');
