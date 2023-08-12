@@ -119,7 +119,7 @@ class SharedController extends Controller{
 
 			if($authUsr->usertyperesult === 'Super-Admin') {
 				$menus = Menu::getMenus();
-				$menus = $menus->except([27,52,53,54,55,56]);
+				$menus = $menus->except([27,52,53,54,55,56,57,58,59]);
 				Debugbar::info('super-admin');
 		} else if($authUsr->usertyperesult === 'Admin'){
 			Debugbar::info('admin');

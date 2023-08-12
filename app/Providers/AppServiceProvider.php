@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
@@ -33,9 +34,10 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function($view){
             $uid = Session::get('LoggedUsr');
             if ($uid == null){
-                $view->with('companySelected', $uid);
+                // TO-DO Need to check if this happens, or SharedController::checkAuthenticated takes precidence
             } else {
                 $view->with('companySelected', User::find($uid)->companyId);
+                $view->with('usertype', User::find($uid)->usertype);
             }
         });
 

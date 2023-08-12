@@ -315,3 +315,8 @@ tr.selected td {
     background-color: grey;
     color: #f7f7f7;
 }
+
+.dropdown-item:hover {
+    background: #473198 !important;
+    color: #DAFFED !important;
+}

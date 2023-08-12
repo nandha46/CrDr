@@ -7,7 +7,6 @@ use App\Http\Controllers\v1\EditController;
 use App\Http\Controllers\v1\MembersController;
 use App\Http\Controllers\v1\SharedController;
 use App\Http\Controllers\v1\ReportsController;
-use App\Http\Controllers\v1\ProgramsController;
 use App\Services\AnalyticServices;
 
 Route::group(['middleware' => 'web'], function(){
@@ -24,13 +23,14 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/', [AuthController::class, 'getLogin'])->name('get-login');
 		Route::post('/login', [AuthController::class, 'postLogin'])->name('post-login');
 
-		// Route::get('/profile', [AuthController::class, 'getProfile'])->name('get-profile');
 		Route::get('/profile', [MembersController::class, 'getDashboardProfile'])->name('get-profile');
 		Route::post('/profile', [AuthController::class, 'postProfile'])->name('post-profile');
 		
 		// Members
 		Route::get('/users', [MembersController::class, 'getUsers'])->name('get-users');
 		Route::post('/users/action', [MembersController::class, 'postAddEditUsers'])->name('add-edit-post-users');
+		Route::get('/users/change-password', [MembersController::class, 'getChangePassword'])->name('get-change-password');
+		Route::post('/users/change-password', [MembersController::class, 'postChangePassword'])->name('post-change-password');
 		Route::get('/delete-user/{uid?}', [MembersController::class, 'deleteUser'])->where(['uid' => '^[0-9]+$'])->name('delete-user');
 
 		// Edit Routes
@@ -73,6 +73,7 @@ Route::group(['middleware' => 'web'], function(){
 
 		Route::get('/access-denied/{urls?}/{mode?}',  [AuthController::class, 'getAccessDenied'])->name('get-access-denied');
 
+		Route::get('/reports-statistics', [ReportsController::class, 'getStatisticsReports'])->name('get-reports-statistics');
 		Route::get('/reports-analytics', [ReportsController::class, 'getAnalyticReports'])->name('get-reports-analytics');
 		Route::get('/get-student-reports', [ReportsController::class, 'getStudentReports'])->name('get-student-reports');
 		Route::get('/get-performance-reports/{stuUId?}', [ReportsController::class, 'getPerformanceReport'])->where(['stuUId' => '^[0-9]+$'])->name('get-performance-reports');

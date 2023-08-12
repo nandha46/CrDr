@@ -11,10 +11,12 @@
         <ul class='metismenu left-sidenav-menu'>
             <li class='menu-label mt-0'>Main</li>
             <?= $html ?>
+            @if(isset($usertype) && $usertype != 1)
             @if(isset($companySelected) && $companySelected != null)
             <li class="metismenu left-sidenav-menu"><div class="close-button"><a href="{{route('get-close-company')}}">Close Company</a></div></li>
             @else
             <li class="metismenu left-sidenav-menu"><div class="open-button"><a href="{{route('get-select-company')}}">Open Company</a></div></li>
+            @endif
             @endif
         </ul>
     
