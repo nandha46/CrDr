@@ -46,7 +46,9 @@ class MembersController extends Controller{
 
 					if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
                 }
-
+				// TO-DO remove last 4 urls from access denied page
+				// $modifiedUrls = array_splice($newUrls, 0, -4);
+				// $encode = implode('&&', $modifiedUrls);
 				$encode = implode('&&', $newUrls);
 				if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
 			}
@@ -297,28 +299,136 @@ public function getDashboardProfile (){
 
 		$userid 	= request()->session()->get('LoggedUsr');
 		$user = Usergroup::getUsergroupById($userid);
-		$usertype = $user->usertype;
-				$detail = View::getUserViewById($userid);				
-				$profile['type'] = 2;
-				$profile['name'] = $detail->firstname.' '.$detail->lastname;
-				$profile['designation'] = 'Admin';
-				$profile['classLabel'] = 'Placeholder';
-				$profile['class'] = 'Placeholder';
-				$profile['parentsLabel'] = 'Placeholder2';
-				$profile['parents'] = 'Place2';
-				$profile['email'] = $detail->emlOfficialAddress;
-				$profile['age'] = 10;
-				$profile['phone'] = $detail->condOfficialNumber;
-				$profile['birthday'] = $detail->dob;
-				$profile['address'] = $detail->address;
-				$profile['city'] = $detail->city;
-				$profile['username'] = $detail->username;
-			
-		$data['profile'] = $profile;
-
-		Debugbar::info($profile);
-
+		
 		return view('v1.Members.DashboardProfile')->with($data);
 
+}
+
+public function getChangePassword (){
+
+	$data['pageRootTitle'] 		= 'Users';
+	$data['pageSubTitle'] 		= 'Change Password';
+	$data['pageSubTitleNext']	= '';
+
+	$auth = SharedController::checkAuthenticated();
+
+	 if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+	else{
+
+		if($auth[1] == ''){
+
+			AuthController::getLogout(1);
+			return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[4]. Contact your administrator');
+		}else{
+
+			$urlExist = 'FALSE';
+			$currentURL = url()->current();
+			$newUrls = [];
+
+			foreach($auth[2] as $key => $sepUrls){
+
+				$finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+				$newUrls[] = $key.':'.$finalUrl;
+
+				if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+			}
+			// TO-DO remove last 4 urls from access denied page
+			// $modifiedUrls = array_splice($newUrls, 0, -4);
+			// $encode = implode('&&', $modifiedUrls);
+			$encode = implode('&&', $newUrls);
+			if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+		}
+	}
+
+	 $data['authUsr'] 	= $auth[0];
+	 $data['html'] 		= $auth[1];
+
+	 return view('v1.Members.ChangePassword')->with($data);
+}
+
+public function postChangePassword(){
+
+	$Status = false;
+
+	$auth = SharedController::checkAuthenticated();
+	 $stateOut = SharedController::privilgesResponse($auth);
+
+	if(!$stateOut['Status']) return $stateOut;
+
+	$userType 		= request()->userType;
+	$firstName 		= request()->firstName;
+	$lastName 		= request()->lastName;
+	$pMobile 		= request()->pMobile;
+	$sMobile 		= request()->sMobile;
+	$email 			= request()->email;
+	$password 		= request()->password;
+	$editId 		= request()->editId;
+	$prvlAdd 		= request()->prvlAdd;
+	$prvlView 		= request()->prvlView;
+
+		$checkUser = Usergroup::checkUser($pMobile);
+
+		if(!$checkUser && $editId == 'null'){
+
+			$res['Status'] 		= false;
+			$res['Msg'] 		= 'USER_EXIST';
+			return response()->json($res);
+		}
+
+		if($editId == 'null'){		
+
+			$uid = request()->session()->get('LoggedUsr');
+			$usertype = User::where('id', $uid)->first()->usertype;
+			$adminId = null;
+			if ($usertype == 2){
+				$adminId = $uid;
+			}
+
+			if($password == 'null') $password = $pMobile;
+			$user = Usergroup::insertUser($userType, $pMobile, $password, $adminId);
+
+		$userDetailsAry = [
+			'userid'        =>  $user,
+			'firstname'     =>  $firstName,
+			'lastname'      =>  $lastName,
+			'primary_mobile' 	=> $pMobile,
+			'secondary_mobile' 	=> $sMobile, 
+			'email' 		=> $email, 
+		];
+
+		if ($sMobile == 'null'){
+			$userDetailsAry = Arr::except($userDetailsAry, ['secondary_mobile']);
+		}
+
+		$userDetailsId = UserDetails::insertUserDetails($userDetailsAry);
+
+		// Set custom privileges for staff
+		if($userType == 3){
+			Privilege::deletePrivileges($user);
+			$this->ModifyPrivilages($user, $prvlAdd, $prvlView);
+		}
+	 
+		$res['Msg'] 		= 'User Added Successfully';
+			
+		} else {
+			
+			$user = Usergroup::updateUser($editId, $userType, $password);
+			$user = $editId;
+			
+			$userDetails = UserDetails::getUserDetailsByUID($user);
+
+			$userDetailsAry = [
+				'firstname'     =>  $firstName,
+				'lastname'      =>  $lastName,
+			];
+	
+			$userDetailsId = UserDetails::updateUserDetails($user, $userDetailsAry);
+			 $res['Msg'] 		= 'User Updated Successfully';
+
+		}
+	
+	 $res['Status'] 		= true;
+	$res['results'] 	= View::getUserViewById($user);
+	return response()->json($res);
 }
 }
