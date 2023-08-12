@@ -116,28 +116,6 @@ class Usergroup extends Model{
         return 'FALSE';
     }
 
-    protected function getProfileData($id = ''){
-        if($id != ''){
-
-            $user = $this->where('id',$id)->first();
-
-            if($user){
-                if ($user->id_picture != null ){
-                    return $user->id_picture;
-                } else {
-                    if ($user->usertype == 1 || $user->usertype == 2){
-                        return 'uploads/userData/admin.png';
-                    } else if ($user->usertype == 3){
-                        return 'uploads/StudentData/default_boy.png';
-                    } else {
-                        return 'uploads/teacherData/teacher_default.png';
-                    }
-                }
-            }
-        }
-        return 'FALSE';
-    }
-
     protected function getAllUsersView (){
         $users = Usergroup::where('users.usertype', 2)
                     ->leftJoin('user_details', 'users.id','=', 'user_details.userid')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\v1\SharedController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\v1\Usergroup;
@@ -62,14 +63,7 @@ class AuthController extends Controller{
                 if($check->status){
 
                     request()->session()->put('LoggedUsr', $check->id);
-                    $profile = Usergroup::getProfileData($check->id);
 
-                    if (Storage::exists($profile)){
-                        request()->session()->put('profile_pic', '/storage/'.$profile);
-                    } else {
-                            $profile = 'uploads/userData/admin.png';
-                            request()->session()->put('profile_pic', '/storage/'.$profile);
-                    }
                     // request()->session()->put('LoggedStuUsr',11);
                     AnalyticServices::logAnalytics($username);
 
@@ -105,29 +99,6 @@ class AuthController extends Controller{
 
         if($value == 1) return 'SESSION_REMOVED';
     	return redirect()->route('get-login')->with('SMsg', 'Logout Successfully');
-    }
-
-
-    public function getProfile(){
-
-        if(Auth::user()){           
-
-            $data['authUser'] = Auth::user();
-            return view('v1.Auth.Profile')->with($data);
-            
-        }
-    }
-
-    public function postProfile(){
-
-        if(Auth::user()){
-
-            $name       = request()->input('name');
-            $password   = request()->input('password');            
-
-            Usergroup::updateUser(Auth::user()->id, $name, $password);            
-            return redirect()->back()->with('SMsg', 'Updated Successfully');                    
-        }
     }
 
     public function getAccessDenied($urls = '', $mode = 1){
