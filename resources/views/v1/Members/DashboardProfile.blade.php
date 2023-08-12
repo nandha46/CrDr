@@ -12,19 +12,15 @@
 
                         <div class="profile-grid-void">
                             <div class="about-avatar-image">
-                                @if(Session::has('profile_pic'))
-                                    <img src='{{asset(Session::get('profile_pic'))}}' alt='profile-user' />
-			                    @else
-                                    <img src='{{asset('./storage/uploads/StudentData/Id_cards/default_boy.png')}}' alt='profile-user' class='rounded-circle thumb-xs' />
-                                @endif
+                                    <img src='./storage/app/profile_pic/admin.png' alt='profile-user' />
                             </div>
                         </div>
                         <div class="profile-grid-void">
                             <div class="about-text go-to flex-col">
                                 <div class="name-header">
-                                    <h3 class="dark-color">{{$profile['name']}}</h3>
+                                    <h3 class="dark-color">Nandha</h3>
                                     <div class="des">
-                                        <h6 class="theme-color lead chip-lead">{{$profile['designation']}}</h6>
+                                        <h6 class="theme-color lead chip-lead">Super Admin</h6>
                                     </div>
 
                                 </div>
@@ -35,29 +31,29 @@
                                     <div class="personal_left">
                                         <div class="detail_card">
                                             <h1 class="label_holder">Username</h1>
-                                            <p class="result_holder">: {{$profile['username']}}</p>
+                                            <p class="result_holder">: nandha</p>
                                         </div>
                                         <div class="detail_card">
                                             <h1 class="label_holder">Email</h1>
-                                            <p class="result_holder">: {{$profile['email']}}</p>
+                                            <p class="result_holder">: nandha@mail.com</p>
                                         </div>
                                         <div class="detail_card">
-                                            <h1 class="label_holder">{{$profile['classLabel']}}</h1>
-                                            <p class="result_holder">: {{$profile['class']}}</p>
+                                            <h1 class="label_holder">Zodiac Enterp</h1>
+                                            <p class="result_holder">: Employee</p>
                                         </div>
                                     </div>
                                     <div class="personal_right">
                                         <div class="detail_card">
                                             <h1 class="label_holder">Address</h1>
-                                            <p class="result_holder">: {{$profile['address']}}</p>
+                                            <p class="result_holder">: street name</p>
                                         </div>
                                         <div class="detail_card">
                                             <h1 class="label_holder">DOB</h1>
-                                            <p class="result_holder">: {{$profile['birthday']}}</p>
+                                            <p class="result_holder">: 18/12/2002</p>
                                         </div>
                                         <div class="detail_card">
                                             <h1 class="label_holder">City</h1>
-                                            <p class="result_holder">: {{$profile['city']}}</p>
+                                            <p class="result_holder">: Chennai</p>
                                         </div>
                                     </div>
                                 </div>
