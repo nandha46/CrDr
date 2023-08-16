@@ -517,8 +517,10 @@ class CompanyController extends Controller
 			}
 
 			$deletionStatus = Company::destroy($cid);
+			$loggedUsr 	= request()->session()->get('LoggedUsr');
 
 			if ($deletionStatus) {
+				User::where('id', $loggedUsr)->update(['companyId' => null]);
 				return redirect()->back()->with('SMsg', 'Company deleted successfully');
 			} else {
 				return redirect()->back()->with('Msg', 'Error deleting Company.');

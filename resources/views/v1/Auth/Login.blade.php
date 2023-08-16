@@ -58,9 +58,7 @@
                 <div class="col" style="margin: auto">
                   <img src="data:image/jpeg;base64,{{base64_encode( $captcha )}}" alt="captcha">
                 </div>
-              </div>
-              
-              
+                
               <div class='d-flex mb-5 align-items-center'>
                 <label class='control control--checkbox mb-0 d-none'><span class='caption'>Remember me</span>
                   <input type='checkbox' checked='checked'/>
