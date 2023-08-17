@@ -2,6 +2,7 @@
 
 namespace App\Models\v1;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -51,5 +52,41 @@ class Daybook extends Model
                     ->get();
 
         return $acchead;
+    }
+
+    /**
+     * Get Trial Balance report
+     * 
+     * @param Int $cid
+     * @param DateTime $fromDate From date of the company Year 
+     * @param DateTime $toDate To date of the company Year
+     * @return Collection $trialBalance Returns the complte collection of trial balance  
+     */
+    protected function getTrialBalances ($cid, $fromDate, $toDate) {
+        $accheads = Acchead::where('companyId', '=', $cid)
+                    ->where('acCcode', '!=', 0)
+                    ->orderBy('sno')
+                    ->get();
+
+        $accheads->each(function($acc){
+           $total = Daybook::where('acccode', $acc->accCode)
+                    ->where('companyId', $acc->companyId)
+                    ->select(DB::raw('sum(daybooks.crAmt) as crTotal'), DB::raw('sum(daybooks.drAmt) as drTotal'))
+                    ->groupBy('acccode')
+                    ->first();
+            if ($total == null){
+                if ($acc->drAmt == 0 && $acc->crAmt == 0){
+                    
+                }
+                $acc->crTotal = 0.0;
+                $acc->drTotal = 0.0;
+            } else {
+                $acc->crTotal = $total->crTotal;
+                $acc->drTotal = $total->drTotal;
+            }
+            // Debugbar::info($total->toArray());
+        });
+
+        Debugbar::info($accheads->toArray());
     }
 }

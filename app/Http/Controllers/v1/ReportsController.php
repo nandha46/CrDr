@@ -364,6 +364,8 @@ class ReportsController extends Controller{
           $data['authUsr'] = $auth[0];
           $data['html'] = $auth[1];
 
+          Debugbar::startMeasure('Trial Balance', 'Trial Balance Calculation');
+
           $reportOrder = request()->input('reportOrder');
           $toDate = request()->input('toDate');
           $transactedOnly = request()->input('isZeroBalAccs');
@@ -382,8 +384,10 @@ class ReportsController extends Controller{
           $data['toDate'] = $toDate;
           $data['closeBal'] = $closeBal;
 
-          Debugbar::info($daybookTotal->toArray());
-          
+          Daybook::getTrialBalances($user->companyId, $company->fromDate, $toDate);
+
+          Debugbar::stopMeasure('Trial Balance');
+
           return view('v1.Reports.TrialBalanceReport')->with($data);
      }
 
