@@ -75,12 +75,10 @@ class Daybook extends Model
                     ->groupBy('acccode')
                     ->first();
             if ($total == null){
-                if ($acc->drAmt == 0 && $acc->crAmt == 0){
-                    
-                }
-                $acc->crTotal = 0.0;
-                $acc->drTotal = 0.0;
+                $acc->crTotal = $acc->crAmt;
+                $acc->drTotal = $acc->drAmt;
             } else {
+                $difference = ($total->crTotal + $acc->crAmt) - ($total->drTotal + $acc->drAmt);
                 $acc->crTotal = $total->crTotal;
                 $acc->drTotal = $total->drTotal;
             }

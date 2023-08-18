@@ -265,7 +265,10 @@ class ReportsController extends Controller{
           $uid = request()->session()->get('LoggedUsr');
           $user = User::find($uid);
 
-          $ledger = Acchead::getLedger($user->companyId , $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
+          $accs = Acchead::where('companyId', $user->companyId)->where('accCode', '!=', 0)
+                    ->select(DB::raw('null as tDate'), 'accName', 'drAmt', 'crAmt', 'sno as asno', DB::raw('0 as sno'), 'acccode');
+
+          $ledger = Acchead::getLedger($user->companyId, $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
 
           $data['pageTitle'] = 'Ledger '.$fromDate.' to '.$toDate;
           $data['ledger'] = $ledger;
