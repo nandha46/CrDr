@@ -13,6 +13,7 @@ use App\Models\v1\Company;
 use App\Models\v1\Daybook;
 use App\Models\v1\Daystock;
 use App\Models\v1\Usergroup;
+use App\services\LedgerReportService;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\Facades\DB;
 
@@ -269,6 +270,68 @@ class ReportsController extends Controller{
                     ->select(DB::raw('null as tDate'), 'accName', 'drAmt', 'crAmt', 'sno as asno', DB::raw('0 as sno'), 'acccode');
 
           $ledger = Acchead::getLedger($user->companyId, $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
+
+          $data['pageTitle'] = 'Ledger '.$fromDate.' to '.$toDate;
+          $data['ledger'] = $ledger;
+          $data['fromDate'] = $fromDate;
+          $data['toDate'] = $toDate;
+          
+          return view('v1.Reports.LedgerReport')->with($data);
+     }
+     
+     public function postLedgerReport2() {
+
+          $data['pageRootTitle'] 		= 'Dashboard';
+          $data['pageSubTitle'] 		= 'Ledger';
+          $data['pageSubTitleNext']	= '';
+  
+          $auth = SharedController::checkAuthenticated();
+          
+          if(count($auth) == 0) return redirect()->route('get-login')->with('Msg', 'Please Login');
+          else{
+  
+                 if($auth[1] == ''){
+  
+                      AuthController::getLogout(1);
+                      return redirect()->route('get-login')->with('Msg', 'You may be disabled or no privilges to access[11]. Contact your administrator');
+                 }else{
+  
+                      $urlExist = 'FALSE';
+                      $currentURL = url()->current();
+                      $newUrls = [];
+  
+                      foreach($auth[2] as $key => $sepUrls){
+  
+                           $finalUrl = SharedController::convertSpecialCharacters($sepUrls);
+                              $newUrls[] = $key.':'.$finalUrl;
+  
+                              if(strpos($currentURL, $sepUrls) !== false) $urlExist = 'TRUE';
+                      }
+  
+                      $encode = implode('&&', $newUrls);
+  
+                      if($urlExist == 'FALSE') return redirect()->route('get-access-denied', ['urls' => $encode]);
+                 }
+          }
+         
+          $data['authUsr'] = $auth[0];
+          $data['html'] = $auth[1];
+
+          $accheads = request()->input('accheads');
+          $reportOrder = request()->input('reportOrder');
+          $fromDate = request()->input('fromDate');
+          $toDate = request()->input('toDate');
+          $cutoff = request()->input('cutoff');
+          $transactedOnly = request()->input('transactedOnly');
+          $stockNeeded = request()->input('stockNeeded');
+
+          $uid = request()->session()->get('LoggedUsr');
+          $user = User::find($uid);
+
+          $ledger = LedgerReportService::prepareLedger($user->companyId, $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
+
+          $accs = Acchead::where('companyId', $user->companyId)->where('accCode', '!=', 0)
+                    ->select(DB::raw('null as tDate'), 'accName', 'drAmt', 'crAmt', 'sno as asno', DB::raw('0 as sno'), 'acccode');
 
           $data['pageTitle'] = 'Ledger '.$fromDate.' to '.$toDate;
           $data['ledger'] = $ledger;
