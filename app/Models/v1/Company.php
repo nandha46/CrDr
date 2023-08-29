@@ -14,13 +14,13 @@ class Company extends Model
 
     protected $fillable = [];
 
-    public function getFromDateAttribute($date){
-        return Carbon::parse($date)->format('d-m-Y');
-    }
+    // public function getFromDateAttribute($date){
+    //     return Carbon::parse($date)->format('d-m-Y');
+    // }
     
-    public function getToDateAttribute($date){
-        return Carbon::parse($date)->format('d-m-Y');
-    }
+    // public function getToDateAttribute($date){
+    //     return Carbon::parse($date)->format('d-m-Y');
+    // }
 
     protected function getUsersCompanies ($uid) {
         return Company::where('userid', $uid)->get();

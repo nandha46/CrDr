@@ -330,15 +330,12 @@ class ReportsController extends Controller{
 
           $ledger = LedgerReportService::prepareLedger($user->companyId, $accheads, $reportOrder, $fromDate, $toDate, $cutoff, $transactedOnly);
 
-          $accs = Acchead::where('companyId', $user->companyId)->where('accCode', '!=', 0)
-                    ->select(DB::raw('null as tDate'), 'accName', 'drAmt', 'crAmt', 'sno as asno', DB::raw('0 as sno'), 'acccode');
-
           $data['pageTitle'] = 'Ledger '.$fromDate.' to '.$toDate;
           $data['ledger'] = $ledger;
           $data['fromDate'] = $fromDate;
           $data['toDate'] = $toDate;
           
-          return view('v1.Reports.LedgerReport')->with($data);
+          return view('v1.Reports.LedgerReport2')->with($data);
      }
 
      public function getTrialBalance() {
