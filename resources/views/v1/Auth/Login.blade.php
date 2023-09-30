@@ -16,9 +16,18 @@
     <link rel='stylesheet' href='{{asset('./css/style.css')}}'>
 
     <title>CrDr  - Login</title>
+    <style>
+      body {
+        background-color: #e8e9eb;
+      }
+
+      .login-bg{
+        box-shadow: unset;
+        background-color: unset;
+      }
+    </style>
   </head>
   <body>
-  
   <div class='content'>
     <div class='container login-bg'>
       <div class='row'>

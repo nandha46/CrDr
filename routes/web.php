@@ -20,7 +20,7 @@ Route::group(['middleware' => 'web'], function(){
 		// });
 
 		Route::get('/login', [AuthController::class, 'getLogin'])->name('get-login');
-		Route::get('/', [AuthController::class, 'getLogin'])->name('get-login');
+		Route::get('/', [AuthController::class, 'getLogin'])->name('get-home');
 		Route::post('/login', [AuthController::class, 'postLogin'])->name('post-login');
 
 		Route::get('/profile', [MembersController::class, 'getDashboardProfile'])->name('get-profile');
@@ -77,7 +77,7 @@ Route::group(['middleware' => 'web'], function(){
 		Route::get('/reports-analytics', [ReportsController::class, 'getAnalyticReports'])->name('get-reports-analytics');
 		Route::get('/get-student-reports', [ReportsController::class, 'getStudentReports'])->name('get-student-reports');
 		Route::get('/get-performance-reports/{stuUId?}', [ReportsController::class, 'getPerformanceReport'])->where(['stuUId' => '^[0-9]+$'])->name('get-performance-reports');
-		Route::get('/get-staff-reports', [ReportsController::class, 'getStaffReport'])->name('get-student-reports');
+		Route::get('/get-staff-reports', [ReportsController::class, 'getStaffReport'])->name('get-staff-reports');
 		Route::get('/get-exam-reports', [ReportsController::class, 'getExamReport'])->name('get-exam-reports');
 		
 		// Analytics

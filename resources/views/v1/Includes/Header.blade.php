@@ -63,9 +63,9 @@
         <style>
             .left-sidenav{
                 /* background: linear-gradient(180deg, rgba(237,50,55,1) 0%, rgba(165,22,27,1) 49%, rgba(128,8,12,1) 100%); */
-                /* background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%); */
-                background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-
+                background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
+                /* background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%); */
+                
             }
         </style>
     </head>
